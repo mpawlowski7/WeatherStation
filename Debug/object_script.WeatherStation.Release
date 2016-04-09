@@ -1,0 +1,14 @@
+INPUT(
+./release\i2cdevice.o
+./release\lis35de.o
+./release\lsm9ds1.o
+./release\hts221.o
+./release\lps25h.o
+./release\ahrs.o
+./release\guipainter.o
+./release\ledpainter.o
+./release\main.o
+./release\qrc_gui.o
+./release\moc_guipainter.o
+./release\moc_ledpainter.o
+);

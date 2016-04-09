@@ -1,0 +1,18 @@
+<RCC>
+    <qresource prefix="/">
+        <file>res/fonts/Ubuntu-R.ttf</file>
+        <file>res/main.qml</file>
+        <file>res/Drawer.qml</file>
+        <file>res/Pixel.qml</file>
+        <file>res/Colors.qml</file>
+        <file>res/LedMatrix.qml</file>
+        <file>res/img/04020_jetincarina_800x480.jpg</file>
+        <file>res/TextShadow.qml</file>
+        <file>res/img/measurement-units-temperature-icon.png</file>
+        <file>res/img/back.jpg</file>
+        <file>res/img/measurement-units-humidity-icon.png</file>
+        <file>res/img/measurement-units-pressure-icon.png</file>
+        <file>res/img/inside_icon.png</file>
+        <file>res/img/sunny_icon.png</file>
+    </qresource>
+</RCC>
