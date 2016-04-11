@@ -1,6 +1,6 @@
 import QtQuick 2.5
-//import weatherstation.gui 1.0
-//import weatherstation.led 1.0
+import weatherstation.gui 1.0
+import weatherstation.led 1.0
 
 import QtQuick.Window 2.0
 import QtQuick.Layouts 1.1
@@ -19,7 +19,9 @@ Window {
     contentOrientation: Qt.LandscapeOrientation
     modality: Qt.ApplicationModal
 
-    color: 'slategray'
+    color: '#00ade7'
+
+    property date currentDate: new Date()
 
     Component.onCompleted: {
         console.log("Window size:"+root.width+" "+root.height)
@@ -27,31 +29,27 @@ Window {
         GuiPainter.startReadingData();
     }
 
-    FontLoader { id: ubuntuFont; source: "fonts/Ubuntu-R.ttf" }
+    FontLoader { id: ubuntuFont; source: "fonts/Ubuntu-L.ttf" }
 
     Rectangle {
         id: background
         anchors.right: parent.right
         width: root.width * 0.7; height: root.height
 
-     //   color: 'deepskyblue'
-        gradient: Gradient{
-            GradientStop { position: 1 ; color: 'deepskyblue'}
-            GradientStop { position: 0 ; color: 'dodgerblue'}
-        }
+        color: 'deepskyblue'
 
-        layer.enabled: true
+//        layer.enabled: true
 
-        layer.effect: DropShadow {
-            horizontalOffset: -(background.width * 0.01)
-            verticalOffset: 0
-            radius: 4
-            samples: 8
-            color: 'darkslategray'
-        }
+//        layer.effect: DropShadow {
+//            horizontalOffset: -(background.width * 0.01)
+//            verticalOffset: 0
+//            radius: 4
+//            samples: 8
+//            color: 'gray'
+//        }
     }
 
-    Rectangle { id: separator; width: 1; height: 480; anchors.right: background.left; color: 'dodgerblue'; }
+    Rectangle { id: separator; width: 2; height: 480; anchors.right: background.left; color: '#0099cc'; }
 
 //    Image {
 //       id: back_img
@@ -73,10 +71,14 @@ Window {
 
    //     }
 
-        GridLayout {
+        Grid {
             id: mainLayout
+     //       Layout.fillWidth: true
+      //      Layout.fillHeight: true
+            width: parent.width
+            height: parent.height
             anchors.fill: parent
-
+            anchors.margins: 30
             Layout.alignment: Qt.AlignVCenter | Qt.AlignHCenter
 
             columnSpacing: 0
@@ -113,10 +115,10 @@ Window {
 
                     DropShadow {
                         source: home_ico
-                        horizontalOffset: 2
-                        verticalOffset: 2
-                        radius: 0
-                        samples: 0
+                        horizontalOffset: 1
+                        verticalOffset: 1
+                        radius: 1
+                        samples: 4
                         color: 'slategray'
                         anchors.fill: source
                     }
@@ -138,16 +140,16 @@ Window {
 
                         DropShadow {
                             source: temp_ico
-                            horizontalOffset: 2
-                            verticalOffset: 2
+                            horizontalOffset: 1
+                            verticalOffset: 1
                             radius: 0
                             samples: 0
                             color: 'slategray'
                             anchors.fill: source
                         }
 
-                        TextShadow { id: temperature_txt; anchors.left: temp_ico.right; anchors.leftMargin: 15; anchors.verticalCenter: parent.verticalCenter; text: GuiPainter.temperature; size: 48 }
-                        TextShadow { anchors.baseline: temperature_txt.baseline; anchors.left: temperature_txt.right; anchors.leftMargin: 5; text: qsTr(" \u00B0")+qsTr("C"); size: 32 }
+                        TextShadow { id: temperature_txt; anchors.left: temp_ico.right; anchors.leftMargin: 15; anchors.verticalCenter: parent.verticalCenter; text: GuiPainter.temperature; size: 32 }
+                        TextShadow { anchors.baseline: temperature_txt.baseline; anchors.left: temperature_txt.right; anchors.leftMargin: 5; text: qsTr(" \u00B0")+qsTr("C"); size: 24 }
                     }
 
                 Item{
@@ -165,16 +167,16 @@ Window {
 
                         DropShadow {
                             source: pressure_ico
-                            horizontalOffset: 2
-                            verticalOffset: 2
-                            radius: 0
-                            samples: 0
+                            horizontalOffset: 1
+                            verticalOffset: 1
+                            radius: 1
+                            samples: 4
                             color: 'slategray'
                             anchors.fill: source
                         }
 
-                        TextShadow { id: pressure_txt; anchors.left: pressure_ico.right; anchors.leftMargin: 15; anchors.verticalCenter: parent.verticalCenter; text: GuiPainter.pressure; size: 48 }
-                        TextShadow { anchors.baseline: pressure_txt.baseline; anchors.left: pressure_txt.right; anchors.leftMargin: 5; text: qsTr(" Pa"); size: 32 }
+                        TextShadow { id: pressure_txt; anchors.left: pressure_ico.right; anchors.leftMargin: 15; anchors.verticalCenter: parent.verticalCenter; text: GuiPainter.pressure; size: 32 }
+                        TextShadow { anchors.baseline: pressure_txt.baseline; anchors.left: pressure_txt.right; anchors.leftMargin: 5; text: qsTr(" Pa"); size: 24 }
                     }
 
                 Item{
@@ -192,16 +194,16 @@ Window {
 
                         DropShadow {
                             source: humidity_ico
-                            horizontalOffset: 2
-                            verticalOffset: 2
-                            radius: 0
-                            samples: 0
+                            horizontalOffset: 1
+                            verticalOffset: 1
+                            radius: 1
+                            samples: 4
                             color: 'slategray'
                             anchors.fill: source
                         }
 
-                        TextShadow { id: humidity_txt; anchors.left: humidity_ico.right; anchors.leftMargin: 15; anchors.verticalCenter: parent.verticalCenter; text: GuiPainter.humidity; size: 48 }
-                        TextShadow { anchors.baseline: humidity_txt.baseline; anchors.left: humidity_txt.right; anchors.leftMargin: 5; text: qsTr(" %rH"); size: 32 }
+                        TextShadow { id: humidity_txt; anchors.left: humidity_ico.right; anchors.leftMargin: 15; anchors.verticalCenter: parent.verticalCenter; text: GuiPainter.humidity; size: 32 }
+                        TextShadow { anchors.baseline: humidity_txt.baseline; anchors.left: humidity_txt.right; anchors.leftMargin: 5; text: qsTr(" %rH"); size: 24 }
 
                     }
                 }
@@ -210,26 +212,30 @@ Window {
                 id: right_col
                 width: mainLayout.width * 0.7
                 height: mainLayout.height;
+                Layout.fillWidth: true
+                Layout.fillHeight: true
+                Layout.margins: 30
           //      anchors.horizontalCenter: right_col.horizontalCenter
-                spacing: 2
+                spacing: 10
                 Component.onCompleted: {
                     console.log("Right column: "+right_col.width+" "+right_col.height)
                 }
 
-                TextShadow { anchors.right: parent.right; id: location_txt; text: "Rzeszów"; size: 32 }
+                TextShadow { anchors.horizontalCenter: parent.horizontalCenter; id: location_txt; text: "Rzeszów, PL"; size: 24 }
+                Row {
+                    id: right_col_row2
+                    height: right_col.height * 0.5
 
+                    anchors.horizontalCenter: parent.horizontalCenter
+             //       anchors.centerIn: parent
+               //     anchors.verticalCenter: parent.verticalCenter
 
-//                Row {
-//                    width: right_col.width / 2
-//                    height: sunny_ico.height * 2
-//             //       anchors.horizontalCenter: right_col.horizontalCenter
-//                    spacing: 20
-
+                    spacing: 5
                     Item{
                         id: sunny_ico_container
                         width: sunny_ico.width
                         height: sunny_ico.height
-                        anchors.horizontalCenter: right_col.horizontalCenter
+                        anchors.verticalCenter: parent.verticalCenter
 
                         Image {
                             id: sunny_ico
@@ -239,20 +245,52 @@ Window {
 
                         DropShadow {
                             source: sunny_ico
-                            horizontalOffset: 2
-                            verticalOffset: 2
-                            radius: 0
-                            samples: 0
+                            horizontalOffset: 1
+                            verticalOffset: 1
+                            radius: 1
+                            samples: 4
                             color: 'slategray'
                             anchors.fill: source
                         }
                     }
-                    TextShadow { id: deg_txt; anchors.margins: 5; text: qsTr("26,3"); size: 64 }
-                    TextShadow { anchors.baseline: deg_txt.baseline; text: qsTr(" \u00B0")+qsTr("C"); size: 32 }
-            //    }
+                    Item {
+                        anchors.left: sunny_ico_container.right; anchors.leftMargin: 64
+                        anchors.verticalCenter:  sunny_ico_container.verticalCenter
+                        TextShadow { id: deg_txt; anchors.centerIn: parent; text: qsTr("26.3"); size: 42 }
+                        TextShadow { anchors.left: deg_txt.right; anchors.baseline: deg_txt.baseline; text: qsTr(" \u00B0")+qsTr("C"); size: 32 }
+                    }
+                }
 
-                TextShadow { id: time_txt; anchors.margins: 5; text: GuiPainter.currentTime; size: 96 }
+                Item {
+                    width: parent.width
+                    height: 80
+                    Rectangle {
+                        id: line
+                        anchors.centerIn: parent
+                        width: parent.width
+                        height: 2
+                        Rectangle {
+                            width: 10; height: 10;
+                            radius: 90
+                            anchors.left: line.left
+                            anchors.verticalCenter: line.verticalCenter
+                        }
+                        Rectangle {
+                            width: 10; height: 10;
+                            radius: 90
+                            anchors.right: line.right
+                            anchors.verticalCenter: line.verticalCenter
+                        }
+                    }
+
+                }
+
+                TextShadow { id: time_txt; anchors.left: parent.left
+                             text: GuiPainter.currentTime; size: 32 }
+                TextShadow { id: date_txt; anchors.right: parent.right; anchors.baseline: time_txt.baseline;
+                             text: currentDate.toLocaleDateString(); size: 18 }
             }
+
 
        }
 
@@ -263,7 +301,7 @@ Window {
                 id: drawer
                 position: Qt.RightEdge
                 visualParent: drawer_container
-                color: 'darkslategray'
+                color: 'slategray'
 
                 Column {
                     anchors.top: parent.top
@@ -279,7 +317,7 @@ Window {
 
                         TextShadow {
                             anchors.centerIn: parent; anchors.margins: 5
-                            font.family: ubuntuFont.name; text: qsTr("Led Painter"); size: 40; shadowColor: 'black'
+                            text: qsTr("Led Painter"); size: 24; shadowColor: 'black'
                         }
                     }
 
@@ -306,7 +344,7 @@ Window {
 
                         TextShadow {
                             anchors.centerIn: parent; anchors.margins: 5
-                            text: qsTr("Rainbow"); size: 20; shadowColor: 'black'
+                            text: qsTr("Rainbow"); size: 12; shadowColor: 'black'
                         }
                     }
 
@@ -322,7 +360,7 @@ Window {
 
                         TextShadow {
                             anchors.centerIn: parent; anchors.margins: 5
-                            text: qsTr("Random"); size: 20; shadowColor: 'black'
+                            text: qsTr("Random"); size: 12; shadowColor: 'black'
                         }
                     }
 
@@ -338,7 +376,7 @@ Window {
 
                         TextShadow {
                             anchors.centerIn: parent; anchors.margins: 5
-                            text: qsTr("Clear"); size: 20; shadowColor: 'black'
+                            text: qsTr("Clear"); size: 12; shadowColor: 'black'
                         }
                     }
 

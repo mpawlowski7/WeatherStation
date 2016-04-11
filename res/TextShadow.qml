@@ -2,13 +2,15 @@ import QtQuick 2.0
 
 Text {
     id: shadow
-    FontLoader { id: ubuntuFont; source: "fonts/Ubuntu-R.ttf" }
+    FontLoader { id: ubuntuFont; source: "fonts/WireOne.ttf" }
     property alias text: shadow.text
-    property alias size: shadow.font.pixelSize
+    property alias size: shadow.font.pointSize
     property string shadowColor: shadow.color
 
     font.family: ubuntuFont.name
-    font.pointSize: 15
+    font.bold: true
+//    font.pointSize: 15
+ //   font.bold: true
     text: qsTr("Empty")
     color: 'slategray'
     clip: true
@@ -17,12 +19,10 @@ Text {
         anchors.bottom: parent.bottom
         anchors.bottomMargin: 1
         anchors.right: parent.right
-        anchors.rightMargin: 2
+        anchors.rightMargin: 1
         id: main
         font: parent.font
         text: parent.text
-        color: 'white'
-  //      x: parent.x-1
-  //      y: parent.y-2
+        color: '#f6f6f6'
     }
 }
