@@ -15,13 +15,13 @@ LedPainter::LedPainter(QObject* parent = 0) : QObject(parent), activated(false)
         fb = static_cast<fb_t*>(mmap (NULL, 128, PROT_READ | PROT_WRITE, MAP_SHARED, fbfd, 0));
     }
 
-    workHorse_leds = new QThread(this);
+    workHorse = new QThread(this);
     timer = new QTimer(0);
 
     timer->setInterval(1000);
-    timer->moveToThread(workHorse_leds);
+    timer->moveToThread(workHorse);
     connect(timer, SIGNAL(timeout()), this, SLOT(randomness()));
-    connect(workHorse_leds, SIGNAL(started()), timer, SLOT(start()));
+    connect(workHorse, SIGNAL(started()), timer, SLOT(start()));
 }
 
 LedPainter* volatile LedPainter::p_instance = nullptr;
@@ -96,13 +96,13 @@ bool LedPainter::isActive()
 void LedPainter::activate()
 {
     activated = true;
-    workHorse_leds->start();
+    workHorse->start();
 }
 
 void LedPainter::deactivate()
 {
     activated = false;
-    workHorse_leds->quit();
+    workHorse->quit();
     clear();
 }
 

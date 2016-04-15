@@ -1,6 +1,7 @@
 QT += core
 QT += gui
 QT += qml quick
+QT += network
 
 unix:INCLUDEPATH += "/home/mipw/tools/rpi/sysroot/usr/include" \
                     "/home/mipw/tools/rpi/sysroot/usr/local/include" \
@@ -27,9 +28,11 @@ SOURCES += \
     sensors/hts221.cpp \
     sensors/lps25h.cpp \
     sensors/ahrs.cpp \
+    tools/wumanager.cpp \
     gui/guipainter.cpp \
     gui/ledpainter.cpp \
     main.cpp
+
 
 HEADERS += \
     sensors/i2cdevice.h \
@@ -38,8 +41,10 @@ HEADERS += \
     sensors/hts221.h \
     sensors/lps25h.h \
     sensors/ahrs.h \
+    tools/wumanager.h \
     gui/guipainter.h \
     gui/ledpainter.h
+
 
 DISTFILES +=
 

@@ -14,5 +14,8 @@
         <file>res/img/measurement-units-pressure-icon.png</file>
         <file>res/img/inside_icon.png</file>
         <file>res/img/sunny_icon.png</file>
+        <file>res/fonts/Ubuntu-L.ttf</file>
+        <file>res/fonts/Ubuntu-C.ttf</file>
+        <file>res/fonts/WireOne.ttf</file>
     </qresource>
 </RCC>

@@ -35,7 +35,7 @@ private:
     struct fb_t* fb = nullptr;
 
     bool activated;
-    QThread* workHorse_leds;
+    QThread* workHorse;
     QTimer* timer;
     static LedPainter* volatile p_instance;
     LedPainter(QObject* parent);

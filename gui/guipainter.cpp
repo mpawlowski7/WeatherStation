@@ -35,33 +35,35 @@ QString GuiPainter::humidity()
     return m_humidity;
 }
 
+QString GuiPainter::temperatureOut()
+{
+    return m_tempOut;
+
+}
+
+QString GuiPainter::feelslikeOut()
+{
+    return m_feelslikeOut;
+}
+
+QString GuiPainter::windDirOut()
+{
+    return m_windDirOut;
+}
+
+QString GuiPainter::windSpeedOut()
+{
+    return m_windSpeedOut;
+}
+
+QString GuiPainter::humidityOut()
+{
+    return m_humidityOut;
+}
+
 QString GuiPainter::currentTime()
 {
     return m_time;
-}
-
-void GuiPainter::UpdateTemperatureLabel()
-{
-    m_temp = QString::number((LPS25H::instance()->GetTemperature() + HTS221::instance()->GetTemperature()) / 2, 'f', 1);
-    emit temperatureChanged();
-}
-
-void GuiPainter::UpdateHumidityLabel()
-{
-    m_humidity = QString::number(HTS221::instance()->GetHumidity(), 'f', 0);
-    emit humidityChanged();
-}
-
-void GuiPainter::UpdatePressureLabel()
-{
-    m_press = QString::number(LPS25H::instance()->GetPressure(), 'f', 0);
-    emit pressureChanged();
-}
-
-void GuiPainter::UpdateTimeLabel()
-{
-    m_time = QTime::currentTime().toString(QString("hh:mm"));
-    emit timeChanged();
 }
 
 void GuiPainter::startReadingData()
@@ -69,22 +71,29 @@ void GuiPainter::startReadingData()
     updateGui(); // first is for free
 
     // do the same in loop
-    QThread* workHorse_sensors = new QThread(this);
+    QThread* workHorse = new QThread(this);
     QTimer* timer = new QTimer(0);
     timer->setInterval(1000);
-    timer->moveToThread(workHorse_sensors);
+    timer->moveToThread(workHorse);
     connect(timer, SIGNAL(timeout()), this, SLOT(updateGui()));
-    connect(workHorse_sensors, SIGNAL(started()), timer, SLOT(start()));
-    workHorse_sensors->start();
+    connect(workHorse, SIGNAL(started()), timer, SLOT(start()));
+    workHorse->start();
 }
 
 void GuiPainter::updateGui()
 {
     if(LPS25H::instance()->ReadSensor() && HTS221::instance()->ReadSensor())
     {
-        UpdateTemperatureLabel();
-        UpdateHumidityLabel();
-        UpdatePressureLabel();
-        UpdateTimeLabel();
+        m_temp = QString::number((LPS25H::instance()->GetTemperature() + HTS221::instance()->GetTemperature()) / 2, 'f', 1);
+        m_humidity = QString::number(HTS221::instance()->GetHumidity(), 'f', 0);
+        m_press = QString::number(LPS25H::instance()->GetPressure(), 'f', 0);
+        m_time = QTime::currentTime().toString(QString("hh:mm"));
+
+        m_tempOut = QString::number(WUManager::instance()->GetCurrentWeather().temp_c, 'f', 1);
+        m_feelslikeOut = WUManager::instance()->GetCurrentWeather().feelslike_c;
+        m_humidityOut = WUManager::instance()->GetCurrentWeather().relative_humidity;
+        m_windDirOut = WUManager::instance()->GetCurrentWeather().wind_dir;
+        m_windSpeedOut = QString::number(WUManager::instance()->GetCurrentWeather().wind_kph, 'f', 1);
+        emit labelsChanged();
     }
 }
