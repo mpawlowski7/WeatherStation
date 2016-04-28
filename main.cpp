@@ -4,7 +4,7 @@
 
 int main(int argc, char *argv[])
 {
- //   qDebug() << wuManager.GetTemperature();
+    //   qDebug() << wuManager.GetTemperature();
 
     QGuiApplication app(argc, argv);
 

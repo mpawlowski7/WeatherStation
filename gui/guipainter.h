@@ -29,9 +29,11 @@ class GuiPainter : public QObject
     Q_PROPERTY(QString humidity READ humidity NOTIFY labelsChanged)
     Q_PROPERTY(QString temperatureOut READ temperatureOut NOTIFY labelsChanged)
     Q_PROPERTY(QString feelslikeOut READ feelslikeOut NOTIFY labelsChanged)
-    Q_PROPERTY(QString windDirOut READ windDirOut NOTIFY labelsChanged)
+    Q_PROPERTY(qreal windDirOut READ windDirOut NOTIFY labelsChanged)
     Q_PROPERTY(QString windSpeedOut READ windSpeedOut NOTIFY labelsChanged)
     Q_PROPERTY(QString humidityOut READ humidityOut NOTIFY labelsChanged)
+    Q_PROPERTY(QString conditionOut READ conditionOut NOTIFY labelsChanged)
+    Q_PROPERTY(QString conditionIcon READ conditionIcon NOTIFY labelsChanged)
     Q_PROPERTY(QString currentTime READ currentTime NOTIFY labelsChanged)
 //    Q_PROPERTY(void ToggleLedMatrix READ ToggleLedMatrix)
 //    Q_PROPERTY(void Update READ Update)
@@ -47,8 +49,10 @@ private:
     QString m_tempOut;
     QString m_feelslikeOut;
     QString m_humidityOut;
-    QString m_windDirOut;
+    qreal m_windDirOut;
     QString m_windSpeedOut;
+    QString m_conditionOut;
+    QString m_conditionIcon;
 
 
    // bool m_readingData = false;
@@ -61,8 +65,10 @@ private:
     m_tempOut(QString("0.0")),
     m_feelslikeOut(QString("0.0")),
     m_humidityOut(QString("0.0")),
-    m_windDirOut(QString("0.0")),
-    m_windSpeedOut(QString("0.0"))
+    m_windDirOut(315.0),
+    m_windSpeedOut(QString("0.0")),
+    m_conditionOut(QString("Empty")),
+    m_conditionIcon(QString("clear"))
     {
     }
     ~GuiPainter() {}
@@ -75,9 +81,11 @@ public:
     QString humidity();
     QString temperatureOut();
     QString feelslikeOut();
-    QString windDirOut();
+    qreal windDirOut();
     QString windSpeedOut();
     QString humidityOut();
+    QString conditionOut();
+    QString conditionIcon();
     QString currentTime();
 
 public slots:

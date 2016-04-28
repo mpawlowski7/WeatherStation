@@ -112,7 +112,7 @@ void HTS221::UpdateTemperature()
 void HTS221::UpdateHumidity()
 {
     convert H_OUT;
-    H_OUT.raw[0] = temp_data[0];
+    H_OUT.raw[0] = humidity_data[0];
     H_OUT.raw[1] = humidity_data[1];
     float_t H0_rH = H0_rH_x2 / 2.0;
     float_t H1_rH = H1_rH_x2 / 2.0;

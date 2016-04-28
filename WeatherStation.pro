@@ -3,17 +3,17 @@ QT += gui
 QT += qml quick
 QT += network
 
-unix:INCLUDEPATH += "/home/mipw/tools/rpi/sysroot/usr/include" \
-                    "/home/mipw/tools/rpi/sysroot/usr/local/include" \
-                    "/home/mipw/tools/rpi/sysroot/usr/include/arm-linux-gnueabihf" \
-                    "/home/mipw/tools/rpi/sysroot/usr/include/c++/4.9.2"
+#unix:INCLUDEPATH += "/home/mipw/tools/rpi/sysroot/usr/include" \
+#                    "/home/mipw/tools/rpi/sysroot/usr/local/include" \
+#                    "/home/mipw/tools/rpi/sysroot/usr/include/arm-linux-gnueabihf" \
+#                    "/home/mipw/tools/rpi/sysroot/usr/include/c++/4.9.2"
 
 CONFIG += c++14
 QMAKE_CXXFLAGS += -pthread
 LIBS += -pthread
 
 TARGET = WeatherStation
-target.path = /home/pi
+target.path = /home/wstation
 INSTALLS += target
 
 CONFIG += console

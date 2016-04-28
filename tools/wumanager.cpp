@@ -9,7 +9,7 @@ WUManager::WUManager(QObject *parent = 0) : QObject(parent)
     QThread* workHorse = new QThread(this);
     QTimer* timer = new QTimer(0);
 
-    timer->setInterval(900000);    // every 15 min read weather data
+    timer->setInterval(900000);    // every hour read weather data
     timer->moveToThread(workHorse);
     connect(timer, SIGNAL(timeout()), this, SLOT(sendRequest()));
     connect(workHorse, SIGNAL(started()), timer, SLOT(start()));
@@ -56,14 +56,16 @@ void WUManager::replyFinished(QNetworkReply *reply)
         current.temp_c = obj.value("temp_c").toDouble();
         current.feelslike_c = obj.value("feelslike_c").toString();
         current.relative_humidity = obj.value("relative_humidity").toString();
-        current.wind_dir = obj.value("wind_dir").toString();
+        current.wind_dir = obj.value("wind_degrees").toDouble();
         current.wind_kph = obj.value("wind_kph").toDouble();
+        current.icon = obj.value("icon").toString();
         qDebug() << current.condition;
         qDebug() << current.temp_c;
         qDebug() << current.feelslike_c;
         qDebug() << current.relative_humidity;
         qDebug() << current.wind_dir;
         qDebug() << current.wind_kph;
+        qDebug() << current.icon;
    }
    else
    {

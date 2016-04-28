@@ -19,7 +19,8 @@ struct Weather {
     QString relative_humidity;
     QString feelslike_c;
     qreal wind_kph;
-    QString wind_dir;
+    qreal wind_dir;
+    QString icon;
 };
 
 class WUManager : public QObject

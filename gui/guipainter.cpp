@@ -46,7 +46,7 @@ QString GuiPainter::feelslikeOut()
     return m_feelslikeOut;
 }
 
-QString GuiPainter::windDirOut()
+qreal GuiPainter::windDirOut()
 {
     return m_windDirOut;
 }
@@ -59,6 +59,16 @@ QString GuiPainter::windSpeedOut()
 QString GuiPainter::humidityOut()
 {
     return m_humidityOut;
+}
+
+QString GuiPainter::conditionOut()
+{
+    return m_conditionOut;
+}
+
+QString GuiPainter::conditionIcon()
+{
+    return m_conditionIcon;
 }
 
 QString GuiPainter::currentTime()
@@ -94,6 +104,8 @@ void GuiPainter::updateGui()
         m_humidityOut = WUManager::instance()->GetCurrentWeather().relative_humidity;
         m_windDirOut = WUManager::instance()->GetCurrentWeather().wind_dir;
         m_windSpeedOut = QString::number(WUManager::instance()->GetCurrentWeather().wind_kph, 'f', 1);
+        m_conditionOut = WUManager::instance()->GetCurrentWeather().condition;
+        m_conditionIcon = WUManager::instance()->GetCurrentWeather().icon;
         emit labelsChanged();
     }
 }
