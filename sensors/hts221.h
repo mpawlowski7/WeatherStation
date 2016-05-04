@@ -41,6 +41,12 @@ private:
         uint8_t  raw[2];
     } _t0_out, _t1_out, _h0_out, _h1_out;
 
+    enum
+    {
+        DISABLED = 0,
+        ENABLED
+    } status;
+
     uint8_t temp_data[2];
     uint8_t humidity_data[2];
 

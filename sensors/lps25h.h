@@ -30,6 +30,12 @@ private:
         uint8_t  raw[2];
     } temp;
 
+    enum
+    {
+        DISABLED = 0,
+        ENABLED
+    } status;
+
     uint8_t temp_data[2];
     uint8_t pressure_data[3];
 

@@ -4,7 +4,14 @@
 
 HTS221::HTS221()
 {
-    Init();
+    if(Init())
+    {
+        status = ENABLED;
+    }
+    else
+    {
+        status = DISABLED;
+    }
 }
 
 HTS221::~HTS221()
@@ -81,7 +88,7 @@ bool HTS221::ReadSensor()
  //   qDebug() << "Reading HTS221";
     uint8_t status = 0;
     bool bRes = false;
-    if(!Read(SLAVE_ADDRESS_H, HTS221_STATUS_REG, 1, &status))
+    if(status == ENABLED && !Read(SLAVE_ADDRESS_H, HTS221_STATUS_REG, 1, &status))
     {
         std::cout << "Couldn't read status reg\n";
         return false;

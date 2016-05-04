@@ -96,16 +96,17 @@ void GuiPainter::updateGui()
     {
         m_temp = QString::number((LPS25H::instance()->GetTemperature() + HTS221::instance()->GetTemperature()) / 2, 'f', 1);
         m_humidity = QString::number(HTS221::instance()->GetHumidity(), 'f', 0);
-        m_press = QString::number(LPS25H::instance()->GetPressure(), 'f', 0);
-        m_time = QTime::currentTime().toString(QString("hh:mm"));
-
-        m_tempOut = QString::number(WUManager::instance()->GetCurrentWeather().temp_c, 'f', 1);
-        m_feelslikeOut = WUManager::instance()->GetCurrentWeather().feelslike_c;
-        m_humidityOut = WUManager::instance()->GetCurrentWeather().relative_humidity;
-        m_windDirOut = WUManager::instance()->GetCurrentWeather().wind_dir;
-        m_windSpeedOut = QString::number(WUManager::instance()->GetCurrentWeather().wind_kph, 'f', 1);
-        m_conditionOut = WUManager::instance()->GetCurrentWeather().condition;
-        m_conditionIcon = WUManager::instance()->GetCurrentWeather().icon;
-        emit labelsChanged();
+        m_press = QString::number(LPS25H::instance()->GetPressure(), 'f', 0);        
     }
+
+    m_time = QTime::currentTime().toString(QString("hh:mm"));
+
+    m_tempOut = QString::number(WUManager::instance()->GetCurrentWeather().temp_c, 'f', 1);
+    m_feelslikeOut = WUManager::instance()->GetCurrentWeather().feelslike_c;
+    m_humidityOut = WUManager::instance()->GetCurrentWeather().relative_humidity;
+    m_windDirOut = WUManager::instance()->GetCurrentWeather().wind_dir;
+    m_windSpeedOut = QString::number(WUManager::instance()->GetCurrentWeather().wind_kph, 'f', 1);
+    m_conditionOut = WUManager::instance()->GetCurrentWeather().condition;
+    m_conditionIcon = WUManager::instance()->GetCurrentWeather().icon;
+    emit labelsChanged();
 }

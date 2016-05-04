@@ -2,7 +2,14 @@
 
 LPS25H::LPS25H()
 {
-    Init();
+    if(Init())
+    {
+        status = ENABLED;
+    }
+    else
+    {
+        status = DISABLED;
+    }
 }
 
 LPS25H::~LPS25H()
@@ -78,7 +85,7 @@ bool LPS25H::ReadSensor()
 //    qDebug() << "Reading LPS25H";
     uint8_t status = 0;
     bool bRes = false;
-    if(!Read(SLAVE_ADDRESS_P, LPS25H_STATUS_REG, 1, &status))
+    if(status == ENABLED && !Read(SLAVE_ADDRESS_P, LPS25H_STATUS_REG, 1, &status))
     {
         std::cout << "Couldn't read status reg\n";
         return false;
