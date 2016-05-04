@@ -31,5 +31,7 @@
         <file>res/img/nt_rain.svg</file>
         <file>res/img/rain.svg</file>
         <file>res/img/map_marker.png</file>
+        <file>res/img/hills.svg</file>
+        <file>res/img/home.svg</file>
     </qresource>
 </RCC>
