@@ -83,19 +83,19 @@ bool LPS25H::Init() const
 bool LPS25H::ReadSensor()
 {
 //    qDebug() << "Reading LPS25H";
-    uint8_t status = 0;
+    uint8_t uRes = 0;
     bool bRes = false;
-    if(status == ENABLED && !Read(SLAVE_ADDRESS_P, LPS25H_STATUS_REG, 1, &status))
+    if(status == ENABLED && !Read(SLAVE_ADDRESS_P, LPS25H_STATUS_REG, 1, &uRes))
     {
         std::cout << "Couldn't read status reg\n";
         return false;
     }
-    if(status & 2)
+    if(uRes & 2)
     {
         bRes |= Read(SLAVE_ADDRESS_P, PRESS_OUT_XL, 3, pressure_data);
         UpdatePressure();
     }
-    if(status & 1)
+    if(uRes & 1)
     {
         bRes |= Read(SLAVE_ADDRESS_P, TEMP_OUT_L_P, 2, temp.raw);
         UpdateTemperature();

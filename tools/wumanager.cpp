@@ -4,16 +4,6 @@ WUManager::WUManager(QObject *parent = 0) : QObject(parent)
 {
     manager = new QNetworkAccessManager(this);
     connect(manager, SIGNAL(finished(QNetworkReply*)), this, SLOT(replyFinished(QNetworkReply*)));
-    sendRequest();
-
-    QThread* workHorse = new QThread(this);
-    QTimer* timer = new QTimer(0);
-
-    timer->setInterval(900000);    // every hour read weather data
-    timer->moveToThread(workHorse);
-    connect(timer, SIGNAL(timeout()), this, SLOT(sendRequest()));
-    connect(workHorse, SIGNAL(started()), timer, SLOT(start()));
-    workHorse->start();
 }
 
 WUManager* volatile WUManager::p_instance = nullptr;
@@ -27,6 +17,20 @@ WUManager* WUManager::instance()
     }
     mutex.unlock();
     return p_instance;
+}
+
+void WUManager::Init()
+{
+    sendRequest();
+
+    QThread* workHorse = new QThread(this);
+    QTimer* timer = new QTimer(0);
+
+    timer->setInterval(900000);    // every hour read weather data
+    timer->moveToThread(workHorse);
+    connect(timer, SIGNAL(timeout()), this, SLOT(sendRequest()));
+    connect(workHorse, SIGNAL(started()), timer, SLOT(start()));
+    workHorse->start();
 }
 
 Weather WUManager::GetCurrentWeather()

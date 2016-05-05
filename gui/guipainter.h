@@ -76,6 +76,7 @@ private:
 public:
     static QObject* qmlinstance(QQmlEngine *engine, QJSEngine *scriptEngine);
     static GuiPainter* instance();
+    void Init(QQmlApplicationEngine & engine);
     QString temperature();
     QString pressure();
     QString humidity();

@@ -42,6 +42,7 @@ private:
 public:
     static WUManager* instance();
     Weather GetCurrentWeather();
+    void Init();
     void Update();
 
 signals:

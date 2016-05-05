@@ -86,19 +86,19 @@ bool HTS221::Init() const
 bool HTS221::ReadSensor()
 {
  //   qDebug() << "Reading HTS221";
-    uint8_t status = 0;
+    uint8_t uRes = 0;
     bool bRes = false;
-    if(status == ENABLED && !Read(SLAVE_ADDRESS_H, HTS221_STATUS_REG, 1, &status))
+    if(status == ENABLED && !Read(SLAVE_ADDRESS_H, HTS221_STATUS_REG, 1, &uRes))
     {
         std::cout << "Couldn't read status reg\n";
         return false;
     }
-    if(status & 2)
+    if(uRes & 2)
     {
         bRes |= Read(SLAVE_ADDRESS_H, HUMIDITY_OUT_L, 2, humidity_data);
         UpdateHumidity();
     }
-    if(status & 1)
+    if(uRes & 1)
     {
         bRes |= Read(SLAVE_ADDRESS_H, TEMP_OUT_L_H, 2, temp_data);
         UpdateTemperature();

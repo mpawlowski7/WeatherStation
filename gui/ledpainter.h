@@ -37,9 +37,11 @@ private:
     bool activated;
     QThread* workHorse;
     QTimer* timer;
+
     static LedPainter* volatile p_instance;
     LedPainter(QObject* parent);
     ~LedPainter() {}
+
     uint16_t RgbToHex16(QColor val);
     void SetColor(QColor color);
 
@@ -48,6 +50,7 @@ public:
     static LedPainter* instance();
     void DrawImage(QColor color, uint16_t img[8][8]);
     bool isActive();
+
 public slots:
     void drawPixel(QColor color, QPoint px);
     void activate();

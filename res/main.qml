@@ -1,7 +1,7 @@
-import QtQuick 2.5
 import weatherstation.gui 1.0
 import weatherstation.led 1.0
 
+import QtQuick 2.5
 import QtQuick.Window 2.0
 import QtQuick.Layouts 1.1
 import QtGraphicalEffects 1.0
@@ -43,7 +43,7 @@ Window {
     readonly property string c15_20R: "#7ab600"
 
     readonly property string c20_25L: "#ffdd62"
-    readonly property string c20_25H: "#ffc800"
+    readonly property string c20_25H: "#ff9e00"
     readonly property string c20_25R: "#ff9e00"
 
     readonly property string c25_30L: "#ffcd19"
@@ -53,10 +53,32 @@ Window {
     readonly property string c30_L: ""
     readonly property string c30_H: ""
 
+    function updateGradientColor()
+    {
+        var temp = parseFloat(GuiPainter.temperatureOut);
+        switch(true)
+        {
+            case (5.0 <= temp && temp < 10.0):
+                right_col_GH.color = c10_15H;
+                right_col_GL.color = c10_15L;
+                right_col_GR.color = c10_15H;
+                break;
+            case (10.0 <= temp && temp < 15.0):
+                right_col_GH.color = c10_15H;
+                right_col_GL.color = c10_15L;
+                right_col_GR.color = c10_15H;
+                break;
+            case (15.0 <= temp && temp < 20.0):
+                right_col_GH.color = c15_20H;
+                right_col_GL.color = c15_20L;
+                right_col_GR.color = c15_20H;
+                break;
+        }
+    }
+
     Component.onCompleted: {
         console.log("Window size:"+root.width+" "+root.height)
         console.log("Start reading stuff")
-        GuiPainter.startReadingData();
     }
 
     FontLoader { id: ubuntuFont; source: "fonts/Ubuntu-L.ttf" }
@@ -64,14 +86,14 @@ Window {
     Column {
         id: main_container
         anchors.fill: parent
-        spacing: 5
+        spacing: 0
 
         Row {
             id: main_row
             width: parent.width
             height: parent.height * 0.9
             anchors.bottom: root.bottom
-            spacing: 10
+            spacing: 0
       //      anchors.margins: 15
 
             Component.onCompleted: {
@@ -82,18 +104,104 @@ Window {
                 id: left_col
                 width: main_row.width * 0.3
                 height: main_row.height
+                anchors.verticalCenter: parent.verticalCenter
+                gradient: Gradient {
+                    GradientStop { position: 0.0; color: "#1b83b9" }
+                    GradientStop { position: 1.0; color: "#78cee4" }
+                }
+
+                Column {
+                    id: left_col_inside
+                    width: parent.width
+                    height: parent.height
+                    anchors.centerIn: parent
+                    anchors.margins: 20
+                    spacing: 5
+
+                    Component.onCompleted: {
+                        console.log("Right column: "+width+" "+height)
+                    }
+
+                   // Row {
+                    //    id: right_col_row2
+                    //    width: parent.width
+                   //     height: parent.height * 0.6
+                   //     anchors.horizontalCenter: parent.horizontalCenter
+                    Item {
+                     width: parent.width
+                     height: parent.height * 0.3
+                     TextShadow { id: tempOut_txt; anchors.centerIn: parent;  text: GuiPainter.temperatureOut; size: 32 }
+                    }
+
+                        Item{
+                            id: weather_ico_container
+                            width: parent.width
+                            height: parent.width * 0.3
+                            //       anchors.left: parent.left; anchors.leftMargin: 30
+                            anchors.horizontalCenter: parent.horizontalCenter
+
+                            Image {
+                                sourceSize: Qt.size(parent.width*0.4, parent.width*0.4)
+                                id: weather_ico
+                                source: "img/"+GuiPainter.conditionIcon+".svg"
+                                smooth: true
+                                visible: false
+                                anchors.centerIn: weather_ico_container
+                            }
+
+                            DropShadow {
+                                source: weather_ico
+                                horizontalOffset: 1
+                                verticalOffset: 1
+                                radius: 1
+                                samples: 4
+                                color: 'slategray'
+                                anchors.fill: source
+                            }
+                            //                                TextShadow { id: cond_txt
+                            //                                             text: GuiPainter.conditionOut; size: 64
+                            //                                             anchors.left: parent.left; }
+                        }
+//                        Item {
+//                            id: tempOut_container
+//                            width: parent.width * 0.4
+//                            height: parent.height
+//                            // anchors.left: weather_ico_container.right; anchors.leftMargin: 64
+//                            anchors.verticalCenter:  weather_ico_container.verticalCenter
+
+//                            TextShadow { id: deg_txt; anchors.left: parent.left; anchors.leftMargin: 20; text: GuiPainter.temperatureOut; size: 42 }
+//                            TextShadow { anchors.left: deg_txt.right; anchors.baseline: deg_txt.baseline; text: qsTr(" \u00B0")+qsTr("C"); size: 24 }
+//                            TextShadow { id: cond_txt;
+//                                anchors.left: parent.left; anchors.leftMargin: 15
+//                                anchors.top: deg_txt.bottom
+//                                text: GuiPainter.conditionOut; size: 24 }
+//                        }
+                //    }
+                        Item {
+                         width: parent.width
+                         height: parent.height * 0.2
+                      TextShadow { id: cond_txt; anchors.centerIn: parent;  text: GuiPainter.conditionOut; size: 24 }
+                        }
+
+                }
+            }
+
+            Rectangle {
+                id: mid_col
+                width: main_row.width * 0.35
+                height: main_row.height
   //              color: 'sandybrown'
-//                border.color: '#ffffff'
-//                border.width: 5
+//                border.color: '#dbdbdb'
+//                border.width: 3
                 anchors.verticalCenter: parent.verticalCenter
                 gradient: Gradient {                    
-                    GradientStop { id: left_col_H; position: 0.0; color: "#B69DB0" }
-                    GradientStop { id: left_col_L; position: 1.0; color: "#AEA79F" }
+                    GradientStop { id: left_col_H; position: 0.0; color: "#9d415c" }
+                    GradientStop { id: left_col_L; position: 1.0; color: "#9d717e" }
                 }
 
 
                 Column {
-                    id: left_col_inside
+                    id: mid_col_inside
                     width: parent.width
                     height: parent.height
                     anchors.centerIn: parent
@@ -171,12 +279,15 @@ Window {
                             anchors.horizontalCenter: parent.horizontalCenter
                             anchors.horizontalCenterOffset: -20
                             anchors.verticalCenter: parent.verticalCenter
-                            text: GuiPainter.temperature; size: 64 }
-                        TextShadow { id: temperature_txt_unit;  anchors.left: temperature_txt.right;  anchors.baseline: temperature_txt.baseline; text: qsTr(" \u00B0")+qsTr("C"); size: 32 }
+                            text: GuiPainter.temperature; size: 64
+                 //           textColor: "slategray"
+                 //           shadowVisible: false
+                        }
+                        TextShadow { id: temperature_txt_unit; /*textColor: "slategray;"*/ anchors.left: temperature_txt.right;  anchors.baseline: temperature_txt.baseline; text: qsTr(" \u00B0")+qsTr("C"); size: 32 }
                     }
 
                     Rectangle {
-                        width: parent.width + 5
+                        width: parent.width + 10
                         height: parent.height * 0.12
                         anchors.horizontalCenter: parent.horizontalCenter
                         color: "#9e415d"
@@ -213,177 +324,16 @@ Window {
             }
 
             Rectangle {
-                id: middle_col
-                width: main_row.width * 0.4 - 20
-                height: main_row.height
-                anchors.verticalCenter: parent.verticalCenter
-                gradient: Gradient {
-                    GradientStop { position: 0.0; color: "#1b83b9" }
-                    GradientStop { position: 1.0; color: "#00a1e4" }
-                }
-
-                Column {
-                    id: middle_col_inside
-                    width: parent.width
-                    height: parent.height
-                    anchors.centerIn: parent
-                    anchors.margins: 20
-                    spacing: 5
-
-                    Component.onCompleted: {
-                        console.log("Right column: "+width+" "+height)
-                    }
-
-                   // Row {
-                    //    id: right_col_row2
-                    //    width: parent.width
-                   //     height: parent.height * 0.6
-                   //     anchors.horizontalCenter: parent.horizontalCenter
-                    Item {
-                     width: parent.width
-                     height: parent.height * 0.3
-                     TextShadow { id: tempOut_txt; anchors.centerIn: parent;  text: GuiPainter.temperatureOut; size: 32 }
-                    }
-
-                        Item{
-                            id: weather_ico_container
-                            width: parent.width
-                            height: parent.width * 0.3
-                            //       anchors.left: parent.left; anchors.leftMargin: 30
-                            anchors.horizontalCenter: parent.horizontalCenter
-
-                            Image {
-                                sourceSize: Qt.size(parent.width*0.4, parent.width*0.4)
-                                id: weather_ico
-                                source: "img/"+GuiPainter.conditionIcon+".svg"
-                                smooth: true
-                                visible: false
-                                anchors.centerIn: weather_ico_container
-                            }
-
-                            DropShadow {
-                                source: weather_ico
-                                horizontalOffset: 1
-                                verticalOffset: 1
-                                radius: 1
-                                samples: 4
-                                color: 'slategray'
-                                anchors.fill: source
-                            }
-                            //                                TextShadow { id: cond_txt
-                            //                                             text: GuiPainter.conditionOut; size: 64
-                            //                                             anchors.left: parent.left; }
-                        }
-//                        Item {
-//                            id: tempOut_container
-//                            width: parent.width * 0.4
-//                            height: parent.height
-//                            // anchors.left: weather_ico_container.right; anchors.leftMargin: 64
-//                            anchors.verticalCenter:  weather_ico_container.verticalCenter
-
-//                            TextShadow { id: deg_txt; anchors.left: parent.left; anchors.leftMargin: 20; text: GuiPainter.temperatureOut; size: 42 }
-//                            TextShadow { anchors.left: deg_txt.right; anchors.baseline: deg_txt.baseline; text: qsTr(" \u00B0")+qsTr("C"); size: 24 }
-//                            TextShadow { id: cond_txt;
-//                                anchors.left: parent.left; anchors.leftMargin: 15
-//                                anchors.top: deg_txt.bottom
-//                                text: GuiPainter.conditionOut; size: 24 }
-//                        }
-                //    }
-                        Item {
-                         width: parent.width
-                         height: parent.height * 0.2
-                      TextShadow { id: cond_txt; anchors.centerIn: parent;  text: GuiPainter.conditionOut; size: 24 }
-                        }
-
-                      Rectangle {
-                          width: parent.width + 5
-                          height: parent.height * 0.12
-                          anchors.horizontalCenter: parent.horizontalCenter
-                          color: "#13598a"
-
-                            Item {
-                                id: wind_dir_container
-                                width: parent.width * 0.35
-                                height: parent.width * 0.35
-                                rotation: GuiPainter.windDirOut - 45.0
-                                anchors.verticalCenter: parent.verticalCenter
-
-                                Image {
-                                    sourceSize: Qt.size(parent.height*0.5, parent.height*0.5)
-                                    id: wind_dir_ico
-                                    source: "img/compass.svg"
-                                    smooth: true
-                                    visible: false
-                                    anchors.centerIn: wind_dir_container
-                                    anchors.verticalCenter: parent.verticalCenter
-                                }
-
-                                DropShadow {
-                                    source: wind_dir_ico
-                                    horizontalOffset: 1
-                                    verticalOffset: 1
-                                    radius: 1
-                                    samples: 4
-                                    color: 'slategray'
-                                    anchors.fill: source
-                                }
-                            }
-                         TextShadow { id: windOut_txt; text: GuiPainter.windSpeedOut+qsTr(" km/h"); size: 20
-                             anchors.horizontalCenter: parent.horizontalCenter
-                             anchors.verticalCenter: parent.verticalCenter
-                         }
-                      }
-
-                      Rectangle {
-                          width: parent.width + 5
-                          height: parent.height * 0.12
-                          anchors.horizontalCenter: parent.horizontalCenter
-                          color: "#13598a"
-
-                            Item {
-                                width: pressure_ico.width
-                                height: pressure_ico.height
-                                anchors.verticalCenter: parent.verticalCenter;
-
-                                Image {
-                                    id: pressure_ico
-                                    source: "img/measurement-units-pressure-icon.png"
-                                    anchors.centerIn: parent
-                                    visible: false
-                                }
-
-                                DropShadow {
-                                    source: pressure_ico
-                                    horizontalOffset: 1
-                                    verticalOffset: 1
-                                    radius: 1
-                                    samples: 4
-                                    color: 'slategray'
-                                    anchors.fill: source
-                                }
-                            }
-
-                            TextShadow { id: pressure_txt
-                                anchors.horizontalCenter: parent.horizontalCenter
-                                anchors.verticalCenter: parent.verticalCenter
-                                text: GuiPainter.pressure+qsTr(" hPa"); size: 20 }
-
-                   }
-
-                }
-            }
-
-            Rectangle {
                 id: right_col
-                width: main_row.width * 0.3
+                width: main_row.width * 0.35
                 height: main_row.height
           //      color: 'darkturquoise'
 //                border.color: '#ffffff'
 //                border.width: 5
                 anchors.verticalCenter: parent.verticalCenter
                 gradient: Gradient {
-                    GradientStop { position: 0.0; color: c20_25H }
-                    GradientStop { position: 1.0; color: c20_25L }
+                    GradientStop { id: right_col_GH; position: 0.0; color: c20_25H }
+                    GradientStop { id: right_col_GL; position: 1.0; color: c20_25L }
                 }
 
                 Column {
@@ -392,7 +342,7 @@ Window {
                     height: parent.height
                     anchors.centerIn: parent
                     anchors.margins: 20
-                    spacing: 10
+                    spacing: 5
        //             padding: 15
                     Component.onCompleted: {
                         console.log("Left column: "+width+" "+height)
@@ -436,23 +386,99 @@ Window {
 
                     Item{
                         width: parent.width
-                        height: parent.height * 0.4
+                        height: parent.height * 0.2
                         anchors.horizontalCenter: parent.horizontalCenter
 
                         TextShadow { id: temperatureOut_txt
                                      anchors.horizontalCenter: parent.horizontalCenter
-                                     anchors.horizontalCenterOffset: -20
+                                     anchors.horizontalCenterOffset: -10
                                      anchors.verticalCenter: parent.verticalCenter
-                                     text: GuiPainter.feelslikeOut; size: 64 }
-                        TextShadow { id: temperatureOut_txt_unit; anchors.left: temperatureOut_txt.right; anchors.baseline: temperatureOut_txt.baseline; text: qsTr(" \u00B0")+qsTr("C"); size: 32 }
+                                     text: GuiPainter.feelslikeOut; size: 38 }
+                        TextShadow { id: temperatureOut_txt_unit; anchors.left: temperatureOut_txt.right; anchors.baseline: temperatureOut_txt.baseline; text: qsTr(" \u00B0")+qsTr("C"); size: 20 }
                     }
+
+                    Rectangle {
+                        id: right_col_GR
+                        width: parent.width + 10
+                        height: parent.height * 0.12
+                        anchors.horizontalCenter: parent.horizontalCenter
+                        color: c20_25H
+
+                          Item {
+                              id: wind_dir_container
+                              width: parent.width * 0.35
+                              height: parent.width * 0.35
+                              rotation: GuiPainter.windDirOut - 45.0
+                              anchors.verticalCenter: parent.verticalCenter
+
+                              Image {
+                                  sourceSize: Qt.size(parent.height*0.35, parent.height*0.35)
+                                  id: wind_dir_ico
+                                  source: "img/compass.svg"
+                                  smooth: true
+                                  visible: false
+                                  anchors.centerIn: wind_dir_container
+                                  anchors.verticalCenter: parent.verticalCenter
+                              }
+
+                              DropShadow {
+                                  source: wind_dir_ico
+                                  horizontalOffset: 1
+                                  verticalOffset: 1
+                                  radius: 1
+                                  samples: 4
+                                  color: 'slategray'
+                                  anchors.fill: source
+                              }
+                          }
+                       TextShadow { id: windOut_txt; text: GuiPainter.windSpeedOut+qsTr(" km/h"); size: 20
+                           anchors.horizontalCenter: parent.horizontalCenter
+                           anchors.verticalCenter: parent.verticalCenter
+                       }
+                    }
+
+                    Rectangle {
+                        width: parent.width + 10
+                        height: parent.height * 0.12
+                        anchors.horizontalCenter: parent.horizontalCenter
+                        color: right_col_GR.color
+
+                          Item {
+                              width: pressure_ico.width
+                              height: pressure_ico.height
+                              anchors.verticalCenter: parent.verticalCenter;
+
+                              Image {
+                                  id: pressure_ico
+                                  source: "img/measurement-units-pressure-icon.png"
+                                  anchors.centerIn: parent
+                                  visible: false
+                              }
+
+                              DropShadow {
+                                  source: pressure_ico
+                                  horizontalOffset: 1
+                                  verticalOffset: 1
+                                  radius: 1
+                                  samples: 4
+                                  color: 'slategray'
+                                  anchors.fill: source
+                              }
+                          }
+
+                          TextShadow { id: pressure_txt
+                              anchors.horizontalCenter: parent.horizontalCenter
+                              anchors.verticalCenter: parent.verticalCenter
+                              text: GuiPainter.pressure+qsTr(" hPa"); size: 20 }
+
+                 }
 
 
                     Rectangle {
-                        width: parent.width + 5
+                        width: parent.width + 10
                         height: parent.height * 0.12
                         anchors.horizontalCenter: parent.horizontalCenter
-                        color: c20_25R
+                        color: right_col_GR.color
 
                         Item{
                             anchors.fill: parent
@@ -496,7 +522,7 @@ Window {
             id: bottom_bar
             width: root.width; height: root.height * 0.1;
             color: '#5E2750'
-            border.color: '#ffffff'
+      //      border.color: '#ffffff'
        //     border.width: 5
 
             Component.onCompleted: {
@@ -581,6 +607,7 @@ Window {
                         anchors.centerIn: parent; anchors.margins: 5
                         text: qsTr("Rainbow"); size: 12; shadowColor: 'black'
                     }
+
                 }
 
                 Rectangle {
@@ -597,6 +624,12 @@ Window {
                         anchors.centerIn: parent; anchors.margins: 5
                         text: qsTr("Random"); size: 12; shadowColor: 'black'
                     }
+
+                    MouseArea {
+                        id: btn_random_ma
+                        anchors.fill: parent
+                        onClicked: LedPainter.randomness();
+                    }
                 }
 
                 Rectangle {
@@ -612,6 +645,12 @@ Window {
                     TextShadow {
                         anchors.centerIn: parent; anchors.margins: 5
                         text: qsTr("Clear"); size: 12; shadowColor: 'black'
+                    }
+
+                    MouseArea {
+                        id: btn_clear_ma
+                        anchors.fill: parent
+                        onClicked: LedPainter.clear();
                     }
                 }
 

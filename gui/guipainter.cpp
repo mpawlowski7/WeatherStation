@@ -13,6 +13,23 @@ GuiPainter* GuiPainter::instance()
     return p_instance;
 }
 
+void GuiPainter::Init(QQmlApplicationEngine & engine)
+{
+    qmlRegisterSingletonType<GuiPainter>("weatherstation.gui", 1, 0, "GuiPainter", &qmlinstance);
+    qmlRegisterSingletonType<LedPainter>("weatherstation.led", 1, 0, "LedPainter", &LedPainter::qmlinstance);
+
+    WUManager::instance()->Init();
+
+    startReadingData();
+
+    engine.load(QUrl(QStringLiteral("qrc:/res/main.qml")));
+
+    QObject *topLevel = engine.rootObjects().value(0);
+    QQuickWindow *window = qobject_cast<QQuickWindow *>(topLevel);
+
+    QObject::connect(this, SIGNAL(labelsChanged()), window, SLOT(updateGradientColor()));
+}
+
 QObject* GuiPainter::qmlinstance(QQmlEngine *engine, QJSEngine *scriptEngine)
 {
     Q_UNUSED(engine);
@@ -78,11 +95,13 @@ QString GuiPainter::currentTime()
 
 void GuiPainter::startReadingData()
 {
+    qDebug() << "Start reading data";
     updateGui(); // first is for free
 
     // do the same in loop
     QThread* workHorse = new QThread(this);
     QTimer* timer = new QTimer(0);
+
     timer->setInterval(1000);
     timer->moveToThread(workHorse);
     connect(timer, SIGNAL(timeout()), this, SLOT(updateGui()));
@@ -108,5 +127,6 @@ void GuiPainter::updateGui()
     m_windSpeedOut = QString::number(WUManager::instance()->GetCurrentWeather().wind_kph, 'f', 1);
     m_conditionOut = WUManager::instance()->GetCurrentWeather().condition;
     m_conditionIcon = WUManager::instance()->GetCurrentWeather().icon;
+
     emit labelsChanged();
 }

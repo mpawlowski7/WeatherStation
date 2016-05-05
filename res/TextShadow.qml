@@ -1,28 +1,41 @@
-import QtQuick 2.0
+import QtQuick 2.5
 
-Text {
-    id: shadow
+Item {
+    property alias text: main.text
+    property alias size: main.font.pointSize
+    property alias shadowColor: shadow.color
+    property alias textColor: main.color
+    property bool shadowVisible: true
+
     FontLoader { id: ubuntuFont; source: "fonts/WireOne.ttf" }
-    property alias text: shadow.text
-    property alias size: shadow.font.pointSize
-    property string shadowColor: shadow.color
 
-    font.family: ubuntuFont.name
-    font.bold: true
-//    font.pointSize: 15
- //   font.bold: true
-    text: qsTr("Empty")
-    color: 'slategray'
-    clip: true
+    width: main.width
+    height: main.height
 
     Text {
-        anchors.bottom: parent.bottom
-        anchors.bottomMargin: 1
-        anchors.right: parent.right
-        anchors.rightMargin: 1
         id: main
-        font: parent.font
-        text: parent.text
+        anchors.centerIn: parent
+        font.family: ubuntuFont.name
+        font.bold: true
         color: '#f6f6f6'
     }
+
+    Text {
+        id: shadow
+        z: main.z - 1
+        visible: shadowVisible
+        font: main.font
+        text: main.text
+        anchors.centerIn: main
+
+        anchors.verticalCenter: main.verticalCenter
+        anchors.verticalCenterOffset: 2
+        anchors.horizontalCenter: main.horizontalCenter
+        anchors.horizontalCenterOffset: 2
+
+    //    font.pointSize: 15
+     //   font.bold: true
+        color: 'slategray'
+   }
+
 }
