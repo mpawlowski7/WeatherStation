@@ -35,7 +35,8 @@ Item {
 
     //    font.pointSize: 15
      //   font.bold: true
-        color: 'slategray'
+        color: "#000000"
+        opacity: 0.3
    }
 
 }
