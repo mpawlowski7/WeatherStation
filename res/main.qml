@@ -30,25 +30,22 @@ Window {
     readonly property string c00_05H: ""
     readonly property string c00_05R: ""
 
-    readonly property string c05_10L: ""
-    readonly property string c05_10H: ""
-    readonly property string c05_10R: ""
+    readonly property string c05_10L: "#3ab7e4"
+    readonly property string c05_10H: "#009e6e"
+    readonly property string c05_10R: "#006959"
 
-    readonly property string c10_15L: "#40E0D0"
-    readonly property string c10_15H: "#00CED1"
-    readonly property string c10_15R: "#00CED1"
+    readonly property string c10_15L: "#00b499"
+    readonly property string c10_15H: "#94c629"
+    readonly property string c10_15R: "#00a088"
 
-    readonly property string c15_20L: "#dce177"
+    readonly property string c15_20L: "#ffd12d"
     readonly property string c15_20H: "#6eaf29"
-    readonly property string c15_20R: "#7ab600"
 
-    readonly property string c20_25L: "#ffdd62"
-    readonly property string c20_25H: "#ff9e00"
-    readonly property string c20_25R: "#ffdd62"
+    readonly property string c20_25L: "#beda29"
+    readonly property string c20_25H: "#e3b800"
 
     readonly property string c25_30L: "#ffcd19"
     readonly property string c25_30H: "#ffa500"
-    readonly property string c25_30R: "#ff7300"
 
     readonly property string c30_L: ""
     readonly property string c30_H: ""
@@ -59,14 +56,14 @@ Window {
         switch(true)
         {
             case (5.0 <= temp && temp < 10.0):
-                right_col_GH.color = c10_15H;
-                right_col_GL.color = c10_15L;
-                right_col_GR.color = c10_15H;
+                right_col_GH.color = c05_10H;
+                right_col_GL.color = c05_10L;
+                right_col_GR.color = c05_10H;
                 break;
             case (10.0 <= temp && temp < 15.0):
                 right_col_GH.color = c10_15H;
                 right_col_GL.color = c10_15L;
-                right_col_GR.color = c10_15H;
+                right_col_GR.color = c10_15R;
                 break;
             case (15.0 <= temp && temp < 20.0):
                 right_col_GH.color = c15_20H;
@@ -120,102 +117,49 @@ Window {
                     }
                 clip: true
 
-                Column {
+                Item {
                     id: left_col_inside
                     width: parent.width
                     height: parent.height
                     anchors.centerIn: parent
-                    anchors.margins: 20
-                    spacing: 10
+           //         anchors.margins: 20
+          //          spacing: 10
 
                     Component.onCompleted: {
                         console.log("Right column: "+width+" "+height)
                     }
 
-//                    Item{
-//                        id: weather_ico_container
-//                        width: parent.width
-//                        height: parent.width * 0.4
-//                        anchors.horizontalCenter: parent.horizontalCenter
-
-//                        Image {
-//                            sourceSize: Qt.size(parent.width, parent.width)
-//                            id: weather_ico
-//                            source: "img/"+GuiPainter.conditionIcon+".svg"
-//                            smooth: true
-//                            visible: false
-//                            anchors.centerIn: weather_ico_container
-//                        }
-
-//                        DropShadow {
-//                            source: weather_ico
-//                            horizontalOffset: 1
-//                            verticalOffset: 1
-//                            radius: 1
-//                            samples: 4
-//                            color: 'slategray'
-//                            anchors.fill: source
-//                        }
-//                      }
-
-                    Rectangle {
-                        width: parent.width
-                        height: parent.height * 0.06
-                        anchors.horizontalCenter: parent.horizontalCenter
-                        color: "#78cee4"
-
-                        Item{
-                            width: parent.width * 0.35
-                            height: parent.width * 0.35
-                            anchors.verticalCenter: parent.verticalCenter;
-
-                            Image {
-                                sourceSize: Qt.size(parent.height*0.35, parent.height*0.35)
-                                id: humidityIn_ico1
-                                source: "img/humidity_out.svg"
-                                anchors.centerIn: parent
-                                visible: false
-                            }
-
-                            DropShadow {
-                                source: humidityIn_ico1
-                                horizontalOffset: 1
-                                verticalOffset: 1
-                                radius: 1
-                                samples: 4
-                                color: "#000000"
-                                anchors.fill: source
-                            }
-                        }
-
-                        TextShadow { id: humidity_txt1;  anchors.horizontalCenter: parent.horizontalCenter; anchors.verticalCenter: parent.verticalCenter; text: GuiPainter.humidity + qsTr("%"); size: 20 }
-                    }
-
                       Item {
                            width: parent.width
-                           height: parent.height * 0.1
-                           TextShadow { id: tempOut_txt1; anchors.centerIn: parent;  text: GuiPainter.temperatureOut; size: 32 }
+                           height: parent.height * 0.15
+                           anchors.bottom: weather_ico_container.top
+                           TextShadow { id: forecast_txt
+                                        anchors.horizontalCenter: parent.horizontalCenter
+                                        anchors.horizontalCenterOffset: -10
+                                        anchors.verticalCenter: parent.verticalCenter
+                                        text: GuiPainter.temperatureOut; size: 32 }
+                           TextShadow { id: forecast_txt_unit; anchors.left: forecast_txt.right; anchors.baseline: forecast_txt.baseline; text: qsTr(" \u00B0")+qsTr("C"); size: 14 }
                        }
 
                       Rectangle{
-                          id: weather_ico_container1
-                          width: parent.width * 0.85
-                          height: parent.width * 0.85
+                          id: weather_ico_container
+                          width: parent.width * 0.6
+                          height: parent.width * 0.6
                           color: "transparent"
                           radius: 180
-                          anchors.horizontalCenter: parent.horizontalCenter
+                          anchors.centerIn: parent
 
                           Image {
-                              sourceSize: Qt.size(parent.width*2, parent.width*2)
-                              id: weather_ico1
+                              sourceSize: Qt.size(parent.width*1.5, parent.width*1.5)
+                              id: weather_ico
                               source: "img/"+GuiPainter.conditionIcon+".svg"
                               smooth: true
                               visible: false
-                              anchors.centerIn: weather_ico_container1
+                              anchors.centerIn: weather_ico_container
                           }
 
                           DropShadow {
-                              source: weather_ico1
+                              source: weather_ico
                               horizontalOffset: 1
                               verticalOffset: 1
                               radius: 1
@@ -228,43 +172,9 @@ Window {
 
                         Item {
                            width: parent.width
-                           height: parent.height * 0.2
-
-                           TextShadow { id: cond1_txt; anchors.centerIn: parent;  text: GuiPainter.conditionOut; size: 24 }
-                        }
-
-
-                        Rectangle {
-                            width: parent.width
-                            height: parent.height * 0.06
-                            anchors.horizontalCenter: parent.horizontalCenter
-                            color: "#1b83b9"
-
-                            Item{
-                                width: parent.width * 0.35
-                                height: parent.width * 0.35
-                                anchors.verticalCenter: parent.verticalCenter;
-
-                                Image {
-                                    sourceSize: Qt.size(parent.height*0.35, parent.height*0.35)
-                                    id: humidityIn_ico2
-                                    source: "img/humidity_out.svg"
-                                    anchors.centerIn: parent
-                                    visible: false
-                                }
-
-                                DropShadow {
-                                    source: humidityIn_ico2
-                                    horizontalOffset: 1
-                                    verticalOffset: 1
-                                    radius: 1
-                                    samples: 4
-                                    color: "#000000"
-                                    anchors.fill: source
-                                }
-                            }
-
-                            TextShadow { id: humidity_txt2;  anchors.horizontalCenter: parent.horizontalCenter; anchors.verticalCenter: parent.verticalCenter; text: GuiPainter.humidity + qsTr("%"); size: 20 }
+                           height: parent.height * 0.15
+                           anchors.top: weather_ico_container.bottom
+                           TextShadow { id: cond_txt; anchors.centerIn: parent;  text: GuiPainter.conditionOut; size: 24 }
                         }
 
 //                    Item{
@@ -320,7 +230,7 @@ Window {
 
                     Item {
                         width: parent.width
-                        height: parent.height * 0.05
+                        height: parent.height * 0.03
                     }
 
                     Rectangle {
@@ -343,7 +253,7 @@ Window {
 
                     Item {
                         width: parent.width
-                        height: parent.height * 0.4
+                        height: parent.height * 0.42
                         anchors.horizontalCenter: parent.horizontalCenter
 
                         TextShadow { id: temperature_txt;
@@ -356,8 +266,8 @@ Window {
                     }
 
                     Rectangle {
-                        width: parent.width
-                        height: parent.height * 0.12
+                        width: parent.width * 1.05
+                        height: parent.height * 0.1
                         anchors.horizontalCenter: parent.horizontalCenter
                         color: "#9d415c"
 
@@ -410,7 +320,7 @@ Window {
                     height: parent.height
                     anchors.centerIn: parent
                     anchors.margins: 20
-           //         spacing: 1
+                    spacing: 5
        //             padding: 15
                     Component.onCompleted: {
                         console.log("Left column: "+width+" "+height)
@@ -454,7 +364,7 @@ Window {
 
                     Item{
                         width: parent.width
-                        height: parent.height * 0.23
+                        height: parent.height * 0.26
                         anchors.horizontalCenter: parent.horizontalCenter
 
                         TextShadow { id: temperatureOut_txt
@@ -468,8 +378,8 @@ Window {
                     Rectangle {
                         id: right_col_GR
                 //        visible: false
-                        width: parent.width
-                        height: parent.height * 0.12
+                        width: parent.width * 1.05
+                        height: parent.height * 0.1
                         anchors.horizontalCenter: parent.horizontalCenter
                         color: "transparent"
 
@@ -508,8 +418,8 @@ Window {
 
                     Rectangle {
                    //     visible: false
-                        width: parent.width
-                        height: parent.height * 0.12
+                        width: parent.width * 1.05
+                        height: parent.height * 0.1
                         anchors.horizontalCenter: parent.horizontalCenter
                         color: right_col_GR.color
 
@@ -547,8 +457,8 @@ Window {
 
                     Rectangle {
                    //     visible: false
-                        width: parent.width
-                        height: parent.height * 0.12
+                        width: parent.width * 1.05
+                        height: parent.height * 0.1
                         anchors.horizontalCenter: parent.horizontalCenter
                         color: right_col_GR.color
 
