@@ -38,11 +38,13 @@ Window {
     readonly property string c10_15H: "#94c629"
     readonly property string c10_15R: "#00a088"
 
-    readonly property string c15_20L: "#ffd12d"
-    readonly property string c15_20H: "#6eaf29"
+    readonly property string c15_20L: "#6eaf29"
+    readonly property string c15_20H: "#e9c008"
+    readonly property string c15_20R: "#639e25"
 
-    readonly property string c20_25L: "#beda29"
-    readonly property string c20_25H: "#e3b800"
+    readonly property string c20_25L: "#a7c629"
+    readonly property string c20_25H: "#ffa009"
+    readonly property string c20_25R: "#8faa23"
 
     readonly property string c25_30L: "#ffcd19"
     readonly property string c25_30H: "#ffa500"
@@ -68,12 +70,12 @@ Window {
             case (15.0 <= temp && temp < 20.0):
                 right_col_GH.color = c15_20H;
                 right_col_GL.color = c15_20L;
-                right_col_GR.color = c15_20H;
+                right_col_GR.color = c15_20R;
                 break;
             case (20.0 <= temp && temp < 25.0):
                 right_col_GH.color = c20_25H;
                 right_col_GL.color = c20_25L;
-                right_col_GR.color = c20_25H;
+                right_col_GR.color = c20_25R;
                 break;
             case (25.0 <= temp && temp < 30.0):
                 right_col_GH.color = c25_30H;
@@ -211,7 +213,7 @@ Window {
                 width: main_row.width * 0.35
                 height: main_row.height
                 anchors.verticalCenter: parent.verticalCenter
-                gradient: Gradient {                    
+                gradient: Gradient {
                     GradientStop { id: left_col_H; position: 0.0; color: "#9d415c" }
                     GradientStop { id: left_col_L; position: 1.0; color: "#9d717e" }
                 }
@@ -599,6 +601,8 @@ Window {
                     radius: 10
                     anchors.horizontalCenter: label.horizontalCenter
 
+                    property bool isOn: false
+
                     TextShadow {
                         anchors.centerIn: parent; anchors.margins: 5
                         text: qsTr("Random"); size: 12; shadowColor: 'black'
@@ -607,7 +611,19 @@ Window {
                     MouseArea {
                         id: btn_random_ma
                         anchors.fill: parent
-                        onClicked: LedPainter.randomness();
+                        onClicked:
+                        {
+                            if(btn_random.isOn)
+                            {
+                                LedPainter.deactivate();
+                                btn_random.isOn = false;
+                            }
+                            else
+                            {
+                                LedPainter.activate();
+                                btn_random.isOn = true;
+                            }
+                        }
                     }
                 }
 

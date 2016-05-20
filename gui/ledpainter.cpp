@@ -18,7 +18,7 @@ LedPainter::LedPainter(QObject* parent = 0) : QObject(parent), activated(false)
     workHorse = new QThread(this);
     timer = new QTimer(0);
 
-    timer->setInterval(1000);
+    timer->setInterval(100);
     timer->moveToThread(workHorse);
     connect(timer, SIGNAL(timeout()), this, SLOT(randomness()));
     connect(workHorse, SIGNAL(started()), timer, SLOT(start()));
