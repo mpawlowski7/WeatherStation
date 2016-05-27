@@ -178,7 +178,7 @@ Rectangle {
         drag.minimumX: _minimumX
         drag.maximumX: _maximumX
         drag.axis: Qt.Horizontal
-  //      drag.onActiveChanged: { console.log(active); if (active) holdAnimation.stop() }
+        //      drag.onActiveChanged: { console.log(active); if (active) holdAnimation.stop() }
         onReleased: handleRelease()
         z: open ? 1 : 0
         onMouseXChanged: {

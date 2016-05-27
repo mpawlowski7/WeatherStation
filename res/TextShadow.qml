@@ -33,10 +33,10 @@ Item {
         anchors.horizontalCenter: main.horizontalCenter
         anchors.horizontalCenterOffset: 2
 
-    //    font.pointSize: 15
-     //   font.bold: true
+        //    font.pointSize: 15
+        //   font.bold: true
         color: "#000000"
         opacity: 0.3
-   }
+    }
 
 }

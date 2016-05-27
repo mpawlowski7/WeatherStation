@@ -8,20 +8,15 @@
 #include <QJsonDocument>
 #include <QJsonObject>
 #include <QJsonParseError>
+#include <QJsonArray>
 #include <QNetworkAccessManager>
 #include <QThread>
 #include <QMutex>
 #include <QTimer>
-
-struct Weather {
-    qreal temp_c;
-    QString condition;
-    QString relative_humidity;
-    QString feelslike_c;
-    qreal wind_kph;
-    qreal wind_dir;
-    QString icon;
-};
+#include <QEventLoop>
+#include <QVector>
+#include <QDateTime>
+#include <memory>
 
 class WUManager : public QObject
 {
@@ -30,22 +25,27 @@ class WUManager : public QObject
 
 private:
     const QString apiKey = "05489258f434bf7f";
-    const QString location = "Rzeszow";
-    const QString requestUrl = "http://api.wunderground.com/api/"+apiKey+"/conditions/forecast/q/Poland/"+location+".json";
+    const QString location = "";
+    const QString requestUrl = "http://api.wunderground.com/api/"+apiKey+"/conditions/forecast10day/q/autoip.json";
+    const QDateTime currentDate;
     QNetworkAccessManager *manager;
-    Weather current;
+    QVariantMap currentWeather;
+    QVariantMap forecast10Days;
 
     static WUManager* volatile p_instance;
     WUManager(QObject *parent);
-    ~WUManager() {}
+    ~WUManager() { delete manager; }
+    void ProcessForecast(QJsonDocument& doc);
 
 public:
     static WUManager* instance();
-    Weather GetCurrentWeather();
+    const QVariantMap& GetCurrentWeather() const;
+    const QVariantMap& Get10DaysForecast() const;
     void Init();
     void Update();
 
 signals:
+    void replyProcessed();
 
 public slots:
     void replyFinished(QNetworkReply* reply);

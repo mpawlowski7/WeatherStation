@@ -22,7 +22,7 @@ void GuiPainter::Init(QQmlApplicationEngine & engine)
 
     startReadingData();
 
-    engine.load(QUrl(QStringLiteral("qrc:/res/main.qml")));
+    engine.load(QUrl(QStringLiteral("qrc:/res/MainView.qml")));
 
     QObject *topLevel = engine.rootObjects().value(0);
     QQuickWindow *window = qobject_cast<QQuickWindow *>(topLevel);
@@ -37,60 +37,70 @@ QObject* GuiPainter::qmlinstance(QQmlEngine *engine, QJSEngine *scriptEngine)
     return instance();
 }
 
-QString GuiPainter::temperature()
+const QString GuiPainter::temperature() const
 {
-    return m_temp;
+    return QString::number((LPS25H::instance()->GetTemperature() + HTS221::instance()->GetTemperature()) / 2, 'f', 1);
 }
 
-QString GuiPainter::pressure()
+const QString GuiPainter::pressure() const
 {
-    return m_press;
+    return QString::number(LPS25H::instance()->GetPressure(), 'f', 0);
 }
 
-QString GuiPainter::humidity()
+const QString GuiPainter::humidity() const
 {
-    return m_humidity;
+    return QString::number(HTS221::instance()->GetHumidity(), 'f', 0);
 }
 
-QString GuiPainter::temperatureOut()
+const QVariantMap &GuiPainter::currentWeather() const
 {
-    return m_tempOut;
+    return WUManager::instance()->GetCurrentWeather();
+}
+
+const QVariantMap &GuiPainter::forecast() const
+{
+    return WUManager::instance()->Get10DaysForecast();
+}
+
+const QString GuiPainter::temperatureOut() const
+{
+    return WUManager::instance()->GetCurrentWeather().value("temp_c").toString();
 
 }
 
-QString GuiPainter::feelslikeOut()
+const QString GuiPainter::feelslikeOut() const
 {
-    return m_feelslikeOut;
+    return WUManager::instance()->GetCurrentWeather().value("feelslike_c").toString();
 }
 
-qreal GuiPainter::windDirOut()
+qreal GuiPainter::windDirOut() const
 {
-    return m_windDirOut;
+    return WUManager::instance()->GetCurrentWeather().value("wind_dir").toDouble();
 }
 
-QString GuiPainter::windSpeedOut()
+const QString GuiPainter::windSpeedOut() const
 {
-    return m_windSpeedOut;
+    return WUManager::instance()->GetCurrentWeather().value("wind_kph").toString();
 }
 
-QString GuiPainter::humidityOut()
+const QString GuiPainter::humidityOut() const
 {
-    return m_humidityOut;
+    return WUManager::instance()->GetCurrentWeather().value("relative_humidity").toString();
 }
 
-QString GuiPainter::conditionOut()
+const QString GuiPainter::conditionOut() const
 {
-    return m_conditionOut;
+    return WUManager::instance()->GetCurrentWeather().value("condition").toString();
 }
 
-QString GuiPainter::conditionIcon()
+const QString GuiPainter::conditionIcon() const
 {
-    return m_conditionIcon;
+    return WUManager::instance()->GetCurrentWeather().value("icon").toString();
 }
 
-QString GuiPainter::currentTime()
+const QString GuiPainter::currentTime() const
 {
-    return m_time;
+    return QTime::currentTime().toString(QString("hh:mm"));
 }
 
 void GuiPainter::startReadingData()
@@ -113,20 +123,8 @@ void GuiPainter::updateGui()
 {
     if(LPS25H::instance()->ReadSensor() && HTS221::instance()->ReadSensor())
     {
-        m_temp = QString::number((LPS25H::instance()->GetTemperature() + HTS221::instance()->GetTemperature()) / 2, 'f', 1);
-        m_humidity = QString::number(HTS221::instance()->GetHumidity(), 'f', 0);
-        m_press = QString::number(LPS25H::instance()->GetPressure(), 'f', 0);        
+        emit insideChanged();
     }
 
-    m_time = QTime::currentTime().toString(QString("hh:mm"));
-
-    m_tempOut = QString::number(WUManager::instance()->GetCurrentWeather().temp_c, 'f', 1);
-    m_feelslikeOut = WUManager::instance()->GetCurrentWeather().feelslike_c;
-    m_humidityOut = WUManager::instance()->GetCurrentWeather().relative_humidity;
-    m_windDirOut = WUManager::instance()->GetCurrentWeather().wind_dir;
-    m_windSpeedOut = QString::number(WUManager::instance()->GetCurrentWeather().wind_kph, 'f', 1);
-    m_conditionOut = WUManager::instance()->GetCurrentWeather().condition;
-    m_conditionIcon = WUManager::instance()->GetCurrentWeather().icon;
-
-    emit labelsChanged();
+    emit forecastChanged();
 }

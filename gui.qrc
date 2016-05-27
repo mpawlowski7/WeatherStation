@@ -1,7 +1,6 @@
 <RCC>
     <qresource prefix="/">
         <file>res/fonts/Ubuntu-R.ttf</file>
-        <file>res/main.qml</file>
         <file>res/Drawer.qml</file>
         <file>res/Pixel.qml</file>
         <file>res/Colors.qml</file>
@@ -29,5 +28,12 @@
         <file>res/img/hills.svg</file>
         <file>res/img/home.svg</file>
         <file>res/img/pressure.svg</file>
+        <file>res/ForecastView.qml</file>
+        <file>res/MainView.qml</file>
+        <file>res/SingledayView.qml</file>
+        <file>res/OutsideView.qml</file>
+        <file>res/InsideView.qml</file>
+        <file>res/img/chancetstorms.svg</file>
+        <file>res/img/tstorms.svg</file>
     </qresource>
 </RCC>

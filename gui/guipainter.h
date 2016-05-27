@@ -17,6 +17,7 @@
 #include <QThread>
 #include <QTime>
 #include <QTimer>
+#include <QVariantMap>
 
 #include <iostream>
 
@@ -24,9 +25,11 @@ class GuiPainter : public QObject
 {
     Q_OBJECT
     Q_DISABLE_COPY(GuiPainter)
-    Q_PROPERTY(QString temperature READ temperature NOTIFY labelsChanged)
-    Q_PROPERTY(QString pressure READ pressure NOTIFY labelsChanged)
-    Q_PROPERTY(QString humidity READ humidity NOTIFY labelsChanged)
+    Q_PROPERTY(QString temperature READ temperature NOTIFY insideChanged)
+    Q_PROPERTY(QString pressure READ pressure NOTIFY insideChanged)
+    Q_PROPERTY(QString humidity READ humidity NOTIFY insideChanged)
+    Q_PROPERTY(QVariantMap currentWeather READ currentWeather NOTIFY forecastChanged)
+    Q_PROPERTY(QVariantMap forecast READ forecast NOTIFY forecastChanged)
     Q_PROPERTY(QString temperatureOut READ temperatureOut NOTIFY labelsChanged)
     Q_PROPERTY(QString feelslikeOut READ feelslikeOut NOTIFY labelsChanged)
     Q_PROPERTY(qreal windDirOut READ windDirOut NOTIFY labelsChanged)
@@ -34,41 +37,18 @@ class GuiPainter : public QObject
     Q_PROPERTY(QString humidityOut READ humidityOut NOTIFY labelsChanged)
     Q_PROPERTY(QString conditionOut READ conditionOut NOTIFY labelsChanged)
     Q_PROPERTY(QString conditionIcon READ conditionIcon NOTIFY labelsChanged)
-    Q_PROPERTY(QString currentTime READ currentTime NOTIFY labelsChanged)
 //    Q_PROPERTY(void ToggleLedMatrix READ ToggleLedMatrix)
 //    Q_PROPERTY(void Update READ Update)
 
 signals:
+    void forecastChanged();
+    void insideChanged();
+    void outsideChanged();
     void labelsChanged();
 
 private:
-    QString m_temp;
-    QString m_press;
-    QString m_humidity;
-    QString m_time;
-    QString m_tempOut;
-    QString m_feelslikeOut;
-    QString m_humidityOut;
-    qreal m_windDirOut;
-    QString m_windSpeedOut;
-    QString m_conditionOut;
-    QString m_conditionIcon;
-
-
-   // bool m_readingData = false;
     static GuiPainter* volatile p_instance;
-    GuiPainter(QObject* parent = 0) : QObject(parent),
-    m_temp(QString("0.0")),
-    m_press(QString("0.0")),
-    m_humidity(QString("0.0")),
-    m_time(QString("0.0")),
-    m_tempOut(QString("0.0")),
-    m_feelslikeOut(QString("0.0")),
-    m_humidityOut(QString("0.0")),
-    m_windDirOut(315.0),
-    m_windSpeedOut(QString("0.0")),
-    m_conditionOut(QString("Empty")),
-    m_conditionIcon(QString("clear"))
+    GuiPainter(QObject* parent = 0) : QObject(parent)
     {
     }
     ~GuiPainter() {}
@@ -77,17 +57,19 @@ public:
     static QObject* qmlinstance(QQmlEngine *engine, QJSEngine *scriptEngine);
     static GuiPainter* instance();
     void Init(QQmlApplicationEngine & engine);
-    QString temperature();
-    QString pressure();
-    QString humidity();
-    QString temperatureOut();
-    QString feelslikeOut();
-    qreal windDirOut();
-    QString windSpeedOut();
-    QString humidityOut();
-    QString conditionOut();
-    QString conditionIcon();
-    QString currentTime();
+    const QString temperature() const;
+    const QString pressure() const;
+    const QString humidity() const;
+    const QVariantMap& currentWeather() const;
+    const QVariantMap& forecast() const;
+    const QString temperatureOut() const;
+    const QString feelslikeOut() const;
+    qreal windDirOut() const;
+    const QString windSpeedOut() const;
+    const QString humidityOut() const;
+    const QString conditionOut() const;
+    const QString conditionIcon() const;
+    const QString currentTime() const;
 
 public slots:
     void updateGui();
