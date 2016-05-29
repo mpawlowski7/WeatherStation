@@ -18,18 +18,6 @@
 class LPS25H : public I2CDevice
 {
 private:
-    union convert
-    {
-        uint16_t out;
-        uint8_t  raw[2];
-    };
-
-    union
-    {
-        int16_t out;
-        uint8_t  raw[2];
-    } temp;
-
     enum
     {
         DISABLED = 0,

@@ -26,8 +26,10 @@ void GuiPainter::Init(QQmlApplicationEngine & engine)
 
     QObject *topLevel = engine.rootObjects().value(0);
     QQuickWindow *window = qobject_cast<QQuickWindow *>(topLevel);
+    QObject *outsideView = window->findChild<QObject *>("outside_view");
 
-    QObject::connect(this, SIGNAL(labelsChanged()), window, SLOT(updateGradientColor()));
+    // Connecting signals and slots
+    QObject::connect(this, SIGNAL(forecastChanged()), outsideView, SLOT(updateGradientColor()));
 }
 
 QObject* GuiPainter::qmlinstance(QQmlEngine *engine, QJSEngine *scriptEngine)
@@ -52,55 +54,19 @@ const QString GuiPainter::humidity() const
     return QString::number(HTS221::instance()->GetHumidity(), 'f', 0);
 }
 
-const QVariantMap &GuiPainter::currentWeather() const
+const QVariantMap& GuiPainter::currentWeather() const
 {
     return WUManager::instance()->GetCurrentWeather();
 }
 
-const QVariantMap &GuiPainter::forecast() const
+const QVariantMap& GuiPainter::forecast() const
 {
     return WUManager::instance()->Get10DaysForecast();
 }
 
-const QString GuiPainter::temperatureOut() const
+const QVariantMap& GuiPainter::currentDateTime() const
 {
-    return WUManager::instance()->GetCurrentWeather().value("temp_c").toString();
-
-}
-
-const QString GuiPainter::feelslikeOut() const
-{
-    return WUManager::instance()->GetCurrentWeather().value("feelslike_c").toString();
-}
-
-qreal GuiPainter::windDirOut() const
-{
-    return WUManager::instance()->GetCurrentWeather().value("wind_dir").toDouble();
-}
-
-const QString GuiPainter::windSpeedOut() const
-{
-    return WUManager::instance()->GetCurrentWeather().value("wind_kph").toString();
-}
-
-const QString GuiPainter::humidityOut() const
-{
-    return WUManager::instance()->GetCurrentWeather().value("relative_humidity").toString();
-}
-
-const QString GuiPainter::conditionOut() const
-{
-    return WUManager::instance()->GetCurrentWeather().value("condition").toString();
-}
-
-const QString GuiPainter::conditionIcon() const
-{
-    return WUManager::instance()->GetCurrentWeather().value("icon").toString();
-}
-
-const QString GuiPainter::currentTime() const
-{
-    return QTime::currentTime().toString(QString("hh:mm"));
+    return m_currentDateTime;
 }
 
 void GuiPainter::startReadingData()
@@ -125,6 +91,9 @@ void GuiPainter::updateGui()
     {
         emit insideChanged();
     }
+    m_currentDateTime.insert("time", QTime::currentTime().toString(QString("hh:mm")));
+    m_currentDateTime.insert("date", QDate::currentDate().toString(QString("dd MMMM yyyy")));
+    emit timeChanged();
 
     emit forecastChanged();
 }

@@ -2,7 +2,20 @@
 
 #include <iostream>
 
-HTS221::HTS221()
+HTS221::HTS221():
+    temp_data({0}),
+    humidity_data({0}),
+    T0_degC_x8(0),
+    T1_degC_x8(0),
+    H0_rH_x2(0),
+    H1_rH_x2(0),
+    T0_OUT(0),
+    T1_OUT(0),
+    H0_OUT(0),
+    H1_OUT(0),
+    T1_T0msb(0),
+    temperature(0.0),
+    humidity(0.0)
 {
     if(Init())
     {

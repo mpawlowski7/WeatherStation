@@ -5,7 +5,7 @@ import QtGraphicalEffects 1.0
 Column {
     id: root
 
-    property string day: currentDate.toLocaleDateString(Qt.locale("pl_PL"), "dd/MM")
+    property string day: new Date().toLocaleDateString(Qt.locale("pl_PL"), "dd/MM")
     property string icon: "clear"
     property string condition: "clear"
     property string tempHigh: "30.0"

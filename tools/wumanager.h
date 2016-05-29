@@ -41,6 +41,8 @@ public:
     static WUManager* instance();
     const QVariantMap& GetCurrentWeather() const;
     const QVariantMap& Get10DaysForecast() const;
+    const QString GetLocation() const;
+    void SetLocation();
     void Init();
     void Update();
 

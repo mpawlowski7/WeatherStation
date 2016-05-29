@@ -1,6 +1,10 @@
 #include "lps25h.h"
 
-LPS25H::LPS25H()
+LPS25H::LPS25H() :
+    temp_data({0}),
+    pressure_data({0}),
+    temp_calc(0.0),
+    pressure(0.0)
 {
     if(Init())
     {
@@ -97,7 +101,7 @@ bool LPS25H::ReadSensor()
     }
     if(uRes & 1)
     {
-        bRes |= Read(SLAVE_ADDRESS_P, TEMP_OUT_L_P, 2, temp.raw);
+        bRes |= Read(SLAVE_ADDRESS_P, TEMP_OUT_L_P, 2, temp_data);
         UpdateTemperature();
     }
     return bRes;
@@ -105,10 +109,7 @@ bool LPS25H::ReadSensor()
 
 void LPS25H::UpdateTemperature()
 {
-//    convert temp;
-//    temp.raw[0] = temp_data[0];
-//    temp.raw[1] = temp_data[1];
-    temp_calc = 42.5 + int16_t(temp.out) / 480.0;
+    temp_calc = 42.5 + int16_t(temp_data[1] << 8 | temp_data[0]) / 480.0;
 }
 
 void LPS25H::UpdatePressure()

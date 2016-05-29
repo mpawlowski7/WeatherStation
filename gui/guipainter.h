@@ -30,13 +30,7 @@ class GuiPainter : public QObject
     Q_PROPERTY(QString humidity READ humidity NOTIFY insideChanged)
     Q_PROPERTY(QVariantMap currentWeather READ currentWeather NOTIFY forecastChanged)
     Q_PROPERTY(QVariantMap forecast READ forecast NOTIFY forecastChanged)
-    Q_PROPERTY(QString temperatureOut READ temperatureOut NOTIFY labelsChanged)
-    Q_PROPERTY(QString feelslikeOut READ feelslikeOut NOTIFY labelsChanged)
-    Q_PROPERTY(qreal windDirOut READ windDirOut NOTIFY labelsChanged)
-    Q_PROPERTY(QString windSpeedOut READ windSpeedOut NOTIFY labelsChanged)
-    Q_PROPERTY(QString humidityOut READ humidityOut NOTIFY labelsChanged)
-    Q_PROPERTY(QString conditionOut READ conditionOut NOTIFY labelsChanged)
-    Q_PROPERTY(QString conditionIcon READ conditionIcon NOTIFY labelsChanged)
+    Q_PROPERTY(QVariantMap currentDateTime READ currentDateTime NOTIFY timeChanged)
 //    Q_PROPERTY(void ToggleLedMatrix READ ToggleLedMatrix)
 //    Q_PROPERTY(void Update READ Update)
 
@@ -44,7 +38,7 @@ signals:
     void forecastChanged();
     void insideChanged();
     void outsideChanged();
-    void labelsChanged();
+    void timeChanged();
 
 private:
     static GuiPainter* volatile p_instance;
@@ -52,6 +46,7 @@ private:
     {
     }
     ~GuiPainter() {}
+    QVariantMap m_currentDateTime;
 
 public:
     static QObject* qmlinstance(QQmlEngine *engine, QJSEngine *scriptEngine);
@@ -62,14 +57,7 @@ public:
     const QString humidity() const;
     const QVariantMap& currentWeather() const;
     const QVariantMap& forecast() const;
-    const QString temperatureOut() const;
-    const QString feelslikeOut() const;
-    qreal windDirOut() const;
-    const QString windSpeedOut() const;
-    const QString humidityOut() const;
-    const QString conditionOut() const;
-    const QString conditionIcon() const;
-    const QString currentTime() const;
+    const QVariantMap& currentDateTime() const;
 
 public slots:
     void updateGui();

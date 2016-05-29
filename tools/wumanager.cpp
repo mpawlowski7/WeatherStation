@@ -5,6 +5,7 @@ WUManager::WUManager(QObject *parent = 0) : QObject(parent)
     manager = new QNetworkAccessManager(this);
     connect(manager, SIGNAL(finished(QNetworkReply*)), this, SLOT(replyFinished(QNetworkReply*)));
 
+    currentWeather.insert("location", "");
     currentWeather.insert("weather", "");
     currentWeather.insert("temp_c", "");
     currentWeather.insert("feelslike_c", "");
@@ -97,6 +98,7 @@ void WUManager::ProcessForecast(QJsonDocument &doc)
 
     if(nullptr != obj)
     {
+        currentWeather["location"] = obj->value("display_location").toObject().value("city").toString()+", "+obj->value("display_location").toObject().value("country").toString();
         currentWeather["weather"] = obj->value("weather").toString();
         currentWeather["temp_c"] = QString::number(obj->value("temp_c").toDouble(), 'f', 1);
         currentWeather["feelslike_c"] = obj->value("feelslike_c").toString();

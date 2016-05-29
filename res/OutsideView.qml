@@ -3,163 +3,254 @@ import weatherstation.gui 1.0
 import QtQuick 2.5
 import QtGraphicalEffects 1.0
 
-Column {
-    id: outside
-    width: parent.width
+Rectangle {
+    id: root
+    width: parent.width * 0.35
     height: parent.height
-    anchors.centerIn: parent
-    anchors.margins: 20
-    spacing: 5
+    anchors.verticalCenter: parent.verticalCenter
 
-    Item {
-        width: parent.width
-        height: parent.height * 0.05
-    }
+    readonly property string c00_L: ""
+    readonly property string c00_H: ""
+    readonly property string c00_R: ""
 
-    Rectangle {
-        id: outside_ico_container
-        width: parent.width * 0.5
-        height: parent.width * 0.5
-        anchors.horizontalCenter: parent.horizontalCenter
-        radius: 180
+    readonly property string c00_05L: ""
+    readonly property string c00_05H: ""
+    readonly property string c00_05R: ""
 
-        Image {
-            sourceSize: Qt.size(parent.height*0.9, parent.height*0.9)
-            id: outside_ico
-            source: "img/hills.svg"
-            smooth: true
-            anchors.centerIn: outside_ico_container
-            anchors.verticalCenter: parent.verticalCenter
+    readonly property string c05_10L: "#3ab7e4"
+    readonly property string c05_10H: "#009e6e"
+    readonly property string c05_10R: "#006959"
 
+    readonly property string c10_15L: "#00b499"
+    readonly property string c10_15H: "#94c629"
+    readonly property string c10_15R: "#00a088"
+
+    readonly property string c15_20L: "#6eaf29"
+    readonly property string c15_20H: "#e9c008"
+    readonly property string c15_20R: "#639e25"
+
+    readonly property string c20_25L: "#a7c629"
+    readonly property string c20_25H: "#ffa009"
+    readonly property string c20_25R: "#8faa23"
+
+    readonly property string c25_30L: "#e3b800"
+    readonly property string c25_30H: "#ff8808"
+    readonly property string c25_30R: "#c8a200"
+
+    readonly property string c30_L: "#ff9100"
+    readonly property string c30_H: "#ff6400"
+    readonly property string c30_R: "#e98400"
+
+    function updateGradientColor()
+    {
+        var temp = parseFloat(GuiPainter.currentWeather["feelslike_c"]);
+        switch(true)
+        {
+        case (temp < 0.0):
+            right_col_GH.color = c00_H;
+            right_col_GL.color = c00_L;
+            right_col_GR.color = c00_R;
+            break;
+        case (0.0 <= temp && temp < 5.0):
+            right_col_GH.color = c00_05H;
+            right_col_GL.color = c00_05L;
+            right_col_GR.color = c00_05R;
+            break;
+        case (5.0 <= temp && temp < 10.0):
+            right_col_GH.color = c05_10H;
+            right_col_GL.color = c05_10L;
+            right_col_GR.color = c05_10R;
+            break;
+        case (10.0 <= temp && temp < 15.0):
+            right_col_GH.color = c10_15H;
+            right_col_GL.color = c10_15L;
+            right_col_GR.color = c10_15R;
+            break;
+        case (15.0 <= temp && temp < 20.0):
+            right_col_GH.color = c15_20H;
+            right_col_GL.color = c15_20L;
+            right_col_GR.color = c15_20R;
+            break;
+        case (20.0 <= temp && temp < 25.0):
+            right_col_GH.color = c20_25H;
+            right_col_GL.color = c20_25L;
+            right_col_GR.color = c20_25R;
+            break;
+        case (25.0 <= temp && temp < 30.0):
+            right_col_GH.color = c25_30H;
+            right_col_GL.color = c25_30L;
+            right_col_GR.color = c25_30R;
+            break;
+        case (temp >= 30):
+            right_col_GH.color = c30_H;
+            right_col_GL.color = c30_L;
+            right_col_GR.color = c30_R;
+            break;
         }
-
+    }
+    gradient: Gradient {
+        GradientStop { id: right_col_GH; position: 0.0; color: "darkgray" }
+        GradientStop { id: right_col_GL; position: 1.0; color: "gray" }
     }
 
-    Item{
+    Column {
+        id: wrapper
         width: parent.width
-        height: parent.height * 0.26
-        anchors.horizontalCenter: parent.horizontalCenter
-
-        TextShadow { id: temperatureOut_txt
-            anchors.horizontalCenter: parent.horizontalCenter
-            anchors.horizontalCenterOffset: -10
-            anchors.verticalCenter: parent.verticalCenter
-            text: GuiPainter.feelslikeOut; size: 38 }
-        TextShadow { id: temperatureOut_txt_unit; anchors.left: temperatureOut_txt.right; anchors.baseline: temperatureOut_txt.baseline; text: qsTr(" \u00B0")+qsTr("C"); size: 20 }
-    }
-
-    Rectangle {
-        id: right_col_GR
-        width: parent.width * 1.05
-        height: parent.height * 0.1
-        anchors.horizontalCenter: parent.horizontalCenter
-        color: "transparent"
+        height: parent.height
+        anchors.centerIn: parent
+        anchors.margins: 20
+        spacing: 5
 
         Item {
-            id: wind_dir_container
-            width: parent.width * 0.35
-            height: parent.width * 0.35
-            rotation: GuiPainter.windDirOut - 45.0
-            anchors.verticalCenter: parent.verticalCenter
+            width: parent.width
+            height: parent.height * 0.05
+        }
+
+        Rectangle {
+            id: outside_ico_container
+            width: parent.width * 0.5
+            height: parent.width * 0.5
+            anchors.horizontalCenter: parent.horizontalCenter
+            radius: 180
 
             Image {
-                sourceSize: Qt.size(parent.height*0.35, parent.height*0.35)
-                id: wind_dir_ico
-                source: "img/compass.svg"
+                sourceSize: Qt.size(parent.height*0.9, parent.height*0.9)
+                id: outside_ico
+                source: "img/hills.svg"
                 smooth: true
-                visible: false
-                anchors.centerIn: wind_dir_container
+                anchors.centerIn: outside_ico_container
+                anchors.verticalCenter: parent.verticalCenter
+
+            }
+
+        }
+
+        Item{
+            width: parent.width
+            height: parent.height * 0.26
+            anchors.horizontalCenter: parent.horizontalCenter
+
+            TextShadow { id: temperatureOut_txt
+                anchors.horizontalCenter: parent.horizontalCenter
+                anchors.horizontalCenterOffset: -10
+                anchors.verticalCenter: parent.verticalCenter
+                text: GuiPainter.currentWeather["feelslike_c"]; size: 38 }
+            TextShadow { id: temperatureOut_txt_unit; anchors.left: temperatureOut_txt.right; anchors.baseline: temperatureOut_txt.baseline; text: qsTr(" \u00B0")+qsTr("C"); size: 20 }
+        }
+
+        Rectangle {
+            id: right_col_GR
+            width: parent.width * 1.05
+            height: parent.height * 0.1
+            anchors.horizontalCenter: parent.horizontalCenter
+            color: "transparent"
+
+            Item {
+                id: wind_dir_container
+                width: parent.width * 0.35
+                height: parent.width * 0.35
+                rotation: GuiPainter.currentWeather["wind_degrees"] - 45.0
+                anchors.verticalCenter: parent.verticalCenter
+
+                Image {
+                    sourceSize: Qt.size(parent.height*0.35, parent.height*0.35)
+                    id: wind_dir_ico
+                    source: "img/compass.svg"
+                    smooth: true
+                    visible: false
+                    anchors.centerIn: wind_dir_container
+                    anchors.verticalCenter: parent.verticalCenter
+                }
+
+                DropShadow {
+                    source: wind_dir_ico
+                    horizontalOffset: 1
+                    verticalOffset: 1
+                    radius: 1
+                    samples: 4
+                    color: 'slategray'
+                    anchors.fill: source
+                }
+            }
+            TextShadow { id: windOut_txt; text: GuiPainter.currentWeather["wind_kph"]+qsTr(" km/h"); size: 20
+                anchors.horizontalCenter: parent.horizontalCenter
                 anchors.verticalCenter: parent.verticalCenter
             }
-
-            DropShadow {
-                source: wind_dir_ico
-                horizontalOffset: 1
-                verticalOffset: 1
-                radius: 1
-                samples: 4
-                color: 'slategray'
-                anchors.fill: source
-            }
         }
-        TextShadow { id: windOut_txt; text: GuiPainter.windSpeedOut+qsTr(" km/h"); size: 20
+
+        Rectangle {
+            width: parent.width * 1.05
+            height: parent.height * 0.1
             anchors.horizontalCenter: parent.horizontalCenter
-            anchors.verticalCenter: parent.verticalCenter
-        }
-    }
+            color: right_col_GR.color
 
-    Rectangle {
-        width: parent.width * 1.05
-        height: parent.height * 0.1
-        anchors.horizontalCenter: parent.horizontalCenter
-        color: right_col_GR.color
+            Item{
+                width: parent.width * 0.35
+                height: parent.width * 0.35
+                anchors.verticalCenter: parent.verticalCenter;
 
-        Item{
-            width: parent.width * 0.35
-            height: parent.width * 0.35
-            anchors.verticalCenter: parent.verticalCenter;
+                Image {
+                    sourceSize: Qt.size(parent.height*0.35, parent.height*0.35)
+                    id: pressure_ico
+                    source: "img/pressure.svg"
+                    anchors.centerIn: parent
+                    visible: false
+                }
 
-            Image {
-                sourceSize: Qt.size(parent.height*0.35, parent.height*0.35)
-                id: pressure_ico
-                source: "img/pressure.svg"
-                anchors.centerIn: parent
-                visible: false
+                DropShadow {
+                    source: pressure_ico
+                    horizontalOffset: 1
+                    verticalOffset: 1
+                    radius: 1
+                    samples: 4
+                    color: 'slategray'
+                    anchors.fill: source
+                }
             }
 
-            DropShadow {
-                source: pressure_ico
-                horizontalOffset: 1
-                verticalOffset: 1
-                radius: 1
-                samples: 4
-                color: 'slategray'
-                anchors.fill: source
-            }
+            TextShadow { id: pressure_txt
+                anchors.horizontalCenter: parent.horizontalCenter
+                anchors.verticalCenter: parent.verticalCenter
+                text: GuiPainter.pressure+qsTr(" hPa"); size: 20 }
+
         }
 
-        TextShadow { id: pressure_txt
+
+        Rectangle {
+            width: parent.width * 1.05
+            height: parent.height * 0.1
             anchors.horizontalCenter: parent.horizontalCenter
-            anchors.verticalCenter: parent.verticalCenter
-            text: GuiPainter.pressure+qsTr(" hPa"); size: 20 }
+            color: right_col_GR.color
 
-    }
+            Item{
+                width: parent.width * 0.35
+                height: parent.width * 0.35
+                anchors.verticalCenter: parent.verticalCenter;
 
+                Image {
+                    sourceSize: Qt.size(parent.height*0.35, parent.height*0.35)
+                    id: humidityOut_ico
+                    source: "img/humidity_out.svg"
+                    anchors.centerIn: parent
+                    visible: false
+                }
 
-    Rectangle {
-        width: parent.width * 1.05
-        height: parent.height * 0.1
-        anchors.horizontalCenter: parent.horizontalCenter
-        color: right_col_GR.color
-
-        Item{
-            width: parent.width * 0.35
-            height: parent.width * 0.35
-            anchors.verticalCenter: parent.verticalCenter;
-
-            Image {
-                sourceSize: Qt.size(parent.height*0.35, parent.height*0.35)
-                id: humidityOut_ico
-                source: "img/humidity_out.svg"
-                anchors.centerIn: parent
-                visible: false
+                DropShadow {
+                    source: humidityOut_ico
+                    horizontalOffset: 1
+                    verticalOffset: 1
+                    radius: 1
+                    samples: 4
+                    color: 'slategray'
+                    anchors.fill: source
+                }
             }
 
-            DropShadow {
-                source: humidityOut_ico
-                horizontalOffset: 1
-                verticalOffset: 1
-                radius: 1
-                samples: 4
-                color: 'slategray'
-                anchors.fill: source
-            }
+            TextShadow { id: humidityOut_txt;
+                anchors.horizontalCenter: parent.horizontalCenter
+                anchors.verticalCenter: parent.verticalCenter; text: GuiPainter.currentWeather["relative_humidity"]; size: 20 }
+
         }
-
-        TextShadow { id: humidityOut_txt;
-            anchors.horizontalCenter: parent.horizontalCenter
-            anchors.verticalCenter: parent.verticalCenter; text: GuiPainter.humidityOut; size: 20 }
 
     }
-
 }
