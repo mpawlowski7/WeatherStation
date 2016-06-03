@@ -117,13 +117,15 @@ void WUManager::ProcessForecast(QJsonDocument &doc)
         QVariantList dateList;
         uint8_t dayCount = arr->count();
 
+        qDebug() << "Forecast day count: " << dayCount;
+
         for(uint8_t i=0; i<dayCount; i++)
         {
             temp_highList.append(arr->at(i).toObject().value("high").toObject().value("celsius").toString());
             temp_lowList.append(arr->at(i).toObject().value("low").toObject().value("celsius").toString());
             iconList.append(arr->at(i).toObject().value("icon").toString());
             conditionsList.append(arr->at(i).toObject().value("conditions").toString());
-            dateList.append(currentDate.currentDateTime().addDays(i).toString("dddd dd/MM"));
+            dateList.append(currentDate.currentDateTime().addDays(i).toString("dddd     dd.MM"));
 
         //    forecast.append(tmp);
         }

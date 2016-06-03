@@ -8,7 +8,7 @@ QMAKE_CXXFLAGS += -pthread
 LIBS += -pthread
 
 TARGET = WeatherStation
-unix:target.path = /home/pi
+unix:target.path = /home/wstation
 INSTALLS += target
 
 CONFIG += console

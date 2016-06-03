@@ -7,7 +7,7 @@ Item {
     property alias textColor: main.color
     property bool shadowVisible: true
 
-    FontLoader { id: ubuntuFont; source: "fonts/WireOne.ttf" }
+    FontLoader { id: ubuntuFont; source: "fonts/Ubuntu-C.ttf" }
 
     width: main.width
     height: main.height
@@ -16,8 +16,14 @@ Item {
         id: main
         anchors.centerIn: parent
         font.family: ubuntuFont.name
-        font.bold: true
+        font.bold: false
+        font.letterSpacing: -3
         color: '#f6f6f6'
+
+
+//        wrapMode: Text.WordWrap
+//        width: parent.width * 0.2l
+
     }
 
     Text {
@@ -27,6 +33,8 @@ Item {
         font: main.font
         text: main.text
         anchors.centerIn: main
+//        wrapMode: Text.WordWrap
+//        width: parent.width * 0.2l
 
         anchors.verticalCenter: main.verticalCenter
         anchors.verticalCenterOffset: 2

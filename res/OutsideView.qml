@@ -99,7 +99,7 @@ Rectangle {
         height: parent.height
         anchors.centerIn: parent
         anchors.margins: 20
-        spacing: 5
+        spacing: 2
 
         Item {
             width: parent.width
@@ -127,23 +127,23 @@ Rectangle {
 
         Item{
             width: parent.width
-            height: parent.height * 0.26
+            height: parent.height * 0.3
             anchors.horizontalCenter: parent.horizontalCenter
 
             TextShadow { id: temperatureOut_txt
                 anchors.horizontalCenter: parent.horizontalCenter
                 anchors.horizontalCenterOffset: -10
                 anchors.verticalCenter: parent.verticalCenter
-                text: GuiPainter.currentWeather["feelslike_c"]; size: 38 }
-            TextShadow { id: temperatureOut_txt_unit; anchors.left: temperatureOut_txt.right; anchors.baseline: temperatureOut_txt.baseline; text: qsTr(" \u00B0")+qsTr("C"); size: 20 }
+                text: GuiPainter.currentWeather["feelslike_c"]; size: 32 }
+            TextShadow { id: temperatureOut_txt_unit; anchors.left: temperatureOut_txt.right; anchors.baseline: temperatureOut_txt.baseline; text: qsTr("\u00B0"); size: 16 }
         }
 
         Rectangle {
             id: right_col_GR
-            width: parent.width * 1.05
+            width: parent.width/* * 1.05*/
             height: parent.height * 0.1
             anchors.horizontalCenter: parent.horizontalCenter
-            color: "transparent"
+            color: right_col_GR.color
 
             Item {
                 id: wind_dir_container
@@ -172,14 +172,14 @@ Rectangle {
                     anchors.fill: source
                 }
             }
-            TextShadow { id: windOut_txt; text: GuiPainter.currentWeather["wind_kph"]+qsTr(" km/h"); size: 20
+            TextShadow { id: windOut_txt; text: GuiPainter.currentWeather["wind_kph"]+qsTr(" km/h"); size: 16
                 anchors.horizontalCenter: parent.horizontalCenter
                 anchors.verticalCenter: parent.verticalCenter
             }
         }
 
         Rectangle {
-            width: parent.width * 1.05
+            width: parent.width/* * 1.05*/
             height: parent.height * 0.1
             anchors.horizontalCenter: parent.horizontalCenter
             color: right_col_GR.color
@@ -211,13 +211,13 @@ Rectangle {
             TextShadow { id: pressure_txt
                 anchors.horizontalCenter: parent.horizontalCenter
                 anchors.verticalCenter: parent.verticalCenter
-                text: GuiPainter.pressure+qsTr(" hPa"); size: 20 }
+                text: GuiPainter.pressure+qsTr(" hPa"); size: 16 }
 
         }
 
 
         Rectangle {
-            width: parent.width * 1.05
+            width: parent.width/* * 1.05*/
             height: parent.height * 0.1
             anchors.horizontalCenter: parent.horizontalCenter
             color: right_col_GR.color
@@ -248,7 +248,7 @@ Rectangle {
 
             TextShadow { id: humidityOut_txt;
                 anchors.horizontalCenter: parent.horizontalCenter
-                anchors.verticalCenter: parent.verticalCenter; text: GuiPainter.currentWeather["relative_humidity"]; size: 20 }
+                anchors.verticalCenter: parent.verticalCenter; text: GuiPainter.currentWeather["relative_humidity"]; size: 16 }
 
         }
 

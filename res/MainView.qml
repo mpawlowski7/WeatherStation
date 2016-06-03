@@ -25,7 +25,7 @@ Window {
         console.log("Start reading stuff")
     }
 
-    FontLoader { id: ubuntuFont; source: "fonts/Ubuntu-L.ttf" }
+    FontLoader { id: ubuntuFont; source: "fonts/Ubuntu-C.ttf" }
 
     Column {
         id: main_container

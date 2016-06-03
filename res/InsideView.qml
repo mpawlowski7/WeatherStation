@@ -47,23 +47,23 @@ Rectangle {
 
         Item {
             width: parent.width
-            height: parent.height * 0.42
+            height: parent.height * 0.475
             anchors.horizontalCenter: parent.horizontalCenter
 
             TextShadow { id: temperature_txt;
                 anchors.horizontalCenter: parent.horizontalCenter
-                anchors.horizontalCenterOffset: -20
+                anchors.horizontalCenterOffset: -10
                 anchors.verticalCenter: parent.verticalCenter
-                text: GuiPainter.temperature; size: 64
+                text: GuiPainter.temperature; size: 48
             }
-            TextShadow { id: temperature_txt_unit; anchors.left: temperature_txt.right;  anchors.baseline: temperature_txt.baseline; text: qsTr(" \u00B0")+qsTr("C"); size: 32 }
+            TextShadow { id: temperature_txt_unit; anchors.left: temperature_txt.right;  anchors.baseline: temperature_txt.baseline; text: qsTr("\u00B0"); size: 24 }
         }
 
         Rectangle {
-            width: parent.width * 1.05
+            width: parent.width
             height: parent.height * 0.1
             anchors.horizontalCenter: parent.horizontalCenter
-            color: "#9d415c"
+            color: "#825e68"
 
             Item{
                 width: parent.width * 0.35
@@ -89,7 +89,7 @@ Rectangle {
                 }
             }
 
-            TextShadow { id: humidity_txt;  anchors.horizontalCenter: parent.horizontalCenter; anchors.verticalCenter: parent.verticalCenter; text: GuiPainter.humidity + qsTr("%"); size: 20 }
+            TextShadow { id: humidity_txt;  anchors.horizontalCenter: parent.horizontalCenter; anchors.verticalCenter: parent.verticalCenter; text: GuiPainter.humidity + qsTr("%"); size: 16 }
         }
 
     }

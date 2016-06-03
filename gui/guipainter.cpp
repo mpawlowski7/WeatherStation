@@ -91,6 +91,7 @@ void GuiPainter::updateGui()
     {
         emit insideChanged();
     }
+
     m_currentDateTime.insert("time", QTime::currentTime().toString(QString("hh:mm")));
     m_currentDateTime.insert("date", QDate::currentDate().toString(QString("dd MMMM yyyy")));
     emit timeChanged();
