@@ -116,64 +116,8 @@
 #define REUSE_TX_PL   0xE3
 #define NOP           0xFF
 
-struct device_attr 
-{
-    uint8_t CSN;
-    uint8_t CE;
-    uint8_t USI_DO;
-    uint8_t USI_DI;
-    uint8_t SCK;
-    uint8_t channel;
-    uint8_t payload;
-    uint8_t base_config;
-    uint8_t PTX;
-};
-
-static struct device_attr nrf24_device = 
-{
-    .CSN         = PB4,
-    .CE          = PB3,
-    .USI_DO      = PB1,
-    .USI_DI      = PB0,
-    .SCK         = PB2,
-    .channel     = 122,
-    .payload     = 16,
-    .base_config = _BV(EN_CRC) & ~_BV(CRCO),
-    .PTX         = 0
-};
-
 // 'public' functions
-void nrf24_init();
-void nrf24_send(uint8_t *value);
-
-// basic spi transmission
-static void spi_begin();
-static void spi_end();
-static uint8_t spi_transfer(uint8_t data);
-static void spi_write(uint8_t reg, uint8_t *data, bool read_data, uint8_t len);
-
-// setup 
-static void config();
-static void set_rx_ADDR(uint8_t * adr);
-static void set_tx_ADDR(uint8_t * adr);
-static bool data_ready();
-static bool is_sending();
-//int rxFifoEmpty();
-//int txFifoEmpty();
-static void get_data(uint8_t * data);
-static uint8_t get_status();
-static void config_register(uint8_t reg, uint8_t *value);
-static void read_register(uint8_t reg, uint8_t *value, uint8_t len);
-static void write_register(uint8_t reg, uint8_t *value, uint8_t len);
-static void powerup_rx();
-static void powerup_tx();
-static void power_down();
-
-static void csn_hi();
-static void csn_low();
-static void ce_hi();
-static void ce_low();
-static void flush_tx();
-static void flush_rx();
+extern void nrf24_init();
+extern void nrf24_send(uint8_t *value);
 
 #endif // NRF24_H

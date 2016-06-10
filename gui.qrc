@@ -30,10 +30,10 @@
         <file>res/img/pressure.svg</file>
         <file>res/ForecastView.qml</file>
         <file>res/MainView.qml</file>
-        <file>res/SingledayView.qml</file>
         <file>res/OutsideView.qml</file>
         <file>res/InsideView.qml</file>
         <file>res/img/chancetstorms.svg</file>
         <file>res/img/tstorms.svg</file>
+        <file>res/SingleDayView.qml</file>
     </qresource>
 </RCC>

@@ -34,13 +34,13 @@ Rectangle {
 
 
         flickableItem.onFlickStarted: {
-            date_txt.visible = false
+       //     date_txt.visible = false
         }
 
         flickableItem.onFlickEnded: {
             console.log(contentItem.children[1]);
             flickableItem.contentY = scroll.height * Math.round(flickableItem.contentY/scroll.height);
-            date_txt.text = contentItem.children[Math.round(flickableItem.contentY/scroll.height)].day;
+       //     date_txt.text = contentItem.children[Math.round(flickableItem.contentY/scroll.height)].day;
             date_txt.visible = true;
         }
 
@@ -55,7 +55,7 @@ Rectangle {
                 fill10DayForecast();
             }
 
-            SingledayView {
+            SingleDayView {
                 id: current
                 width: scroll.width
                 height: scroll.height

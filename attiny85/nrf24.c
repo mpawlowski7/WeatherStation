@@ -1,15 +1,93 @@
 #include "nrf24.h"
 
+struct device_attr 
+{
+    uint8_t CSN;
+    uint8_t CE;
+    uint8_t USI_DO;
+    uint8_t USI_DI;
+    uint8_t SCK;
+    uint8_t channel;
+    uint8_t payload;
+    uint8_t base_config;
+    uint8_t PTX;
+};
+
+static struct device_attr nrf24_device = 
+{
+    .CSN         = PB4,
+    .CE          = PB3,
+    .USI_DO      = PB1,
+    .USI_DI      = PB0,
+    .SCK         = PB2,
+    .channel     = 122,
+    .payload     = 4,
+    .base_config = _BV(EN_CRC) & ~_BV(CRCO),
+    .PTX         = 0
+};
+
+// basic spi transmission
+static void spi_begin();
+static void spi_end();
+static uint8_t spi_transfer(uint8_t data);
+static void spi_write(uint8_t reg, uint8_t *data, bool read_data, uint8_t len);
+
+// setup 
+static void config();
+static void set_rx_ADDR(uint8_t * adr);
+static void set_tx_ADDR(uint8_t * adr);
+static bool data_ready();
+static bool is_sending();
+static bool rx_fifo_empty();
+static bool tx_fifo_empty();
+static void get_data(uint8_t * data);
+static uint8_t get_status();
+static void config_register(uint8_t reg, uint8_t *value);
+static void read_register(uint8_t reg, uint8_t *value, uint8_t len);
+static void write_register(uint8_t reg, uint8_t *value, uint8_t len);
+static void powerup_rx();
+static void powerup_tx();
+static void power_down();
+
+static inline void csn_hi()
+{
+   PORTB |= _BV(nrf24_device.CSN);
+}
+
+static inline void csn_low()
+{
+   PORTB &= ~_BV(nrf24_device.CSN);
+}
+
+static inline void ce_hi()
+{
+   PORTB |= _BV(nrf24_device.CE);
+}
+
+static inline void ce_low()
+{
+   PORTB &= ~_BV(nrf24_device.CE);
+}
+
+static inline void flush_tx()
+{
+   spi_write(FLUSH_TX, 0, 0, 0);
+}
+
+static inline void flush_rx()
+{
+   spi_write(FLUSH_RX, 0, 0, 0);
+}
+
 void nrf24_init()
- {
-    config();
-    
+ {    
     DDRB |=  (_BV(nrf24_device.CSN) | _BV(nrf24_device.CE));
 
     ce_low();
     csn_hi();
 
-    spi_begin();   
+    spi_begin();
+    config();   
  }
 
 void nrf24_send(uint8_t *data)
@@ -30,7 +108,6 @@ void nrf24_send(uint8_t *data)
      flush_tx();
 
      spi_write(W_TX_PAYLOAD, data, false, nrf24_device.payload);
-
  }
 
 static void spi_begin()
@@ -62,7 +139,11 @@ static uint8_t spi_transfer(uint8_t _data)
 
 static void config()
 {
-    
+    config_register(RF_CH, nrf24_device.channel);
+
+    // set payload lenght
+    config_register(RF_CH, nrf24_device.channel);
+    config_register(RF_CH, nrf24_device.channel);
 }
 
 static void set_rx_ADDR(uint8_t * adr)
@@ -146,34 +227,4 @@ static void spi_write(uint8_t reg, uint8_t *data, bool read_data, uint8_t len)
       }
    }
    csn_hi();
-}
-
-static void csn_hi()
-{
-   PORTB |= _BV(nrf24_device.CSN);
-}
-
-static void csn_low()
-{
-   PORTB &= ~_BV(nrf24_device.CSN);
-}
-
-static void ce_hi()
-{
-   PORTB |= _BV(nrf24_device.CE);
-}
-
-static void ce_low()
-{
-   PORTB &= ~_BV(nrf24_device.CE);
-}
-
-static void flush_tx()
-{
-   spi_write(FLUSH_TX, 0, 0, 0);
-}
-
-static void flush_rx()
-{
-   spi_write(FLUSH_RX, 0, 0, 0);
 }
