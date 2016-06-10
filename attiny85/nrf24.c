@@ -2,6 +2,8 @@
 
 void nrf24_init()
  {
+    config();
+    
     DDRB |=  (_BV(nrf24_device.CSN) | _BV(nrf24_device.CE));
 
     ce_low();
