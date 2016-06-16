@@ -35,5 +35,11 @@
         <file>res/img/chancetstorms.svg</file>
         <file>res/img/tstorms.svg</file>
         <file>res/SingleDayView.qml</file>
+        <file>res/fonts/weathericons-regular-webfont.ttf</file>
+        <file>res/WeatherIcon.qml</file>
+        <file>res/fonts/weathericons-regular-webfont.svg</file>
+        <file>res/fonts/iconvault_forecastfont.ttf</file>
+        <file>res/fonts/weathericons-regular-webfont.eot</file>
+        <file>res/fonts/weathericons-regular-webfont.woff</file>
     </qresource>
 </RCC>

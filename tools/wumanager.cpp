@@ -125,7 +125,7 @@ void WUManager::ProcessForecast(QJsonDocument &doc)
             temp_lowList.append(arr->at(i).toObject().value("low").toObject().value("celsius").toString());
             iconList.append(arr->at(i).toObject().value("icon").toString());
             conditionsList.append(arr->at(i).toObject().value("conditions").toString());
-            dateList.append(currentDate.currentDateTime().addDays(i).toString("dddd     dd.MM"));
+            dateList.append(currentDate.currentDateTime().addDays(i).toString("dddd dd"));
 
         //    forecast.append(tmp);
         }

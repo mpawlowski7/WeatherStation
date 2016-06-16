@@ -101,41 +101,76 @@ Rectangle {
         anchors.margins: 20
         spacing: 2
 
-        Item {
+//        Item {
+//            width: parent.width
+//            height: parent.height * 0.05
+//        }
+
+        //        Rectangle {
+        //            id: outside_ico_container
+        //            width: parent.width * 0.5
+        //            height: parent.width * 0.5
+        //            anchors.horizontalCenter: parent.horizontalCenter
+        //            radius: 180
+
+        //            Image {
+        //                sourceSize: Qt.size(parent.height*0.9, parent.height*0.9)
+        //                id: outside_ico
+        //                source: "img/hills.svg"
+        //                smooth: true
+        //                anchors.centerIn: outside_ico_container
+        //                anchors.verticalCenter: parent.verticalCenter
+
+        //            }
+
+        //        }
+        TextShadow { id: date_txt; text: GuiPainter.currentDateTime["date"]; size: 16 }
+        TextShadow { id: location_txt; text: GuiPainter.currentWeather["location"]; size: 16 }
+//        Rectangle{
+//            id: outside_ico_container
+//            width: parent.width
+//            height: parent.height * 0.35
+//            color: "transparent"
+//            //      radius: 180
+//            anchors.horizontalCenter: wrapper.horizontalCenter
+//            //            Image {
+//            //                sourceSize: Qt.size(parent.width*0.9, parent.width*0.9)
+//            //                id: outside_ico
+//            //                source: "img/"+GuiPainter.currentWeather["icon"]+".svg"
+//            //                smooth: true
+//            //                visible: false
+//            //                anchors.centerIn: outside_ico_container
+//            //            }
+
+//            //            DropShadow {
+//            //                source: outside_ico
+//            //                horizontalOffset: 1
+//            //                verticalOffset: 1
+//            //                radius: 1
+//            //                samples: 4
+//            //                color: 'slategray'
+//            //                opacity: 1
+//            //                anchors.fill: source
+//            //            }
+//       }
+
+
+        Column{
             width: parent.width
-            height: parent.height * 0.05
-        }
+            height: parent.height * 0.5
+     //       anchors.horizontalCenter: parent.horizontalCenter
 
-        Rectangle {
-            id: outside_ico_container
-            width: parent.width * 0.5
-            height: parent.width * 0.5
-            anchors.horizontalCenter: parent.horizontalCenter
-            radius: 180
-
-            Image {
-                sourceSize: Qt.size(parent.height*0.9, parent.height*0.9)
-                id: outside_ico
-                source: "img/hills.svg"
-                smooth: true
-                anchors.centerIn: outside_ico_container
-                anchors.verticalCenter: parent.verticalCenter
-
-            }
-
-        }
-
-        Item{
-            width: parent.width
-            height: parent.height * 0.3
-            anchors.horizontalCenter: parent.horizontalCenter
-
-            TextShadow { id: temperatureOut_txt
+            WeatherIcon {
+                type: GuiPainter.currentWeather["icon"]
+                size: 48
                 anchors.horizontalCenter: parent.horizontalCenter
-                anchors.horizontalCenterOffset: -10
-                anchors.verticalCenter: parent.verticalCenter
-                text: GuiPainter.currentWeather["feelslike_c"]; size: 32 }
-            TextShadow { id: temperatureOut_txt_unit; anchors.left: temperatureOut_txt.right; anchors.baseline: temperatureOut_txt.baseline; text: qsTr("\u00B0"); size: 16 }
+            }
+            TextShadow { id: temperatureOut_txt
+           //     anchors.horizontalCenter: parent.horizontalCenter
+          //      anchors.horizontalCenterOffset: -10
+                anchors.horizontalCenter: parent.horizontalCenter
+                text: GuiPainter.currentWeather["feelslike_c"] + qsTr("\u00B0"); size: 32 }
+      //      TextShadow { id: temperatureOut_txt_unit; anchors.left: temperatureOut_txt.right; anchors.baseline: temperatureOut_txt.baseline; text: qsTr("\u00B0"); size: 16 }
         }
 
         Rectangle {

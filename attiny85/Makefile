@@ -4,7 +4,7 @@ CFLAGS := -g -Os -Wall -mcall-prologues -mmcu=$(MCU)
 OBJ2HEX := /usr/bin/avr-objcopy
 TARGET := outside
 OBJDIR := bin
-OBJS := main.o nrf24.o
+OBJS := main.o nrf24.o spi_device.o
 
 .PHONY: all clean
 

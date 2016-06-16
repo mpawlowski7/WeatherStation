@@ -32,10 +32,40 @@ Window {
         anchors.fill: parent
         spacing: 0
 
+        Rectangle {
+            id: bottom_bar
+            width: root.width; height: root.height * 0.1;
+            color: '#586571'
+            visible: false
+
+            Item {
+                id: bottom_bar_container
+                anchors.fill: parent
+
+//                Text { id: date_txt
+//                    text: GuiPainter.currentDateTime["date"]
+//                    font.family: ubuntuFont.name; color: '#ffffff'; font.pointSize: 12; font.bold: true
+//                    anchors.centerIn: parent
+//                }
+                Text { id: time_txt
+                    text: GuiPainter.currentDateTime["time"] + ", " + GuiPainter.currentDateTime["date"]
+                    font.family: ubuntuFont.name; color: '#ffffff'; font.pointSize: 12; font.bold: true
+                    anchors.right: parent.right
+                    anchors.rightMargin: parent.height * 0.5
+                    anchors.verticalCenter: parent.verticalCenter
+                }
+
+                Text { id: location_txt;
+                    anchors.verticalCenter: parent.verticalCenter
+                    anchors.left: parent.left
+                    anchors.leftMargin: parent.height * 0.5; text: GuiPainter.currentWeather["location"]; font.family: ubuntuFont.name; color: '#ffffff'; font.pointSize: 12; font.bold: true }
+            }
+        }
+
         Row {
             id: main_row
             width: parent.width
-            height: parent.height * 0.9
+            height: parent.height
             anchors.bottom: root.bottom
             spacing: 0
             Component.onCompleted: {
@@ -43,38 +73,10 @@ Window {
             }
 
             ForecastView { objectName: "forecast_view" }
-            InsideView { objectName: "inside_view" }
             OutsideView { objectName: "outside_view" }
+            InsideView { objectName: "inside_view" }
 
-        }
 
-        Rectangle {
-            id: bottom_bar
-            width: root.width; height: root.height * 0.1;
-            color: '#5E2750'
-
-            Item {
-                id: bottom_bar_container
-                anchors.fill: parent
-
-                Text { id: date_txt
-                    text: GuiPainter.currentDateTime["date"]
-                    font.family: ubuntuFont.name; color: '#ffffff'; font.pointSize: 12; font.bold: true
-                    anchors.centerIn: parent
-                }
-                Text { id: time_txt
-                    text: GuiPainter.currentDateTime["time"]
-                    font.family: ubuntuFont.name; color: '#ffffff'; font.pointSize: 12; font.bold: true
-                    anchors.right: parent.right
-                    anchors.rightMargin: parent.height
-                    anchors.verticalCenter: parent.verticalCenter
-                }
-
-                Text { id: location_txt;
-                    anchors.verticalCenter: parent.verticalCenter
-                    anchors.left: parent.left
-                    anchors.leftMargin: parent.height; text: GuiPainter.currentWeather["location"]; font.family: ubuntuFont.name; color: '#ffffff'; font.pointSize: 12; font.bold: true }
-            }
         }
 
     }
