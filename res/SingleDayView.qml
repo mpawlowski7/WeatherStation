@@ -4,7 +4,7 @@ import QtGraphicalEffects 1.0
 Item {
     id: root
 
-    property string day: new Date().toLocaleDateString(Qt.locale("pl_PL"), "dd.MM")
+    property string day: new Date().toLocaleDateString(Qt.locale(), "dd.MM")
     property string icon: "clear"
     property string condition: "clear"
     property string tempHigh: "30.0"
@@ -13,39 +13,45 @@ Item {
     TextShadow {
         id: day_txt
         text: root.day
-        size: 14
-//        anchors.bottom: weather_status.top
+        size: 12
+        textColor: "slategray"
+        shadowVisible: false
+        anchors.top: parent.top
+        anchors.left: parent.left
+        anchors.leftMargin: 20
     }
 
     Row {
         id: weather_status
         width: parent.width
-        height: parent.height
-        spacing: 0
+        height: parent.height * 1.1
+        spacing: 15
+        anchors.left: parent.left
+        anchors.leftMargin: 25
 
         WeatherIcon {
             type: icon
             anchors.verticalCenter: parent.verticalCenter
+            color: "#1bbbe4"
+            size: 22
         }
 
-        Item {
-            width: parent.width * 0.6
-            height: parent.height
+        TextShadow {
+            id: tempHigh
+            text: root.tempHigh + qsTr("\u00B0")
+            size: 24
+            textColor: "#708090"
+            shadowVisible: false
             anchors.verticalCenter: parent.verticalCenter
-            TextShadow { id: forecast_txt
-                anchors.horizontalCenter: parent.horizontalCenter
-                anchors.horizontalCenterOffset: -10
-                anchors.verticalCenter: parent.verticalCenter
-                text: tempLow != "" ? root.tempLow + " | " + root.tempHigh : root.tempHigh; size: 24 }
-            TextShadow { id: forecast_txt_unit; anchors.left: forecast_txt.right; anchors.baseline: forecast_txt.baseline; text: qsTr("\u00B0"); size: 16 }
         }
-    }
 
-    Rectangle {
-        width: parent.width
-        height: parent.height * 0.02
-        anchors.bottom: parent.bottom
-        color: "white"
-        opacity: 0.3
+        TextShadow {
+            id: tempLow
+            text: root.tempLow + qsTr("\u00B0")
+            size: 16
+            textColor: "#00c7b3"
+            shadowVisible: false
+            anchors.baseline: tempHigh.baseline
+        }
     }
 }

@@ -5,7 +5,8 @@ import QtQuick 2.5
 import QtQuick.Window 2.0
 import QtQuick.Layouts 1.1
 import QtGraphicalEffects 1.0
-// import "jbQuick/charts/QChart.qml"
+
+import "controls" as Awesome
 
 Window {
     id: root
@@ -17,66 +18,71 @@ Window {
     maximumHeight: 1080
     minimumWidth: 800
     minimumHeight: 480
-    contentOrientation: Qt.LandscapeOrientation
-    modality: Qt.ApplicationModal
 
-    Component.onCompleted: {
-        console.log("Window size:"+root.width+" "+root.height)
-        console.log("Start reading stuff")
+    FontLoader {
+        id: ubuntuFont
+        source: "fonts/Ubuntu-C.ttf"
     }
 
-    FontLoader { id: ubuntuFont; source: "fonts/Ubuntu-C.ttf" }
+    FontAwesome {
+        id: awesome
+        resource: "qrc:///res/fonts/fontawesome-webfont.ttf"
+    }
 
-    Column {
+    Rectangle {
         id: main_container
         anchors.fill: parent
-        spacing: 0
+        anchors.centerIn: parent
+        anchors.margins: 0
+        color: "#e6e6e6"
 
         Rectangle {
             id: bottom_bar
             width: root.width; height: root.height * 0.1;
-            color: '#586571'
-            visible: false
+            anchors.top: main_container.top
+            color: "#1bbbe4"
+
 
             Item {
                 id: bottom_bar_container
                 anchors.fill: parent
 
-//                Text { id: date_txt
-//                    text: GuiPainter.currentDateTime["date"]
-//                    font.family: ubuntuFont.name; color: '#ffffff'; font.pointSize: 12; font.bold: true
-//                    anchors.centerIn: parent
-//                }
-                Text { id: time_txt
-                    text: GuiPainter.currentDateTime["time"] + ", " + GuiPainter.currentDateTime["date"]
-                    font.family: ubuntuFont.name; color: '#ffffff'; font.pointSize: 12; font.bold: true
+                Text {
+                    id: time_txt
+                    text: awesome.icons.fa_plug + " " + awesome.icons.fa_battery_full + " " + awesome.icons.fa_wifi + "    " + awesome.icons.fa_ellipsis_v
+                    color: "#ffffff"
                     anchors.right: parent.right
                     anchors.rightMargin: parent.height * 0.5
                     anchors.verticalCenter: parent.verticalCenter
                 }
 
-                Text { id: location_txt;
+                Text {
+                    id: location_txt;
                     anchors.verticalCenter: parent.verticalCenter
                     anchors.left: parent.left
-                    anchors.leftMargin: parent.height * 0.5; text: GuiPainter.currentWeather["location"]; font.family: ubuntuFont.name; color: '#ffffff'; font.pointSize: 12; font.bold: true }
+                    anchors.leftMargin: parent.height * 0.5
+                    text: awesome.icons.fa_map_marker + " " + GuiPainter.currentWeather["location"]
+                    font.family: ubuntuFont.name
+                    color: '#ffffff'
+                    font.pointSize: 12
+                }
             }
         }
 
         Row {
             id: main_row
-            width: parent.width
-            height: parent.height
-            anchors.bottom: root.bottom
-            spacing: 0
-            Component.onCompleted: {
-                console.log("GridLayout: "+main_row.width+" "+main_row.height)
-            }
+            width: parent.width * 0.95
+            height: parent.height * 0.85
+            anchors.bottom: main_container.bottom
+            anchors.bottomMargin: 10
+            anchors.horizontalCenter: main_container.horizontalCenter
+            anchors.horizontalCenterOffset: -parent.width * 0.01
+            spacing: 10
 
-            ForecastView { objectName: "forecast_view" }
-            OutsideView { objectName: "outside_view" }
             InsideView { objectName: "inside_view" }
-
-
+            OutsideView { objectName: "outside_view" }
+            ForecastView { objectName: "forecast_view" }
+      //      InsideView { objectName: "inside_view" }
         }
 
     }

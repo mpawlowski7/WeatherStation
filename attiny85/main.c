@@ -1,4 +1,4 @@
-#define F_CPU 1000000L
+#define F_CPU 8000000L
 
 #include <avr/io.h>
 #include <util/delay.h>
@@ -23,6 +23,8 @@ int main(void)
         PORTB &= ~_BV(PB4);
         _delay_ms(1000);
     }
+    
+    nrf24_power_down();
 
     return 0;
 }

@@ -81,7 +81,7 @@ void WUManager::replyFinished(QNetworkReply *reply)
    }
    else
    {
-       qDebug () << "Shit's broken";
+       qDebug () << "Error when connecting to server";
    }
 
    emit replyProcessed();
@@ -117,23 +117,27 @@ void WUManager::ProcessForecast(QJsonDocument &doc)
         QVariantList dateList;
         uint8_t dayCount = arr->count();
 
-        qDebug() << "Forecast day count: " << dayCount;
-
-        for(uint8_t i=0; i<dayCount; i++)
+        for(uint8_t i=1; i<dayCount; i++)
         {
             temp_highList.append(arr->at(i).toObject().value("high").toObject().value("celsius").toString());
             temp_lowList.append(arr->at(i).toObject().value("low").toObject().value("celsius").toString());
             iconList.append(arr->at(i).toObject().value("icon").toString());
             conditionsList.append(arr->at(i).toObject().value("conditions").toString());
-            dateList.append(currentDate.currentDateTime().addDays(i).toString("dddd dd"));
-
-        //    forecast.append(tmp);
+            dateList.append(currentDate.currentDateTime().addDays(i));
         }
+
+        forecast10Days.clear();
 
         forecast10Days.insert("date", dateList);
         forecast10Days.insert("temp_high", temp_highList);
         forecast10Days.insert("temp_low", temp_lowList);
         forecast10Days.insert("conditions", conditionsList);
         forecast10Days.insert("icon", iconList);
+
+        qDebug() << forecast10Days["date"].toList().at(0).toString()
+                 << "|" << forecast10Days["temp_high"].toList().at(0).toString()
+                 << "|"  << forecast10Days["temp_low"].toList().at(0).toString()
+                 << "|" << forecast10Days["conditions"].toList().at(0).toString()
+                 << "|" << forecast10Days["icon"].toList().at(0).toString();
     }
 }

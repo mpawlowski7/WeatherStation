@@ -171,7 +171,7 @@ Rectangle {
 
         y: visualParent.y
         width: open ? _rootItem.width : _openMarginSize
-        height: visualParent.height
+        height:  open ? visualParent.height : visualParent.height * 0.1
         onPressed:  if (!open) holdAnimation.restart();
         onClicked: handleClick(mouse)
         drag.target: panel

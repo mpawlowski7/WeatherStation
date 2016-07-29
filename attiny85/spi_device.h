@@ -30,11 +30,11 @@
 #include <avr/pgmspace.h>
 
 // basic spi transmission
-extern void spi_begin();
-extern void spi_end();
+extern void spi_init();
+//extern void spi_end();
 extern uint8_t spi_transfer(uint8_t data);
-extern void spi_write(uint8_t reg, uint8_t *data, bool read_data, uint8_t len);
-lextern void csn_hi();
+//extern void spi_write(uint8_t reg, uint8_t *data, bool read_data, uint8_t len);
+extern void csn_hi();
 extern void csn_low();
 
 #endif // SPI_DEVICE_H

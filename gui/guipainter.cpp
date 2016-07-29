@@ -27,9 +27,13 @@ void GuiPainter::Init(QQmlApplicationEngine & engine)
     QObject *topLevel = engine.rootObjects().value(0);
     QQuickWindow *window = qobject_cast<QQuickWindow *>(topLevel);
     QObject *outsideView = window->findChild<QObject *>("outside_view");
+    QObject *forecastView = window->findChild<QObject *>("forecast_view");
+    QObject *insideView = window->findChild<QObject *>("inside_view");
 
     // Connecting signals and slots
     QObject::connect(this, SIGNAL(forecastChanged()), outsideView, SLOT(updateGradientColor()));
+    QObject::connect(this, SIGNAL(forecastChanged()), forecastView, SLOT(updateData()));
+    QObject::connect(this, SIGNAL(insideChanged()), insideView, SLOT(updateData()));
 }
 
 QObject* GuiPainter::qmlinstance(QQmlEngine *engine, QJSEngine *scriptEngine)
@@ -93,8 +97,8 @@ void GuiPainter::updateGui()
     }
 
     m_currentDateTime.insert("time", QTime::currentTime().toString(QString("hh:mm")));
-    m_currentDateTime.insert("date", QDate::currentDate().toString(QString("dd MMMM yyyy")));
-    emit timeChanged();
+    m_currentDateTime.insert("date", QDate::currentDate().toString(QString("dd.MM.yyyy")));
 
+    emit timeChanged();
     emit forecastChanged();
 }

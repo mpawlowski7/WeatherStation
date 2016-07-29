@@ -41,5 +41,11 @@
         <file>res/fonts/iconvault_forecastfont.ttf</file>
         <file>res/fonts/weathericons-regular-webfont.eot</file>
         <file>res/fonts/weathericons-regular-webfont.woff</file>
+        <file>res/controls/Button.qml</file>
+        <file>res/controls/Loader.qml</file>
+        <file>res/controls/Text.qml</file>
+        <file>res/controls/Variables.qml</file>
+        <file>res/FontAwesome.qml</file>
+        <file>res/fonts/fontawesome-webfont.ttf</file>
     </qresource>
 </RCC>

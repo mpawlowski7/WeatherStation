@@ -1,150 +1,227 @@
 import weatherstation.gui 1.0
 
-import QtQuick 2.5
-import QtQuick.Controls 1.4
-import QtQuick.Controls.Styles 1.4
-import QtGraphicalEffects 1.0
+import QtQuick 2.7
+import QtQml 2.2
 
 Rectangle {
     id: root
-    width: parent.width * 0.3
+    width: parent.width / 3
     height: parent.height
     anchors.verticalCenter: parent.verticalCenter
-    gradient:
-        Gradient {
-        GradientStop { position: 0.0; color: "#1b83b9" }
-        GradientStop { position: 1.0; color: "#78cee4" }
-    }
-    //  clip: true
+    clip: true
 
-    ScrollView {
-        id: scroll
-        width: root.width
-        height: root.height
-        anchors.centerIn: parent
-        horizontalScrollBarPolicy: Qt.ScrollBarAlwaysOff
-        verticalScrollBarPolicy: Qt.ScrollBarAlwaysOn
-        flickableItem.interactive: true
-        flickableItem.flickableDirection: Flickable.VerticalFlick
-        flickableItem.boundsBehavior: Flickable.DragAndOvershootBounds
+    ListView {
+        id: forecast_list
+        anchors.fill: parent
+        snapMode: ListView.SnapOneItem
+        highlightRangeMode: ListView.StrictlyEnforceRange
+        highlightMoveDuration: 250
+        orientation: ListView.Horizontal
+        boundsBehavior: Flickable.StopAtBounds
 
-        property date today: new Date()
-        property real contentHeight: root.height
-        //    contentItem: wrapper
+        property bool r_arrow: true
+        property bool l_arrow: false
+        property string period: ""
+        property var week: ["", "", ""]
 
-
-        flickableItem.onFlickStarted: {
-            //       date_txt.visible = false
+        onMovementStarted: {
+            r_arrow = false;
+            l_arrow= false;
+        }
+        onMovementEnded: {
+            if(currentIndex === 0) {
+                r_arrow = true;
+                l_arrow = false;
+            }
+            else if(currentIndex === count-1) {
+                r_arrow= false;
+                l_arrow = true;
+            }
+            else {
+                r_arrow = true;
+                l_arrow= true;
+            }
+            period = week[currentIndex];
         }
 
-        flickableItem.onFlickEnded: {
-            console.log(contentItem.children[Math.round(flickableItem.contentY/scroll.height)].condition+": "
-                        +contentItem.children[Math.round(flickableItem.contentY/scroll.height)].icon);
-            //     flickableItem.contentY = scroll.height * Math.round(flickableItem.contentY/scroll.height);
-            //   date_txt.text = contentItem.children[Math.round(flickableItem.contentY/scroll.height)].day;
-            //  date_txt.visible = true;
-        }
-
-        Column {
-            id: wrapper
-            width: root.width
-            height: scroll.contentHeight * 3.1
-            spacing: 3
-            anchors.top: parent.top
-
+        model: ListModel {
+            id: forecast_list_model
+            property bool roomListModelCompleted: false
             Component.onCompleted: {
-                fill10DayForecast();
-            }
-
-            //            SingleDayView {
-            //                id: current
-            //                width: scroll.width
-            //                height: scroll.height * 0.3
-            //                day: "Aktualnie"
-            //                icon: GuiPainter.currentWeather["icon"]
-            //                condition: GuiPainter.currentWeather["weather"]
-            //                tempHigh: GuiPainter.currentWeather["temp_c"]
-            //                tempLow: ""
-
-            //                Component.onCompleted: {
-            //                    console.log("Current weather icon: " + icon)
-            //                }
-            //            }
-
-            function fill10DayForecast() {
-                var component = Qt.createComponent("SingleDayView.qml");
-                if (component.status === Component.Ready) {
-                    for(var i=1; i<10; i++) {
-                        var singleDay =  component.createObject(wrapper,
-                                                                { "objectName": "per_"+i,
-                                                                    "id": "per_"+i,
-                                                                    "width": scroll.width,
-                                                                    "height": scroll.height * 0.34,
-                                                                    "day": GuiPainter.forecast["date"][i],
-                                                                    "icon": GuiPainter.forecast["icon"][i],
-                                                                    "condition": GuiPainter.forecast["conditions"][i],
-                                                                    "tempHigh": GuiPainter.forecast["temp_high"][i],
-                                                                    "tempLow": GuiPainter.forecast["temp_low"][i]
-                                                                });
-                        //        singleDay.doubleClick.connect(goToStart);
-                    }
+                append ({
+                            "pDay_1": "jutro",
+                            "pIcon_1": GuiPainter.forecast["icon"][0],
+                            "pCondition_1": GuiPainter.forecast["conditions"][0],
+                            "pTempHigh_1": GuiPainter.forecast["temp_high"][0],
+                            "pTempLow_1": GuiPainter.forecast["temp_low"][0],
+                            "pDay_2": "pojutrze",
+                            "pIcon_2": GuiPainter.forecast["icon"][1],
+                            "pCondition_2": GuiPainter.forecast["conditions"][1],
+                            "pTempHigh_2": GuiPainter.forecast["temp_high"][1],
+                            "pTempLow_2": GuiPainter.forecast["temp_low"][1],
+                            "pDay_3": GuiPainter.forecast["date"][2].toLocaleDateString(Qt.locale(), "dddd dd.MM"),
+                            "pIcon_3": GuiPainter.forecast["icon"][2],
+                            "pCondition_3": GuiPainter.forecast["conditions"][2],
+                            "pTempHigh_3": GuiPainter.forecast["temp_high"][2],
+                            "pTempLow_3": GuiPainter.forecast["temp_low"][2]
+                        });
+                forecast_list.week[0] = GuiPainter.forecast["date"][0].toLocaleDateString(Qt.locale(), "dd.MM") + " - " + GuiPainter.forecast["date"][2].toLocaleDateString(Qt.locale(), "dd.MM");
+                for(var i=3; i<9; i=i+3) {
+                    append ({
+                                "pDay_1": GuiPainter.forecast["date"][i].toLocaleDateString(Qt.locale(), "dddd dd.MM"),
+                                "pIcon_1": GuiPainter.forecast["icon"][i],
+                                "pCondition_1": GuiPainter.forecast["conditions"][i],
+                                "pTempHigh_1": GuiPainter.forecast["temp_high"][i],
+                                "pTempLow_1": GuiPainter.forecast["temp_low"][i],
+                                "pDay_2": GuiPainter.forecast["date"][i+1].toLocaleDateString(Qt.locale(), "dddd dd.MM"),
+                                "pIcon_2": GuiPainter.forecast["icon"][i+1],
+                                "pCondition_2": GuiPainter.forecast["conditions"][i+1],
+                                "pTempHigh_2": GuiPainter.forecast["temp_high"][i+1],
+                                "pTempLow_2": GuiPainter.forecast["temp_low"][i+1],
+                                "pDay_3": GuiPainter.forecast["date"][i+2].toLocaleDateString(Qt.locale(), "dddd dd.MM"),
+                                "pIcon_3": GuiPainter.forecast["icon"][i+2],
+                                "pCondition_3": GuiPainter.forecast["conditions"][i+2],
+                                "pTempHigh_3": GuiPainter.forecast["temp_high"][i+2],
+                                "pTempLow_3": GuiPainter.forecast["temp_low"][i+2]
+                            });
+                    forecast_list.week[i/3] = GuiPainter.forecast["date"][i].toLocaleDateString(Qt.locale(), "dd.MM") + " - " + GuiPainter.forecast["date"][i+2].toLocaleDateString(Qt.locale(), "dd.MM");
                 }
+                roomListModelCompleted = true;
+                forecast_list.period = forecast_list.week[0];
             }
-
-            function goToStart() {
-                console.log("Going to start");
-                //     while(scroll.flickableItem.contentY != 0)
-                scroll.flickableItem.contentY = 0;
-                //     date_txt.text = current.day;
-            }
-
-
         }
 
-        style: ScrollViewStyle {
-            handleOverlap: 0
-            handle: Item {
-                implicitWidth: scroll.width * 0.03
-                implicitHeight: scroll.height * 0.34
-                Rectangle {
-                    color: "white"
-                    opacity: 1
-                    anchors.fill: parent
-                    anchors.topMargin: 0
-                    anchors.leftMargin: 0
-                    anchors.rightMargin: 0
-                    anchors.bottomMargin: 0
-                }
+        delegate: Column {
+            id: forecast_list_delegate
+            width: root.width
+            height: root.height * 0.85
+            padding: 5
+            spacing: 5
+
+            SingleDayView {
+                width: forecast_list_delegate.width
+                height: forecast_list_delegate.height / 3
+                day: pDay_1
+                icon: pIcon_1
+                condition: pCondition_1
+                tempHigh: pTempHigh_1
+                tempLow: pTempLow_1
             }
-            scrollBarBackground: Rectangle {
-                implicitWidth: scroll.width * 0.03
-                implicitHeight: scroll.height * 0.34
-                color: "white"
-                opacity: 0.3
+
+            SingleDayView {
+                width: forecast_list_delegate.width
+                height: forecast_list_delegate.height / 3
+                day: pDay_2
+                icon: pIcon_2
+                condition: pCondition_2
+                tempHigh: pTempHigh_2
+                tempLow: pTempLow_2
             }
-            incrementControl: Item { }
-            decrementControl: Item { }
+
+            SingleDayView {
+                width: forecast_list_delegate.width
+                height: forecast_list_delegate.height / 3
+                day: pDay_3
+                icon: pIcon_3
+                condition: pCondition_3
+                tempHigh: pTempHigh_3
+                tempLow: pTempLow_3
+            }
+        }
+        Rectangle {
+            width: parent.width
+            height: parent.height * 0.15
+            color: "#00c7b3"
+            anchors.bottom: parent.bottom
+
+            TextShadow {
+                id: room_l_arrow;
+                anchors.left: parent.left
+                anchors.leftMargin: 10
+                anchors.verticalCenter: parent.verticalCenter
+                text: awesome.icons.fa_arrow_circle_left
+                visible: forecast_list.l_arrow
+            }
+
+            TextShadow {
+                shadowVisible: false
+                textColor: "#ffffff"
+                text: forecast_list.period
+                size: 14
+                anchors.horizontalCenter: parent.horizontalCenter
+                anchors.verticalCenter: parent.verticalCenter
+            }
+
+            TextShadow {
+                id: room_r_arrow;
+                anchors.right: parent.right
+                anchors.rightMargin: 10
+                anchors.verticalCenter: parent.verticalCenter
+                text: awesome.icons.fa_arrow_circle_right
+                visible: forecast_list.r_arrow
+            }
+
+            Rectangle {
+                width: parent.width
+                height: parent.height * 0.12
+                color: "#000000"
+                opacity: 0.2
+                anchors.bottom: parent.bottom
+            }
         }
     }
 
+    function updateData() {
+        if(forecast_list_model.roomListModelCompleted && forecast_list_model.count > 0) {
+            forecast_list.period = forecast_list.week[forecast_list.currentIndex];
+            forecast_list_model.setProperty(
+                        0, "pDay_1", "jutro",
+                        "pIcon_1", GuiPainter.forecast["icon"][0],
+                        "pCondition_1", GuiPainter.forecast["conditions"][0],
+                        "pTempHigh_1", GuiPainter.forecast["temp_high"][0],
+                        "pTempLow_1", GuiPainter.forecast["temp_low"][0],
+                        "pDay_2", "pojutrze",
+                        "pIcon_2", GuiPainter.forecast["icon"][1],
+                        "pCondition_2", GuiPainter.forecast["conditions"][1],
+                        "pTempHigh_2", GuiPainter.forecast["temp_high"][1],
+                        "pTempLow_2", GuiPainter.forecast["temp_low"][1],
+                        "pDay_3", GuiPainter.forecast["date"][2].toLocaleDateString(Qt.locale(), "dddd dd.MM"),
+                        "pIcon_3", GuiPainter.forecast["icon"][2],
+                        "pCondition_3", GuiPainter.forecast["conditions"][2],
+                        "pTempHigh_3", GuiPainter.forecast["temp_high"][2],
+                        "pTempLow_3", GuiPainter.forecast["temp_low"][2]);
+            forecast_list.week[0] = GuiPainter.forecast["date"][0].toLocaleDateString(Qt.locale(), "dd.MM") + " - " + GuiPainter.forecast["date"][2].toLocaleDateString(Qt.locale(), "dd.MM");
+            for(var i=3; i<9; i=i+3) {
+                forecast_list_model.setProperty(
+                            i/3, "pDay_1", GuiPainter.forecast["date"][i].toLocaleDateString(Qt.locale(), "dddd dd.MM"),
+                            "pIcon_1", GuiPainter.forecast["icon"][i],
+                            "pCondition_1", GuiPainter.forecast["conditions"][i],
+                            "pTempHigh_1", GuiPainter.forecast["temp_high"][i],
+                            "pTempLow_1", GuiPainter.forecast["temp_low"][i],
+                            "pDay_2", GuiPainter.forecast["date"][i+1].toLocaleDateString(Qt.locale(), "dddd dd.MM"),
+                            "pIcon_2", GuiPainter.forecast["icon"][i+1],
+                            "pCondition_2", GuiPainter.forecast["conditions"][i+1],
+                            "pTempHigh_2", GuiPainter.forecast["temp_high"][i+1],
+                            "pTempLow_2", GuiPainter.forecast["temp_low"][i+1],
+                            "pDay_3", GuiPainter.forecast["date"][i+2].toLocaleDateString(Qt.locale(), "dddd dd.MM"),
+                            "pIcon_3", GuiPainter.forecast["icon"][i+2],
+                            "pCondition_3", GuiPainter.forecast["conditions"][i+2],
+                            "pTempHigh_3", GuiPainter.forecast["temp_high"][i+2],
+                            "pTempLow_3", GuiPainter.forecast["temp_low"][i+2]
+                            );
+                forecast_list.week[i/3] = GuiPainter.forecast["date"][i].toLocaleDateString(Qt.locale(), "dd.MM") + " - " + GuiPainter.forecast["date"][i+2].toLocaleDateString(Qt.locale(), "dd.MM");
+            }
+//            if(forecast_list.period !== forecast_list.week[forecast_list.currentIndex]) {
+//                forecast_list.period = forecast_list.week[forecast_list.currentIndex];
+//            }
+        }
+    //    if(!forecast_list.dragging && !forecast_list.flicking) {
+      //      forecast_list.flick(1000, 0);
+       //     while(forecast_list.flicking) { console.log("dupa") }
+ //       }
+    }
 
+    function goToStart() {
 
-    //    Rectangle {
-    //        id: date_txt_containter
-    //        width: root.width
-    //        height: root.height * 0.1
-    //        anchors.horizontalCenter: parent.horizontalCenter
-    //        anchors.bottom: root.bottom
-    //        anchors.bottomMargin: 0.5
-    //        color: "black"
-    //        opacity: 0.2
-    //    }
-
-    //    TextShadow {
-    //        id: date_txt
-    //        width: parent.width
-    //        text: current.day
-    //        size: 16
-    //        anchors.centerIn: date_txt_containter
-    //    }
+    }
 }

@@ -98,11 +98,11 @@
 #define REUSE_TX_PL   0xE3
 #define NOP           0xFF
 
-#define NRF_ADDR_LEN  5
 #define _CE           PB3
 
 // 'public' functions
 extern void nrf24_init();
 extern void nrf24_send(uint8_t *value);
+extern void nrf24_power_down();
 
 #endif // NRF24_H

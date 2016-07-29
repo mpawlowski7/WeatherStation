@@ -1,97 +1,235 @@
 import weatherstation.gui 1.0
 
-import QtQuick 2.5
-import QtGraphicalEffects 1.0
+import QtQuick 2.7
+import QtQml 2.2
 
 Rectangle {
     id: root
-    width: parent.width * 0.35
+    width: parent.width / 3
     height: parent.height
     anchors.verticalCenter: parent.verticalCenter
-    gradient: Gradient {
-        GradientStop { position: 0.0; color: "#54606c" }
-        GradientStop { position: 1.0; color: "#54606c" }
+    color: "transparent"
+
+    Rectangle {
+        width: parent.width
+        height: parent.height * 0.49
+        anchors.top: parent.top
+        color: "#00b499"
+
+        Item {
+            width: parent.width
+            height: parent.height
+            anchors.horizontalCenter: parent.horizontalCenter
+
+            Item {
+                width: parent.width
+                height: parent.height * 0.1
+                anchors.top: parent.top
+
+                TextShadow {
+                    text: awesome.icons.fa_clock_o
+                    anchors.left: parent.left
+                    anchors.leftMargin: 8
+                }
+
+                TextShadow {
+                    text: "UTC+0"+(-(new Date().getTimezoneOffset()/60))+":00"
+                    anchors.right: parent.right
+                    anchors.rightMargin: 8
+                }
+            }
+
+            TextShadow {
+                id: time_txt
+                anchors.centerIn: parent
+                text: GuiPainter.currentDateTime["time"]
+                anchors.verticalCenter: parent.verticalCenter
+                anchors.verticalCenterOffset: -parent.height * 0.1
+                size: 46
+            }
+
+            Rectangle {
+                width: parent.width
+                height: parent.height * 0.3
+                anchors.bottom: parent.bottom
+                color: "#00b499"
+
+                TextShadow {
+                    id: clock_txt;
+                    anchors.horizontalCenter: parent.horizontalCenter
+                    anchors.verticalCenter: parent.verticalCenter
+                    text: GuiPainter.currentDateTime["date"]
+                    size: 16
+                }
+
+                Rectangle {
+                    width: parent.width
+                    height: parent.height * 0.12
+                    color: "#000000"
+                    opacity: 0.2
+                    anchors.bottom: parent.bottom
+                }
+
+            }
+        }
     }
 
-
-    Column {
-        id: wrapper
+    Rectangle {
+        id: sensorsIn
         width: parent.width
-        height: parent.height
-        anchors.centerIn: parent
-        anchors.margins: 20
-        spacing: 10
+        height: parent.height * 0.49
+        anchors.bottom: parent.bottom
+        color: "#a7c629"
+        clip: true
 
-        Item {
-            width: parent.width
-            height: parent.height * 0.03
-        }
+        ListView {
+            id: room_list
+            anchors.fill: parent
+            snapMode: ListView.SnapOneItem
+            highlightRangeMode: ListView.StrictlyEnforceRange
+            highlightMoveDuration: 250
+            orientation: ListView.Horizontal
+            boundsBehavior: Flickable.StopAtBounds
 
-//        Rectangle {
-//            id: inside_ico_container
-//            width: parent.width * 0.5
-//            height: parent.width * 0.5
-//            anchors.horizontalCenter: parent.horizontalCenter
-//            radius: 180
+            property bool r_arrow: true
+            property bool l_arrow: false
 
-//            Image {
-//                sourceSize: Qt.size(parent.height*0.9, parent.height*0.9)
-//                id: inside_ico
-//                source: "img/home.svg"
-//                smooth: true
-//                anchors.centerIn: inside_ico_container
-//                anchors.verticalCenter: parent.verticalCenter
-
-//            }
-//        }
-       TextShadow { id: label; text: GuiPainter.currentDateTime["time"]; size: 56 }
-        Item {
-            width: parent.width
-            height: parent.height * 0.475
-            anchors.horizontalCenter: parent.horizontalCenter
-
-            TextShadow { id: temperature_txt;
-                anchors.horizontalCenter: parent.horizontalCenter
-                anchors.horizontalCenterOffset: -10
-                anchors.verticalCenter: parent.verticalCenter
-                text: GuiPainter.temperature; size: 48
-                textColor: "#ffa009"
+            onMovementStarted: {
+                r_arrow = false;
+                l_arrow= false;
             }
-            TextShadow { id: temperature_txt_unit; textColor: "#ffa009"; anchors.left: temperature_txt.right;  anchors.baseline: temperature_txt.baseline; text: qsTr("\u00B0"); size: 24 }
-        }
-
-        Rectangle {
-            width: parent.width
-            height: parent.height * 0.1
-            anchors.horizontalCenter: parent.horizontalCenter
-            color: "#708090"
-
-            Item{
-                width: parent.width * 0.35
-                height: parent.width * 0.35
-                anchors.verticalCenter: parent.verticalCenter;
-
-                Image {
-                    sourceSize: Qt.size(parent.height*0.35, parent.height*0.35)
-                    id: humidityIn_ico
-                    source: "img/humidity_out.svg"
-                    anchors.centerIn: parent
-                    visible: false
+            onMovementEnded: {
+                if(currentIndex === 0) {
+                    r_arrow = true;
+                    l_arrow = false;
                 }
-
-                DropShadow {
-                    source: humidityIn_ico
-                    horizontalOffset: 1
-                    verticalOffset: 1
-                    radius: 1
-                    samples: 4
-                    color: "#000000"
-                    anchors.fill: source
+                else if(currentIndex === count-1) {
+                    r_arrow= false;
+                    l_arrow = true;
+                }
+                else {
+                    r_arrow = true;
+                    l_arrow= true;
                 }
             }
 
-            TextShadow { id: humidity_txt;  anchors.horizontalCenter: parent.horizontalCenter; anchors.verticalCenter: parent.verticalCenter; text: GuiPainter.humidity + qsTr("%"); size: 16 }
-        }
+            model: ListModel {
+                id: room_list_model
+                property bool roomListModelCompleted: false
+                Component.onCompleted: {
+                    append ({"room": "Biuro", "temp": GuiPainter.temperature, "humidity": GuiPainter.humidity});
+                    append ({"room": "Sypialnia", "temp": GuiPainter.temperature, "humidity": GuiPainter.humidity});
+                    append ({"room": "Salon", "temp": GuiPainter.temperature, "humidity": GuiPainter.humidity});
+                    append ({"room": "Kuchnia", "temp": GuiPainter.temperature, "humidity": GuiPainter.humidity});
+                    append ({"room": "Dziecięcy", "temp": GuiPainter.temperature, "humidity": GuiPainter.humidity});
+                    roomListModelCompleted = true;
+                }
+            }
 
+            delegate: Item {
+                id: room_delegate
+                width: sensorsIn.width
+                height: sensorsIn.height
+
+                Item {
+                    width: parent.width
+                    height: parent.height * 0.1
+                    anchors.top: parent.top
+
+                    TextShadow {
+                        id: batteryOut_txt
+                        text: awesome.icons.fa_battery_full
+                        anchors.left: parent.left
+                        anchors.leftMargin: 8
+                    }
+
+                    TextShadow {
+                        id: signalOut_txt
+                        text: awesome.icons.fa_signal
+                        anchors.right: parent.right
+                        anchors.rightMargin: 8
+                    }
+                }
+
+                TextShadow { id: temperature_txt;
+                    anchors.horizontalCenter: parent.horizontalCenter
+                    anchors.verticalCenter: parent.verticalCenter
+                    anchors.verticalCenterOffset: -parent.height * 0.22
+                    text: temp + qsTr("\u00B0")
+                    size: 38
+                }
+
+                Row {
+                    spacing: 5
+                    anchors.top: temperature_txt.bottom
+                    anchors.horizontalCenter: parent.horizontalCenter
+
+                    WeatherIcon {
+                        id: humidityIn_ico;
+                        anchors.verticalCenter: parent.verticalCenter
+                        type: "humidity"
+                        size: 12
+                    }
+
+                    TextShadow {
+                        id: humidityIn_txt
+                        text: humidity + qsTr("%")
+                        anchors.verticalCenter: parent.verticalCenter
+                        size: 12
+                    }
+                }
+
+                Rectangle {
+                    width: parent.width
+                    height: parent.height * 0.3
+                    anchors.bottom: parent.bottom
+                    color: "#a7c629"
+
+                    TextShadow {
+                        id: room_l_arrow;
+                        anchors.left: parent.left
+                        anchors.leftMargin: 10
+                        anchors.verticalCenter: parent.verticalCenter
+                        text: awesome.icons.fa_arrow_circle_left
+                        visible: room_list.l_arrow
+                    }
+
+                    TextShadow {
+                        id: room_txt;
+                        anchors.horizontalCenter: parent.horizontalCenter
+                        anchors.verticalCenter: parent.verticalCenter
+                        text: room
+                        size: 14
+                    }
+
+                    TextShadow {
+                        id: room_r_arrow;
+                        anchors.right: parent.right
+                        anchors.rightMargin: 10
+                        anchors.verticalCenter: parent.verticalCenter
+                        text: awesome.icons.fa_arrow_circle_right
+                        visible: room_list.r_arrow
+                    }
+
+                    Rectangle {
+                        width: parent.width
+                        height: parent.height * 0.12
+                        color: "#000000"
+                        opacity: 0.2
+                        anchors.bottom: parent.bottom
+                    }
+                }
+            }
+        }
+    }
+
+    function updateData() {
+        if(room_list_model.roomListModelCompleted) {
+            for(var i=0; i<5; i++) {
+                room_list_model.setProperty(i, "temp", GuiPainter.temperature);
+                room_list_model.setProperty(i, "humidity", GuiPainter.humidity);
+            }
+        }
     }
 }
+

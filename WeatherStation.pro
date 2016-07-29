@@ -1,7 +1,4 @@
-QT += core
-QT += gui
-QT += qml quick
-QT += network
+QT += core gui qml quick network
 
 CONFIG += c++14
 QMAKE_CXXFLAGS += -pthread
