@@ -10,30 +10,23 @@
         <file>res/fonts/Ubuntu-C.ttf</file>
         <file>res/fonts/WireOne.ttf</file>
         <file>res/img/partlycloudy.svg</file>
-        <file>res/img/cloudy.svg</file>
-        <file>res/img/clear.svg</file>
         <file>res/img/nt_cloudy.svg</file>
         <file>res/img/nt_partlycloudy.svg</file>
         <file>res/img/sunny.svg</file>
-        <file>res/img/compass.svg</file>
         <file>res/img/mostlycloudy.svg</file>
         <file>res/img/mostlysunny.svg</file>
         <file>res/img/partlysunny.svg</file>
         <file>res/img/humidity_out.svg</file>
-        <file>res/img/chancerain.svg</file>
         <file>res/img/nt_chancerain.svg</file>
         <file>res/img/nt_clear.svg</file>
         <file>res/img/nt_rain.svg</file>
         <file>res/img/rain.svg</file>
-        <file>res/img/hills.svg</file>
         <file>res/img/home.svg</file>
         <file>res/img/pressure.svg</file>
         <file>res/ForecastView.qml</file>
         <file>res/MainView.qml</file>
         <file>res/OutsideView.qml</file>
         <file>res/InsideView.qml</file>
-        <file>res/img/chancetstorms.svg</file>
-        <file>res/img/tstorms.svg</file>
         <file>res/SingleDayView.qml</file>
         <file>res/fonts/weathericons-regular-webfont.ttf</file>
         <file>res/WeatherIcon.qml</file>

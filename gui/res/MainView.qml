@@ -1,5 +1,4 @@
 import weatherstation.gui 1.0
-import weatherstation.led 1.0
 
 import QtQuick 2.5
 import QtQuick.Window 2.0
@@ -110,7 +109,7 @@ Window {
 
                     TextShadow {
                         anchors.centerIn: parent; anchors.margins: 5
-                        text: qsTr("Led Painter"); size: 24; shadowColor: 'black'
+                        text: qsTr("Ustawienia"); size: 24; shadowColor: 'black'
                     }
                 }
 
@@ -162,19 +161,19 @@ Window {
                     MouseArea {
                         id: btn_random_ma
                         anchors.fill: parent
-                        onClicked:
-                        {
-                            if(btn_random.isOn)
-                            {
-                                LedPainter.deactivate();
-                                btn_random.isOn = false;
-                            }
-                            else
-                            {
-                                LedPainter.activate();
-                                btn_random.isOn = true;
-                            }
-                        }
+                        onClicked: {}
+//                        {
+//                            if(btn_random.isOn)
+//                            {
+//                                LedPainter.deactivate();
+//                                btn_random.isOn = false;
+//                            }
+//                            else
+//                            {
+//                                LedPainter.activate();
+//                                btn_random.isOn = true;
+//                            }
+//                        }
                     }
                 }
 
@@ -196,7 +195,7 @@ Window {
                     MouseArea {
                         id: btn_clear_ma
                         anchors.fill: parent
-                        onClicked: LedPainter.clear();
+                   //     onClicked: LedPainter.clear();
                     }
                 }
 

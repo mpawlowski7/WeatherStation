@@ -2,8 +2,8 @@
 
 enum MODE 
 {
-    read,
-    write,
+    read = 0,
+    write = 1,
     rw
 } mode;
 

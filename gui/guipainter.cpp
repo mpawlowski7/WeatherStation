@@ -16,7 +16,6 @@ GuiPainter* GuiPainter::instance()
 void GuiPainter::Init(QQmlApplicationEngine & engine)
 {
     qmlRegisterSingletonType<GuiPainter>("weatherstation.gui", 1, 0, "GuiPainter", &qmlinstance);
-    qmlRegisterSingletonType<LedPainter>("weatherstation.led", 1, 0, "LedPainter", &LedPainter::qmlinstance);
 
     WUManager::instance()->Init();
 
