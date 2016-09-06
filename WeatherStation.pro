@@ -1,5 +1,5 @@
 TEMPLATE = subdirs
 
 SUBDIRS += \
-    gui \
-    srv
+    weathers-gui \
+    weathers-srv

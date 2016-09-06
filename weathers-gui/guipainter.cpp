@@ -13,11 +13,11 @@ GuiPainter* GuiPainter::instance()
     return p_instance;
 }
 
-void GuiPainter::Init(QQmlApplicationEngine & engine)
+void GuiPainter::init(QQmlApplicationEngine & engine)
 {
     qmlRegisterSingletonType<GuiPainter>("weatherstation.gui", 1, 0, "GuiPainter", &qmlinstance);
 
-    WUManager::instance()->Init();
+  // connect to server  WUManager::instance()->Init();
 
     startReadingData();
 
@@ -42,30 +42,30 @@ QObject* GuiPainter::qmlinstance(QQmlEngine *engine, QJSEngine *scriptEngine)
     return instance();
 }
 
-const QString GuiPainter::temperature() const
-{
-    return QString::number((LPS25H::instance()->GetTemperature() + HTS221::instance()->GetTemperature()) / 2, 'f', 1);
-}
+//const QString GuiPainter::temperature() const
+//{
+//    return 0;//QString::number((LPS25H::instance()->GetTemperature() + HTS221::instance()->GetTemperature()) / 2, 'f', 1);
+//}
 
-const QString GuiPainter::pressure() const
-{
-    return QString::number(LPS25H::instance()->GetPressure(), 'f', 0);
-}
+//const QString GuiPainter::pressure() const
+//{
+//    return 0;//QString::number(LPS25H::instance()->GetPressure(), 'f', 0);
+//}
 
-const QString GuiPainter::humidity() const
-{
-    return QString::number(HTS221::instance()->GetHumidity(), 'f', 0);
-}
+//const QString GuiPainter::humidity() const
+//{
+//    return 0//QString::number(HTS221::instance()->GetHumidity(), 'f', 0);
+//}
 
-const QVariantMap& GuiPainter::currentWeather() const
-{
-    return WUManager::instance()->GetCurrentWeather();
-}
+//const QVariantMap& GuiPainter::currentWeather() const
+//{
+//    return 0; // WUManager::instance()->GetCurrentWeather();
+//}
 
-const QVariantMap& GuiPainter::forecast() const
-{
-    return WUManager::instance()->Get10DaysForecast();
-}
+//const QVariantMap& GuiPainter::forecast() const
+//{
+//    return 0; // WUManager::instance()->Get10DaysForecast();
+//}
 
 const QVariantMap& GuiPainter::currentDateTime() const
 {
@@ -90,10 +90,10 @@ void GuiPainter::startReadingData()
 
 void GuiPainter::updateGui()
 {
-    if(LPS25H::instance()->ReadSensor() && HTS221::instance()->ReadSensor())
-    {
+//    if(LPS25H::instance()->ReadSensor() && HTS221::instance()->ReadSensor())
+//    {
         emit insideChanged();
-    }
+//    }
 
     m_currentDateTime.insert("time", QTime::currentTime().toString(QString("hh:mm")));
     m_currentDateTime.insert("date", QDate::currentDate().toString(QString("dd.MM.yyyy")));

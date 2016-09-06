@@ -3,7 +3,7 @@ QT -= gui
 
 CONFIG += c++11
 
-TARGET = srv
+TARGET = weathers-srv
 CONFIG += console
 CONFIG -= app_bundle
 
@@ -14,7 +14,8 @@ SOURCES += main.cpp \
     sensors/i2cdevice.cpp \
     sensors/lps25h.cpp \
     sensors/spidevice.cpp \
-    wumanager.cpp
+    wumanager.cpp \
+    wsserver.cpp
 
 DISTFILES +=
 
@@ -23,4 +24,5 @@ HEADERS += \
     sensors/i2cdevice.h \
     sensors/lps25h.h \
     sensors/spidevice.h \
-    wumanager.h
+    wumanager.h \
+    wsserver.h

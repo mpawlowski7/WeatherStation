@@ -66,7 +66,7 @@ void WUManager::sendRequest()
     manager->get(QNetworkRequest(QUrl(requestUrl)));
 }
 
-void WUManager::replyFinished(QNetworkReply *reply)
+void WUManager::lreplyFinished(QNetworkReply *reply)
 {
    QByteArray byteArray;
    QJsonParseError err;

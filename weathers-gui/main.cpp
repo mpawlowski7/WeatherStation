@@ -1,4 +1,4 @@
-#include "gui/guipainter.h"
+#include "guipainter.h"
 #include <QScreen>
 
 int main(int argc, char *argv[])
@@ -14,7 +14,7 @@ int main(int argc, char *argv[])
         qDebug() << "Scren size: " << screen->size();
     }
 
-    GuiPainter::instance()->Init(engine);
+    GuiPainter::instance()->init(engine);
 
     return app.exec();
 }
