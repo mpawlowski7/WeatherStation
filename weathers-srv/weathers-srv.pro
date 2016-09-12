@@ -15,7 +15,8 @@ SOURCES += main.cpp \
     sensors/lps25h.cpp \
     sensors/spidevice.cpp \
     wumanager.cpp \
-    wsserver.cpp
+    wsserver.cpp \
+    wsthread.cpp
 
 DISTFILES +=
 
@@ -25,4 +26,5 @@ HEADERS += \
     sensors/lps25h.h \
     sensors/spidevice.h \
     wumanager.h \
-    wsserver.h
+    wsserver.h \
+    wsthread.h

@@ -13,20 +13,8 @@ WSServer* WSServer::instance()
     return p_instance;
 }
 
-bool WSServer::Init()
+void WSServer::startServer()
 {
-
-}
-
-bool WSServer::Configure()
-{
-
-}
-
-void WSServer::StartTransmission()
-{
-    int port = 8786;
-
     if(this->listen((QHostAddress::Any)), port)
     {
         qDebug() << "Could not start server...";
@@ -35,12 +23,25 @@ void WSServer::StartTransmission()
     {
         qDebug() << "Listening on port " << port << "...";
     }
+
 }
 
-void WSServer::StopTransmission()
+void WSServer::incomingConnection(qintptr sd)
 {
+    // We have a new connection
+    qDebug() << sd << " Connecting...";
 
+    // Every new connection will be run in a newly created thread
+    WSThread *workHorse = new WSThread(sd, this);
+
+    // connect signal/slot
+    // once a thread is not needed, it will be beleted later
+    connect(workHorse, SIGNAL(finished()), workHorse, SLOT(deleteLater()));
+
+    workHorse->start();
 }
+
+
 
 WSServer::~WSServer()
 {

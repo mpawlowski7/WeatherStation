@@ -45,6 +45,7 @@ public:
     static QObject* qmlinstance(QQmlEngine *engine, QJSEngine *scriptEngine);
     static GuiPainter* instance();
     void init(QQmlApplicationEngine & engine);
+    void connectServer();
     const QString temperature() const;
     const QString pressure() const;
     const QString humidity() const;

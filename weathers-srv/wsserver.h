@@ -1,9 +1,10 @@
 #ifndef NETWORKMANAGER_H
 #define NETWORKMANAGER_H
 
+#include "wsthread.h"
+
 #include <QTcpServer>
 #include <QMutex>
-#include <QThread>
 
 class WSServer : public QTcpServer
 {
@@ -17,16 +18,14 @@ private:
     }
   //  WSServer(WSServer& rhs);
     ~WSServer();
-    bool Init();
-    bool Configure();
+    const int port = 8786;
 
 public:
     static WSServer* instance();
-    void StartTransmission();
-    void StopTransmission();
+    void startServer();
 
 protected:
-    void IncomingConnection(qintptr sd);
+    void incomingConnection(qintptr sd) Q_DECL_OVERRIDE;
 
 };
 
