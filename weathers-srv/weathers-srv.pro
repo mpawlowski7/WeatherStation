@@ -18,6 +18,7 @@ SOURCES += main.cpp \
     wsserver.cpp \
     wsthread.cpp
 
+
 DISTFILES +=
 
 HEADERS += \

@@ -1,27 +1,39 @@
 #include "wsthread.h"
 
-WSThread::WSThread(int sd, QObject *parent) : QThread(parent), sd(sd)
+WSThread::WSThread(qintptr sd, QObject *parent) : QThread(parent), socketDescriptor(sd)
 {
 
 }
 
 void WSThread::run()
 {
-    QTcpSocket tcpSocket;
+    tcpSocket = new QTcpSocket;
 
-    if (!tcpSocket.setSocketDescriptor(sd))
+    qDebug() << "Thread started...";
+
+    if (!tcpSocket->setSocketDescriptor(socketDescriptor))
     {
-        emit error(tcpSocket.error());
+        qDebug() << tcpSocket->errorString();
+
+        emit error(tcpSocket->error());
         return;
     }
 
     QByteArray block;
     QDataStream out(&block, QIODevice::WriteOnly);
     out.setVersion(QDataStream::Qt_4_0);
-    out << WUManager::instance()->Get10DaysForecast();
-    out << WUManager::instance()->GetCurrentWeather();
-    out << WUManager::instance()->GetLocation();
-    tcpSocket.write(block);
-    tcpSocket.disconnectFromHost();
-    tcpSocket.waitForDisconnected();
+    out << QString("Dupa");
+  //  out << WUManager::instance()->GetCurrentWeather();
+ //   out << WUManager::instance()->GetLocation();
+    tcpSocket->write(block);
+    connect(tcpSocket, SIGNAL(disconnected()), this, SLOT(disconnected()));
+    exec();
+}
+
+void WSThread::disconnected()
+{
+    qDebug() << tcpSocket->peerAddress() << " Disconnected";
+
+    tcpSocket->deleteLater();
+    exit(0);
 }

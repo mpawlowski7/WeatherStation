@@ -11,6 +11,8 @@
 #include <QTime>
 #include <QTimer>
 #include <QVariantMap>
+#include <QTcpSocket>
+#include <QNetworkSession>
 
 #include <iostream>
 
@@ -35,11 +37,11 @@ signals:
 
 private:
     static GuiPainter* volatile p_instance;
-    GuiPainter(QObject* parent = 0) : QObject(parent)
-    {
-    }
+    GuiPainter(QObject* parent = 0);
     ~GuiPainter() {}
     QVariantMap m_currentDateTime;
+    QTcpSocket *tcpSocket;
+    QDataStream in;
 
 public:
     static QObject* qmlinstance(QQmlEngine *engine, QJSEngine *scriptEngine);
@@ -54,8 +56,10 @@ public:
     const QVariantMap& currentDateTime() const;
 
 public slots:
-    void updateGui();
+    void readDataFromServer();
     void startReadingData();
+    void updateGui();
+
 };
 
 #endif // GUIPAINTER_H

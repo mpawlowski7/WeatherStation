@@ -1,5 +1,13 @@
 #include "guipainter.h"
 
+GuiPainter::GuiPainter(QObject* parent) : QObject(parent), tcpSocket(new QTcpSocket(this))
+{
+    in.setDevice(tcpSocket);
+    in.setVersion(QDataStream::Qt_4_0);
+    connect(tcpSocket, &QIODevice::readyRead, this, &GuiPainter::readDataFromServer);
+    tcpSocket->connectToHost(QHostAddress::LocalHost, 8786);
+}
+
 GuiPainter* volatile GuiPainter::p_instance = nullptr;
 GuiPainter* GuiPainter::instance()
 {
@@ -19,20 +27,20 @@ void GuiPainter::init(QQmlApplicationEngine & engine)
 
   // connect to server  WUManager::instance()->Init();
 
-    startReadingData();
+//    startReadingData();
 
-    engine.load(QUrl(QStringLiteral("qrc:/res/MainView.qml")));
+//    engine.load(QUrl(QStringLiteral("qrc:/res/MainView.qml")));
 
-    QObject *topLevel = engine.rootObjects().value(0);
-    QQuickWindow *window = qobject_cast<QQuickWindow *>(topLevel);
-    QObject *outsideView = window->findChild<QObject *>("outside_view");
-    QObject *forecastView = window->findChild<QObject *>("forecast_view");
-    QObject *insideView = window->findChild<QObject *>("inside_view");
+//    QObject *topLevel = engine.rootObjects().value(0);
+//    QQuickWindow *window = qobject_cast<QQuickWindow *>(topLevel);
+//    QObject *outsideView = window->findChild<QObject *>("outside_view");
+//    QObject *forecastView = window->findChild<QObject *>("forecast_view");
+//    QObject *insideView = window->findChild<QObject *>("inside_view");
 
-    // Connecting signals and slots
-    QObject::connect(this, SIGNAL(forecastChanged()), outsideView, SLOT(updateGradientColor()));
-    QObject::connect(this, SIGNAL(forecastChanged()), forecastView, SLOT(updateData()));
-    QObject::connect(this, SIGNAL(insideChanged()), insideView, SLOT(updateData()));
+//    // Connecting signals and slots
+//    QObject::connect(this, SIGNAL(forecastChanged()), outsideView, SLOT(updateGradientColor()));
+//    QObject::connect(this, SIGNAL(forecastChanged()), forecastView, SLOT(updateData()));
+//    QObject::connect(this, SIGNAL(insideChanged()), insideView, SLOT(updateData()));
 }
 
 QObject* GuiPainter::qmlinstance(QQmlEngine *engine, QJSEngine *scriptEngine)
@@ -70,6 +78,19 @@ QObject* GuiPainter::qmlinstance(QQmlEngine *engine, QJSEngine *scriptEngine)
 const QVariantMap& GuiPainter::currentDateTime() const
 {
     return m_currentDateTime;
+}
+
+void GuiPainter::readDataFromServer()
+{
+    in.startTransaction();
+
+    QString out;
+    in >> out;
+
+    if (!in.commitTransaction())
+        return;
+
+    qDebug() << "output: " << out;
 }
 
 void GuiPainter::startReadingData()

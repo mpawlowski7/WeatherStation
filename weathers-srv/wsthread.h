@@ -9,16 +9,22 @@
 
 class WSThread : public QThread
 {
-
-private:
-    qintptr sd;
-
-public:
-    WSThread(qintptr sd, QObject *parent);
-    void run() Q_DECL_OVERRIDE;
+    Q_OBJECT
 
 signals:
     void error(QTcpSocket::SocketError socketError);
+
+private:
+    qintptr socketDescriptor;
+    QTcpSocket* tcpSocket;
+
+public:
+    WSThread(qintptr socketDescriptor, QObject *parent);
+    void run() Q_DECL_OVERRIDE;
+
+public slots:
+    void disconnected();
+
 };
 
 #endif // WSTHREAD_H
