@@ -1,6 +1,9 @@
 #ifndef WUMANAGER_H
 #define WUMANAGER_H
 
+#include "sensors/hts221.h"
+#include "sensors/lps25h.h"
+
 #include <QObject>
 #include <QNetworkRequest>
 #include <QNetworkReply>
@@ -43,7 +46,7 @@ public:
     const QVariantMap& Get10DaysForecast() const;
     const QString GetLocation() const;
     void SetLocation();
-    void Init();
+    void init();
     void Update();
 
 signals:
@@ -52,6 +55,7 @@ signals:
 public slots:
     void replyFinished(QNetworkReply* reply);
     void sendRequest();
+    void readSensors();
 };
 
 #endif // WUMANAGER_H

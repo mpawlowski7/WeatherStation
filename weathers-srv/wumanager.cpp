@@ -34,7 +34,7 @@ WUManager* WUManager::instance()
     return p_instance;
 }
 
-void WUManager::Init()
+void WUManager::init()
 {
     sendRequest();
 
@@ -49,6 +49,15 @@ void WUManager::Init()
     connect(workHorse, SIGNAL(started()), timer, SLOT(start()));
     workHorse->start();
     loop->exec();
+
+    QThread* workHorseSensors = new QThread(this);
+    QTimer* timerSensors = new QTimer(0);
+
+    timerSensors->setInterval(1000);
+    timerSensors->moveToThread(workHorse);
+    connect(timerSensors, SIGNAL(timeout()), this, SLOT(readSensors()));
+    connect(workHorseSensors, SIGNAL(started()), timerSensors, SLOT(start()));
+    workHorseSensors->start();
 }
 
 const QVariantMap& WUManager::GetCurrentWeather() const
@@ -64,6 +73,12 @@ const QVariantMap& WUManager::Get10DaysForecast() const
 void WUManager::sendRequest()
 {
     manager->get(QNetworkRequest(QUrl(requestUrl)));
+}
+
+void WUManager::readSensors()
+{
+    LPS25H::instance()->ReadSensor();
+    HTS221::instance()->ReadSensor();
 }
 
 void WUManager::replyFinished(QNetworkReply *reply)

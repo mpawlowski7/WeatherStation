@@ -1,11 +1,17 @@
 #include "guipainter.h"
 
-GuiPainter::GuiPainter(QObject* parent) : QObject(parent), tcpSocket(new QTcpSocket(this))
+GuiPainter::GuiPainter(QObject* parent) : QObject(parent), p_tcpSocket(new QTcpSocket(this))
 {
-    in.setDevice(tcpSocket);
-    in.setVersion(QDataStream::Qt_4_0);
-    connect(tcpSocket, &QIODevice::readyRead, this, &GuiPainter::readDataFromServer);
-    tcpSocket->connectToHost(QHostAddress::LocalHost, 8786);
+
+//    QThread* workHorse = new QThread(this);
+//    QTimer* timer = new QTimer(0);
+
+//    timer->setInterval(1000);
+//    timer->moveToThread(workHorse);
+//    connect(timer, SIGNAL(timeout()), this, SLOT(connectToServer()));
+//    connect(workHorse, SIGNAL(started()), timer, SLOT(start()));
+//    workHorse->start();
+
 }
 
 GuiPainter* volatile GuiPainter::p_instance = nullptr;
@@ -21,26 +27,18 @@ GuiPainter* GuiPainter::instance()
     return p_instance;
 }
 
-void GuiPainter::init(QQmlApplicationEngine & engine)
+void GuiPainter::init()
 {
-    qmlRegisterSingletonType<GuiPainter>("weatherstation.gui", 1, 0, "GuiPainter", &qmlinstance);
+    m_ipaddr = p_tcpSocket->localAddress().toString();
 
-  // connect to server  WUManager::instance()->Init();
+    qDebug() << m_ipaddr;
 
-//    startReadingData();
-
-//    engine.load(QUrl(QStringLiteral("qrc:/res/MainView.qml")));
-
-//    QObject *topLevel = engine.rootObjects().value(0);
-//    QQuickWindow *window = qobject_cast<QQuickWindow *>(topLevel);
-//    QObject *outsideView = window->findChild<QObject *>("outside_view");
-//    QObject *forecastView = window->findChild<QObject *>("forecast_view");
-//    QObject *insideView = window->findChild<QObject *>("inside_view");
-
-//    // Connecting signals and slots
-//    QObject::connect(this, SIGNAL(forecastChanged()), outsideView, SLOT(updateGradientColor()));
-//    QObject::connect(this, SIGNAL(forecastChanged()), forecastView, SLOT(updateData()));
-//    QObject::connect(this, SIGNAL(insideChanged()), insideView, SLOT(updateData()));
+    m_in.setDevice(p_tcpSocket);
+    m_in.setVersion(QDataStream::Qt_4_0);
+    connect(p_tcpSocket, &QIODevice::readyRead, this, &GuiPainter::readDataFromServer);
+    connect(this, &GuiPainter::readyToDraw, this, &GuiPainter::drawGui);
+    p_tcpSocket->connectToHost(QHostAddress::LocalHost, 8786);
+    p_tcpSocket->write("aok!");
 }
 
 QObject* GuiPainter::qmlinstance(QQmlEngine *engine, QJSEngine *scriptEngine)
@@ -50,75 +48,84 @@ QObject* GuiPainter::qmlinstance(QQmlEngine *engine, QJSEngine *scriptEngine)
     return instance();
 }
 
-//const QString GuiPainter::temperature() const
-//{
-//    return 0;//QString::number((LPS25H::instance()->GetTemperature() + HTS221::instance()->GetTemperature()) / 2, 'f', 1);
-//}
+const QString GuiPainter::temperature() const
+{
+    return m_temperature;
+}
 
-//const QString GuiPainter::pressure() const
-//{
-//    return 0;//QString::number(LPS25H::instance()->GetPressure(), 'f', 0);
-//}
+const QString GuiPainter::pressure() const
+{
+    return m_pressure;
+}
 
-//const QString GuiPainter::humidity() const
-//{
-//    return 0//QString::number(HTS221::instance()->GetHumidity(), 'f', 0);
-//}
+const QString GuiPainter::humidity() const
+{
+    return m_humidity;
+}
 
-//const QVariantMap& GuiPainter::currentWeather() const
-//{
-//    return 0; // WUManager::instance()->GetCurrentWeather();
-//}
+const QVariantMap& GuiPainter::currentWeather() const
+{
+    return m_currentWeather;
+}
 
-//const QVariantMap& GuiPainter::forecast() const
-//{
-//    return 0; // WUManager::instance()->Get10DaysForecast();
-//}
+const QVariantMap& GuiPainter::forecast() const
+{
+    return m_forecast;
+}
 
 const QVariantMap& GuiPainter::currentDateTime() const
 {
     return m_currentDateTime;
 }
 
+void GuiPainter::drawGui()
+{
+    qmlRegisterSingletonType<GuiPainter>("weatherstation.gui", 1, 0, "GuiPainter", &qmlinstance);
+
+    engine.load(QUrl(QStringLiteral("qrc:/res/MainView.qml")));
+
+    QObject *topLevel = engine.rootObjects().value(0);
+    QQuickWindow *window = qobject_cast<QQuickWindow *>(topLevel);
+    QObject *outsideView = window->findChild<QObject *>("outside_view");
+    QObject *forecastView = window->findChild<QObject *>("forecast_view");
+    QObject *insideView = window->findChild<QObject *>("inside_view");
+
+    // Connecting signals and slots
+    QObject::connect(this, SIGNAL(forecastChanged()), outsideView, SLOT(updateGradientColor()));
+    QObject::connect(this, SIGNAL(forecastChanged()), forecastView, SLOT(updateData()));
+    QObject::connect(this, SIGNAL(insideChanged()), insideView, SLOT(updateData()));
+}
+
 void GuiPainter::readDataFromServer()
 {
-    in.startTransaction();
+    qDebug() << "Recived some data...";
 
-    QString out;
-    in >> out;
+    m_in.startTransaction();
 
-    if (!in.commitTransaction())
+    m_in >> m_currentWeather;
+    m_in >> m_forecast;
+    m_in >> m_temperature;
+    m_in >> m_pressure;
+    m_in >> m_humidity;
+
+    qDebug() << m_humidity + " " + m_pressure + " " + m_temperature;
+  //  qDebug() << m_forecast;
+
+    if (!m_in.commitTransaction())
         return;
 
-    qDebug() << "output: " << out;
-}
-
-void GuiPainter::startReadingData()
-{
-    qDebug() << "Start reading data";
-    updateGui(); // first is for free
-
-    // do the same in loop
-    QThread* workHorse = new QThread(this);
-    QTimer* timer = new QTimer(0);
-
-    timer->setInterval(1000);
-    timer->moveToThread(workHorse);
-    connect(timer, SIGNAL(timeout()), this, SLOT(updateGui()));
-    connect(workHorse, SIGNAL(started()), timer, SLOT(start()));
-    workHorse->start();
-}
-
-void GuiPainter::updateGui()
-{
-//    if(LPS25H::instance()->ReadSensor() && HTS221::instance()->ReadSensor())
-//    {
-        emit insideChanged();
-//    }
+    p_tcpSocket->write("aok!");
 
     m_currentDateTime.insert("time", QTime::currentTime().toString(QString("hh:mm")));
     m_currentDateTime.insert("date", QDate::currentDate().toString(QString("dd.MM.yyyy")));
 
+    if(!firstConnection)
+    {
+        firstConnection = true;
+        emit readyToDraw();
+    }
+
+    emit insideChanged();
     emit timeChanged();
     emit forecastChanged();
 }

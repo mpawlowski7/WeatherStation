@@ -20,11 +20,11 @@ class GuiPainter : public QObject
 {
     Q_OBJECT
     Q_DISABLE_COPY(GuiPainter)
-//    Q_PROPERTY(QString temperature READ temperature NOTIFY insideChanged)
-//    Q_PROPERTY(QString pressure READ pressure NOTIFY insideChanged)
-//    Q_PROPERTY(QString humidity READ humidity NOTIFY insideChanged)
-//    Q_PROPERTY(QVariantMap currentWeather READ currentWeather NOTIFY forecastChanged)
-//    Q_PROPERTY(QVariantMap forecast READ forecast NOTIFY forecastChanged)
+    Q_PROPERTY(QString temperature READ temperature NOTIFY insideChanged)
+    Q_PROPERTY(QString pressure READ pressure NOTIFY insideChanged)
+    Q_PROPERTY(QString humidity READ humidity NOTIFY insideChanged)
+    Q_PROPERTY(QVariantMap currentWeather READ currentWeather NOTIFY forecastChanged)
+    Q_PROPERTY(QVariantMap forecast READ forecast NOTIFY forecastChanged)
     Q_PROPERTY(QVariantMap currentDateTime READ currentDateTime NOTIFY timeChanged)
 //    Q_PROPERTY(void ToggleLedMatrix READ ToggleLedMatrix)
 //    Q_PROPERTY(void Update READ Update)
@@ -34,19 +34,29 @@ signals:
     void insideChanged();
     void outsideChanged();
     void timeChanged();
+    void readyToDraw();
 
 private:
     static GuiPainter* volatile p_instance;
     GuiPainter(QObject* parent = 0);
     ~GuiPainter() {}
+    QQmlApplicationEngine engine;
+    QTcpSocket *p_tcpSocket;
+    QDataStream m_in;
+    QString m_ipaddr;
+    QVariantMap m_currentWeather;
+    QVariantMap m_forecast;
     QVariantMap m_currentDateTime;
-    QTcpSocket *tcpSocket;
-    QDataStream in;
+    QString m_temperature;
+    QString m_pressure;
+    QString m_humidity;
+    bool firstConnection;
+
 
 public:
     static QObject* qmlinstance(QQmlEngine *engine, QJSEngine *scriptEngine);
     static GuiPainter* instance();
-    void init(QQmlApplicationEngine & engine);
+    void init();
     void connectServer();
     const QString temperature() const;
     const QString pressure() const;
@@ -56,9 +66,8 @@ public:
     const QVariantMap& currentDateTime() const;
 
 public slots:
+    void drawGui();
     void readDataFromServer();
-    void startReadingData();
-    void updateGui();
 
 };
 

@@ -29,8 +29,6 @@ void WSServer::startServer()
 
 void WSServer::incomingConnection(qintptr sd)
 {
-    qDebug() << sd << " Connected...";
-
     WSThread *workHorse = new WSThread(sd, this);
     connect(workHorse, SIGNAL(finished()), workHorse, SLOT(deleteLater()));
 

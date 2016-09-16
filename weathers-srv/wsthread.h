@@ -6,6 +6,7 @@
 #include <QThread>
 #include <QTcpSocket>
 #include <QDataStream>
+#include <QHostAddress>
 
 class WSThread : public QThread
 {
@@ -20,10 +21,12 @@ private:
 
 public:
     WSThread(qintptr socketDescriptor, QObject *parent);
+    ~WSThread();
     void run() Q_DECL_OVERRIDE;
 
 public slots:
     void disconnected();
+    void readyRead();
 
 };
 

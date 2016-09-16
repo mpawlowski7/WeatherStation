@@ -4,7 +4,6 @@
 int main(int argc, char *argv[])
 {
     QGuiApplication app(argc, argv);
-    QQmlApplicationEngine engine;
     qSetMessagePattern("%{time [hh:mm:ss]}[%{file}(%{line})]: %{message}");
 
     QScreen* screen = app.screens().at(0);
@@ -14,7 +13,7 @@ int main(int argc, char *argv[])
         qDebug() << "Scren size: " << screen->size();
     }
 
-    GuiPainter::instance()->init(engine);
+    GuiPainter::instance()->init();
 
     return app.exec();
 }
