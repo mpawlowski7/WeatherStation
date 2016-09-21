@@ -32,7 +32,16 @@ DISTFILES += \
     res/Pixel.qml \
     res/SingleDayView.qml \
     res/TextShadow.qml \
-    res/WeatherIcon.qml
+    res/WeatherIcon.qml \
+    android/gradle/wrapper/gradle-wrapper.jar \
+    android/AndroidManifest.xml \
+    android/gradlew \
+    android/res/values/libs.xml \
+    android/build.gradle \
+    android/gradle/wrapper/gradle-wrapper.properties \
+    android/gradlew.bat
 
 HEADERS += \
     guipainter.h
+
+ANDROID_PACKAGE_SOURCE_DIR = $$PWD/android

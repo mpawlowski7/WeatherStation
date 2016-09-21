@@ -1,5 +1,4 @@
 import QtQuick 2.0
-import QtGraphicalEffects 1.0
 
 Item {
     id: root
@@ -14,7 +13,7 @@ Item {
         id: day_txt
         text: root.day
         size: 12
-        textColor: "slategray"
+        textColor: "#ffffff"
         shadowVisible: false
         anchors.top: parent.top
         anchors.left: parent.left
@@ -40,7 +39,7 @@ Item {
             id: tempHigh
             text: root.tempHigh + qsTr("\u00B0")
             size: 24
-            textColor: "#708090"
+            textColor: "#ffffff"
             shadowVisible: false
             anchors.verticalCenter: parent.verticalCenter
         }

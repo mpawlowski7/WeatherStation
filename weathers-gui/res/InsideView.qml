@@ -14,7 +14,8 @@ Rectangle {
         width: parent.width
         height: parent.height * 0.49
         anchors.top: parent.top
-        color: "#00b499"
+        color: "#02443a"
+        border.color: "#00c7b3"
 
         Item {
             width: parent.width
@@ -52,7 +53,8 @@ Rectangle {
                 width: parent.width
                 height: parent.height * 0.3
                 anchors.bottom: parent.bottom
-                color: "#00b499"
+                color: "#02443a"
+                border.color: "#00c7b3"
 
                 TextShadow {
                     id: clock_txt;
@@ -79,8 +81,9 @@ Rectangle {
         width: parent.width
         height: parent.height * 0.49
         anchors.bottom: parent.bottom
-        color: "#a7c629"
+        color: "#22404a"
         clip: true
+        border.color: "#00c7b3"
 
         ListView {
             id: room_list
@@ -183,7 +186,8 @@ Rectangle {
                     width: parent.width
                     height: parent.height * 0.3
                     anchors.bottom: parent.bottom
-                    color: "#a7c629"
+                    color: "#22404a"
+                    border.color: "#00c7b3"
 
                     TextShadow {
                         id: room_l_arrow;

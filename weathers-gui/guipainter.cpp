@@ -37,8 +37,9 @@ void GuiPainter::init()
     m_in.setVersion(QDataStream::Qt_4_0);
     connect(p_tcpSocket, &QIODevice::readyRead, this, &GuiPainter::readDataFromServer);
     connect(this, &GuiPainter::readyToDraw, this, &GuiPainter::drawGui);
-    p_tcpSocket->connectToHost(QHostAddress::LocalHost, 8786);
+    p_tcpSocket->connectToHost(QHostAddress("192.168.60.210"), 8786);
     p_tcpSocket->write("aok!");
+ //   drawGui();
 }
 
 QObject* GuiPainter::qmlinstance(QQmlEngine *engine, QJSEngine *scriptEngine)
@@ -81,7 +82,6 @@ const QVariantMap& GuiPainter::currentDateTime() const
 void GuiPainter::drawGui()
 {
     qmlRegisterSingletonType<GuiPainter>("weatherstation.gui", 1, 0, "GuiPainter", &qmlinstance);
-
     engine.load(QUrl(QStringLiteral("qrc:/res/MainView.qml")));
 
     QObject *topLevel = engine.rootObjects().value(0);
@@ -112,7 +112,9 @@ void GuiPainter::readDataFromServer()
   //  qDebug() << m_forecast;
 
     if (!m_in.commitTransaction())
+    {
         return;
+    }
 
     p_tcpSocket->write("aok!");
 

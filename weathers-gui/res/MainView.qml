@@ -1,9 +1,9 @@
 import weatherstation.gui 1.0
 
 import QtQuick 2.5
+import QtQuick.Controls 2.0
 import QtQuick.Window 2.0
 import QtQuick.Layouts 1.1
-import QtGraphicalEffects 1.0
 
 import "controls" as Awesome
 
@@ -11,8 +11,8 @@ Window {
     id: root
     title: qsTr("Weather Station")
     visible: true
-    width: 800
-    height: 480
+    width: 1184
+    height: 720
     maximumWidth: 1920
     maximumHeight: 1080
     minimumWidth: 800
@@ -20,7 +20,7 @@ Window {
 
     FontLoader {
         id: ubuntuFont
-        source: "fonts/Ubuntu-C.ttf"
+        source: "qrc:/res/fonts/Ubuntu-C.ttf"
     }
 
     FontAwesome {
@@ -33,13 +33,14 @@ Window {
         anchors.fill: parent
         anchors.centerIn: parent
         anchors.margins: 0
-        color: "#e6e6e6"
+        color: "#32343c"
 
         Rectangle {
+            visible: false
             id: bottom_bar
-            width: root.width; height: root.height * 0.1;
+            width: root.width; height: root.height * 0.05;
             anchors.top: main_container.top
-            color: "#1bbbe4"
+            color: "#000000"
 
 
             Item {
@@ -71,7 +72,7 @@ Window {
         Row {
             id: main_row
             width: parent.width * 0.95
-            height: parent.height * 0.85
+            height: parent.height * 0.95
             anchors.bottom: main_container.bottom
             anchors.bottomMargin: 10
             anchors.horizontalCenter: main_container.horizontalCenter
@@ -86,122 +87,122 @@ Window {
 
     }
 
-    Item {
-        id: drawer_container
-        anchors.fill: parent
-        Drawer {
-            id: drawer
-            position: Qt.RightEdge
-            visualParent: drawer_container
-            color: 'slategray'
+//    Item {
+//        id: drawer_container
+//        anchors.fill: parent
+//        Drawer {
+//            id: drawer
+//            position: Qt.RightEdge
+//            visualParent: drawer_container
+//            //color: 'slategray'
 
-            Column {
-                anchors.top: parent.top
-                anchors.centerIn: parent
-                width: parent.width; height: parent.height
-                spacing: 10
+//            Column {
+//                anchors.top: parent.top
+//                anchors.centerIn: parent
+//                width: parent.width; height: parent.height
+//                spacing: 10
 
 
-                Item {
-                    id: label
-                    width: drawer.width
-                    height: 80
+//                Item {
+//                    id: label
+//                    width: drawer.width
+//                    height: 80
 
-                    TextShadow {
-                        anchors.centerIn: parent; anchors.margins: 5
-                        text: qsTr("Ustawienia"); size: 24; shadowColor: 'black'
-                    }
-                }
+//                    TextShadow {
+//                        anchors.centerIn: parent; anchors.margins: 5
+//                        text: qsTr("Ustawienia"); size: 24; shadowColor: 'black'
+//                    }
+//                }
 
-                Item {
-                    id: matrix
-                    width: parent.width - 40
-                    height: 220
-                    anchors.horizontalCenter: label.horizontalCenter
+//                Item {
+//                    id: matrix
+//                    width: parent.width - 40
+//                    height: 220
+//                    anchors.horizontalCenter: label.horizontalCenter
 
-                    LedMatrix {
-                        width: parent.width
-                    }
-                }
+//                    LedMatrix {
+//                        width: parent.width
+//                    }
+//                }
 
-                Rectangle {
-                    id: btn_rainbow
-                    width: parent.width - 20
-                    height: 40
-                    color: 'transparent'
-                    border.color: 'white'
-                    border.width: 2
-                    radius: 10
-                    anchors.horizontalCenter: label.horizontalCenter
+//                Rectangle {
+//                    id: btn_rainbow
+//                    width: parent.width - 20
+//                    height: 40
+//                    color: 'transparent'
+//                    border.color: 'white'
+//                    border.width: 2
+//                    radius: 10
+//                    anchors.horizontalCenter: label.horizontalCenter
 
-                    TextShadow {
-                        anchors.centerIn: parent; anchors.margins: 5
-                        text: qsTr("Rainbow"); size: 12; shadowColor: 'black'
-                    }
+//                    TextShadow {
+//                        anchors.centerIn: parent; anchors.margins: 5
+//                        text: qsTr("Rainbow"); size: 12; shadowColor: 'black'
+//                    }
 
-                }
+//                }
 
-                Rectangle {
-                    id: btn_random
-                    width: parent.width - 20
-                    height: 40
-                    color: 'transparent'
-                    border.color: 'white'
-                    border.width: 2
-                    radius: 10
-                    anchors.horizontalCenter: label.horizontalCenter
+//                Rectangle {
+//                    id: btn_random
+//                    width: parent.width - 20
+//                    height: 40
+//                    color: 'transparent'
+//                    border.color: 'white'
+//                    border.width: 2
+//                    radius: 10
+//                    anchors.horizontalCenter: label.horizontalCenter
 
-                    property bool isOn: false
+//                    property bool isOn: false
 
-                    TextShadow {
-                        anchors.centerIn: parent; anchors.margins: 5
-                        text: qsTr("Random"); size: 12; shadowColor: 'black'
-                    }
+//                    TextShadow {
+//                        anchors.centerIn: parent; anchors.margins: 5
+//                        text: qsTr("Random"); size: 12; shadowColor: 'black'
+//                    }
 
-                    MouseArea {
-                        id: btn_random_ma
-                        anchors.fill: parent
-                        onClicked: {}
-//                        {
-//                            if(btn_random.isOn)
-//                            {
-//                                LedPainter.deactivate();
-//                                btn_random.isOn = false;
-//                            }
-//                            else
-//                            {
-//                                LedPainter.activate();
-//                                btn_random.isOn = true;
-//                            }
-//                        }
-                    }
-                }
+//                    MouseArea {
+//                        id: btn_random_ma
+//                        anchors.fill: parent
+//                        onClicked: {}
+////                        {
+////                            if(btn_random.isOn)
+////                            {
+////                                LedPainter.deactivate();
+////                                btn_random.isOn = false;
+////                            }
+////                            else
+////                            {
+////                                LedPainter.activate();
+////                                btn_random.isOn = true;
+////                            }
+////                        }
+//                    }
+//                }
 
-                Rectangle {
-                    id: btn_clear
-                    width: parent.width - 20
-                    height: 40
-                    color: 'transparent'
-                    border.color: 'white'
-                    border.width: 2
-                    radius: 10
-                    anchors.horizontalCenter: label.horizontalCenter
+//                Rectangle {
+//                    id: btn_clear
+//                    width: parent.width - 20
+//                    height: 40
+//                    color: 'transparent'
+//                    border.color: 'white'
+//                    border.width: 2
+//                    radius: 10
+//                    anchors.horizontalCenter: label.horizontalCenter
 
-                    TextShadow {
-                        anchors.centerIn: parent; anchors.margins: 5
-                        text: qsTr("Clear"); size: 12; shadowColor: 'black'
-                    }
+//                    TextShadow {
+//                        anchors.centerIn: parent; anchors.margins: 5
+//                        text: qsTr("Clear"); size: 12; shadowColor: 'black'
+//                    }
 
-                    MouseArea {
-                        id: btn_clear_ma
-                        anchors.fill: parent
-                   //     onClicked: LedPainter.clear();
-                    }
-                }
+//                    MouseArea {
+//                        id: btn_clear_ma
+//                        anchors.fill: parent
+//                   //     onClicked: LedPainter.clear();
+//                    }
+//                }
 
-            }
+//            }
 
-        }
-    }
+//        }
+//    }
 
 }

@@ -1,5 +1,7 @@
 TEMPLATE = subdirs
 
-SUBDIRS += \
-    weathers-gui \
-    weathers-srv
+SUBDIRS += weathers-gui
+!android {
+   SUBDIRS += weathers-srv
+}
+

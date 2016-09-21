@@ -9,6 +9,9 @@ Rectangle {
     height: parent.height
     anchors.verticalCenter: parent.verticalCenter
     clip: true
+    color: "#353c55"
+    border.color: "#00c7b3"
+ //   radius: 10
 
     ListView {
         id: forecast_list

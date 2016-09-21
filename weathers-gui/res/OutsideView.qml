@@ -1,7 +1,6 @@
 import weatherstation.gui 1.0
 
 import QtQuick 2.7
-import QtGraphicalEffects 1.0
 
 Rectangle {
     id: root
@@ -83,6 +82,10 @@ Rectangle {
             break;
         }
     }
+
+    color: "#3f4851"
+    border.color: highColor
+  //  radius: 10
 
     Column {
         id: outside_sensor

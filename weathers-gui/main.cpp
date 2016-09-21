@@ -13,6 +13,8 @@ int main(int argc, char *argv[])
         qDebug() << "Scren size: " << screen->size();
     }
 
+ //   QQmlApplicationEngine engine;
+ //   engine.load(QUrl(QStringLiteral("qrc:res/MainView.qml")));
     GuiPainter::instance()->init();
 
     return app.exec();

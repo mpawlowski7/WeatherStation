@@ -16,7 +16,6 @@ private:
     WSServer(QObject* parent = 0) : QTcpServer(parent)
     {
     }
-  //  WSServer(WSServer& rhs);
     ~WSServer();
     const int port = 8786;
 
