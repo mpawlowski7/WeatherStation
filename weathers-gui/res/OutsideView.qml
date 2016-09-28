@@ -4,8 +4,6 @@ import QtQuick 2.7
 
 Rectangle {
     id: root
-    width: parent.width / 3
-    height: parent.height
     anchors.verticalCenter: parent.verticalCenter
 
     property string lowColor: "slategray"
@@ -85,34 +83,39 @@ Rectangle {
 
     color: "#3f4851"
     border.color: highColor
-  //  radius: 10
+    border.width: parent.width * 0.006
+
+    Item {
+        width: parent.width * 0.9
+        height: parent.height * 0.1
+        anchors.horizontalCenter: parent.horizontalCenter
+        anchors.top: parent.top
+
+        TextShadow {
+            id: batteryOut_txt
+            text: awesome.icons.fa_battery_full
+            textColor: highColor
+            anchors.left: parent.left
+            anchors.verticalCenter: parent.verticalCenter
+        }
+
+        TextShadow {
+            id: singalOut_txt
+            text: awesome.icons.fa_signal
+            textColor: highColor
+            anchors.right: parent.right
+            anchors.verticalCenter: parent.verticalCenter
+        }
+    }
 
     Column {
         id: outside_sensor
         width: root.width
-        height: root.height * 0.85
-        spacing: 0
-
-        Item {
-            width: parent.width
-            height: parent.height * 0.1
-
-            TextShadow {
-                id: batteryOut_txt
-                text: awesome.icons.fa_battery_full
-                textColor: highColor
-                anchors.left: parent.left
-                anchors.leftMargin: 10
-            }
-
-            TextShadow {
-                id: singalOut_txt
-                text: awesome.icons.fa_signal
-                textColor: highColor
-                anchors.right: parent.right
-                anchors.rightMargin: 10
-            }
-        }
+        height: root.height * 0.4
+        spacing: height * 0.05
+        anchors.horizontalCenter: parent.horizontalCenter
+        anchors.verticalCenter: parent.verticalCenter
+        anchors.verticalCenterOffset: -parent.height * 0.15
 
         WeatherIcon {
             type: GuiPainter.currentWeather["icon"]
@@ -130,7 +133,8 @@ Rectangle {
         }
 
         Row {
-            spacing: 5
+            height: parent.height * 0.1
+            spacing: height * 0.3
             anchors.horizontalCenter: parent.horizontalCenter
 
             WeatherIcon {
@@ -151,14 +155,14 @@ Rectangle {
         }
 
         Item {
-            width: parent.width
-            height: parent.height * 0.05
+            width: parent.width * 0.9
+            height: parent.height * 0.1
+            anchors.horizontalCenter: parent.horizontalCenter
 
             Row {
-                spacing: 5
                 height: parent.height
                 anchors.left: parent.left
-                anchors.leftMargin: 10
+                spacing: parent.height * 0.3
 
                 WeatherIcon {
                     id: pressureOut_ico;
@@ -178,10 +182,9 @@ Rectangle {
             }
 
             Row {
-                spacing: 5
                 height: parent.height
                 anchors.right: parent.right
-                anchors.rightMargin: 10
+                spacing: parent.height * 0.3
 
                 WeatherIcon {
                     id: windOut_ico;

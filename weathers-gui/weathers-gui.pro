@@ -1,6 +1,7 @@
 TEMPLATE = app
 
 QT += qml quick gui network
+android: QT += androidextras
 CONFIG += c++11
 
 SOURCES += main.cpp \
@@ -20,7 +21,6 @@ DISTFILES += \
     res/controls/Loader.qml \
     res/controls/Text.qml \
     res/controls/Variables.qml \
-    res/Colors.qml \
     res/Drawer.qml \
     res/FontAwesome.qml \
     res/ForecastView.qml \
@@ -29,7 +29,6 @@ DISTFILES += \
     res/main (kopia).qml \
     res/MainView.qml \
     res/OutsideView.qml \
-    res/Pixel.qml \
     res/SingleDayView.qml \
     res/TextShadow.qml \
     res/WeatherIcon.qml \

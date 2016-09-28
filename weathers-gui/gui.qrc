@@ -1,10 +1,6 @@
 <RCC>
     <qresource prefix="/">
         <file>res/fonts/Ubuntu-R.ttf</file>
-        <file>res/Drawer.qml</file>
-        <file>res/Pixel.qml</file>
-        <file>res/Colors.qml</file>
-        <file>res/LedMatrix.qml</file>
         <file>res/TextShadow.qml</file>
         <file>res/fonts/Ubuntu-L.ttf</file>
         <file>res/fonts/Ubuntu-C.ttf</file>

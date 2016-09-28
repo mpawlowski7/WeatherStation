@@ -5,8 +5,6 @@
 #include <sys/ioctl.h>
 #include <sys/types.h>
 #include <sys/stat.h>
-#include <linux/i2c.h>
-#include <linux/i2c-dev.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <fcntl.h>
@@ -20,7 +18,7 @@ class SPIDevice
 {
 private:
     static int fd;
-    const char *spi_file = "/dev/i2c-1";
+    const char *spi_file = "/dev/spi-1";
 
     virtual bool Init() const = 0;
     virtual bool Read(uint16_t slave_addr, uint8_t reg_addr, uint8_t reg_count, uint8_t * output) const = 0;

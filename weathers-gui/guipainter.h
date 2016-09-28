@@ -3,6 +3,7 @@
 
 #include <QMutex>
 #include <QGuiApplication>
+#include <QScreen>
 #include <QObject>
 #include <QQuickWindow>
 #include <QQmlApplicationEngine>
@@ -13,6 +14,7 @@
 #include <QVariantMap>
 #include <QTcpSocket>
 #include <QNetworkSession>
+#include <QWindow>
 
 #include <iostream>
 
@@ -41,7 +43,8 @@ private:
     GuiPainter(QObject* parent = 0);
     ~GuiPainter() {}
     QQmlApplicationEngine engine;
-    QTcpSocket *p_tcpSocket;
+    QScreen* screen;
+    QTcpSocket *p_tcpSocket;    
     QDataStream m_in;
     QString m_ipaddr;
     QVariantMap m_currentWeather;
@@ -56,7 +59,7 @@ private:
 public:
     static QObject* qmlinstance(QQmlEngine *engine, QJSEngine *scriptEngine);
     static GuiPainter* instance();
-    void init();
+    void init(QGuiApplication& app);
     void connectServer();
     const QString temperature() const;
     const QString pressure() const;

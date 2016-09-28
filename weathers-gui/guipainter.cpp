@@ -3,15 +3,6 @@
 GuiPainter::GuiPainter(QObject* parent) : QObject(parent), p_tcpSocket(new QTcpSocket(this))
 {
 
-//    QThread* workHorse = new QThread(this);
-//    QTimer* timer = new QTimer(0);
-
-//    timer->setInterval(1000);
-//    timer->moveToThread(workHorse);
-//    connect(timer, SIGNAL(timeout()), this, SLOT(connectToServer()));
-//    connect(workHorse, SIGNAL(started()), timer, SLOT(start()));
-//    workHorse->start();
-
 }
 
 GuiPainter* volatile GuiPainter::p_instance = nullptr;
@@ -27,19 +18,23 @@ GuiPainter* GuiPainter::instance()
     return p_instance;
 }
 
-void GuiPainter::init()
+void GuiPainter::init(QGuiApplication& app)
 {
-    m_ipaddr = p_tcpSocket->localAddress().toString();
+    screen = app.screens().at(0);
 
-    qDebug() << m_ipaddr;
+    qDebug() << "Physical dots per inch: " << screen->physicalDotsPerInch() << " Logical dots per inch: " << screen->logicalDotsPerInch();
 
     m_in.setDevice(p_tcpSocket);
     m_in.setVersion(QDataStream::Qt_4_0);
     connect(p_tcpSocket, &QIODevice::readyRead, this, &GuiPainter::readDataFromServer);
     connect(this, &GuiPainter::readyToDraw, this, &GuiPainter::drawGui);
-    p_tcpSocket->connectToHost(QHostAddress("192.168.60.210"), 8786);
-    p_tcpSocket->write("aok!");
- //   drawGui();
+    p_tcpSocket->connectToHost(QHostAddress("192.168.60.210"), 8786);\
+    m_ipaddr = p_tcpSocket->localAddress().toString();
+
+    qDebug() << "ip: " << m_ipaddr;
+
+    screen = app.screens().at(0);
+    p_tcpSocket->write("ok");
 }
 
 QObject* GuiPainter::qmlinstance(QQmlEngine *engine, QJSEngine *scriptEngine)
@@ -85,7 +80,9 @@ void GuiPainter::drawGui()
     engine.load(QUrl(QStringLiteral("qrc:/res/MainView.qml")));
 
     QObject *topLevel = engine.rootObjects().value(0);
+
     QQuickWindow *window = qobject_cast<QQuickWindow *>(topLevel);
+
     QObject *outsideView = window->findChild<QObject *>("outside_view");
     QObject *forecastView = window->findChild<QObject *>("forecast_view");
     QObject *insideView = window->findChild<QObject *>("inside_view");
@@ -94,12 +91,12 @@ void GuiPainter::drawGui()
     QObject::connect(this, SIGNAL(forecastChanged()), outsideView, SLOT(updateGradientColor()));
     QObject::connect(this, SIGNAL(forecastChanged()), forecastView, SLOT(updateData()));
     QObject::connect(this, SIGNAL(insideChanged()), insideView, SLOT(updateData()));
+
+    window->showFullScreen();
 }
 
 void GuiPainter::readDataFromServer()
 {
-    qDebug() << "Recived some data...";
-
     m_in.startTransaction();
 
     m_in >> m_currentWeather;
@@ -108,15 +105,12 @@ void GuiPainter::readDataFromServer()
     m_in >> m_pressure;
     m_in >> m_humidity;
 
-    qDebug() << m_humidity + " " + m_pressure + " " + m_temperature;
-  //  qDebug() << m_forecast;
-
     if (!m_in.commitTransaction())
     {
         return;
     }
 
-    p_tcpSocket->write("aok!");
+    p_tcpSocket->write("ok");
 
     m_currentDateTime.insert("time", QTime::currentTime().toString(QString("hh:mm")));
     m_currentDateTime.insert("date", QDate::currentDate().toString(QString("dd.MM.yyyy")));

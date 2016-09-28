@@ -10,18 +10,6 @@ import "controls" as Awesome
 Window {
     id: root
     title: qsTr("Weather Station")
-    visible: true
-    width: 1184
-    height: 720
-    maximumWidth: 1920
-    maximumHeight: 1080
-    minimumWidth: 800
-    minimumHeight: 480
-
-    FontLoader {
-        id: ubuntuFont
-        source: "qrc:/res/fonts/Ubuntu-C.ttf"
-    }
 
     FontAwesome {
         id: awesome
@@ -42,47 +30,57 @@ Window {
             anchors.top: main_container.top
             color: "#000000"
 
-
             Item {
                 id: bottom_bar_container
                 anchors.fill: parent
 
-                Text {
+                TextShadow {
                     id: time_txt
                     text: awesome.icons.fa_plug + " " + awesome.icons.fa_battery_full + " " + awesome.icons.fa_wifi + "    " + awesome.icons.fa_ellipsis_v
-                    color: "#ffffff"
+                    textColor: "#ffffff"
                     anchors.right: parent.right
                     anchors.rightMargin: parent.height * 0.5
                     anchors.verticalCenter: parent.verticalCenter
                 }
 
-                Text {
+                TextShadow {
                     id: location_txt;
                     anchors.verticalCenter: parent.verticalCenter
                     anchors.left: parent.left
                     anchors.leftMargin: parent.height * 0.5
                     text: awesome.icons.fa_map_marker + " " + GuiPainter.currentWeather["location"]
-                    font.family: ubuntuFont.name
-                    color: '#ffffff'
-                    font.pointSize: 12
+                    textColor: '#ffffff'
                 }
             }
         }
 
-        Row {
+        RowLayout {
             id: main_row
-            width: parent.width * 0.95
-            height: parent.height * 0.95
-            anchors.bottom: main_container.bottom
-            anchors.bottomMargin: 10
-            anchors.horizontalCenter: main_container.horizontalCenter
-            anchors.horizontalCenterOffset: -parent.width * 0.01
-            spacing: 10
+            anchors.fill: parent
+            anchors.centerIn: parent
+            anchors.margins: parent.width * 0.01
+            spacing: parent.width * 0.01
 
-            InsideView { objectName: "inside_view" }
-            OutsideView { objectName: "outside_view" }
-            ForecastView { objectName: "forecast_view" }
-      //      InsideView { objectName: "inside_view" }
+            InsideView {
+                objectName: "inside_view"
+                Layout.preferredWidth: parent.width * 0.33 - parent.width * 0.01 / 2
+                Layout.preferredHeight: parent.height
+                Layout.fillHeight: true
+            }
+
+            OutsideView {
+                objectName: "outside_view"
+                Layout.preferredWidth: parent.width * 0.33 - parent.width * 0.01 / 2
+                Layout.preferredHeight: parent.height
+                Layout.fillHeight: true
+            }
+
+            ForecastView {
+                objectName: "forecast_view"
+                Layout.preferredWidth: parent.width * 0.33 - parent.width * 0.01 / 2
+                Layout.preferredHeight: parent.height
+                Layout.fillHeight: true
+            }
         }
 
     }

@@ -1,4 +1,5 @@
 import QtQuick 2.5
+import QtQuick.Window 2.0
 
 Item {
     id: root
@@ -27,7 +28,7 @@ Item {
                 "wind" : "\uf0b1"
     }
     property string type: "unknown"
-    property int size: 24
+    property real size: 24
     property string color: "white"
     width: main.width
     height: main.height
@@ -37,7 +38,7 @@ Item {
     Text {
         id: main
         font.family: weatherIcons.name
-        font.pointSize: root.size
+        font.pointSize: root.size * Screen.pixelDensity / Screen.logicalPixelDensity
         color: root.color
         text: root.icons[root.type]
         anchors.centerIn: root

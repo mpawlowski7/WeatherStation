@@ -3,30 +3,29 @@ import QtQuick 2.0
 Item {
     id: root
 
-    property string day: new Date().toLocaleDateString(Qt.locale(), "dd.MM")
+    property string day: "---"
     property string icon: "clear"
     property string condition: "clear"
-    property string tempHigh: "30.0"
-    property string tempLow: "15.0"
-
-    TextShadow {
-        id: day_txt
-        text: root.day
-        size: 12
-        textColor: "#ffffff"
-        shadowVisible: false
-        anchors.top: parent.top
+    property string tempHigh: "-.-"
+    property string tempLow: "-.-"
+    Item {
+        width: parent.width
         anchors.left: parent.left
-        anchors.leftMargin: 20
+        anchors.leftMargin: width * 0.1
+        TextShadow {
+            id: day_txt
+            text: root.day
+            size: 12
+            textColor: "#ffffff"
+            shadowVisible: false
+        }
     }
 
     Row {
         id: weather_status
-        width: parent.width
         height: parent.height * 1.1
-        spacing: 15
-        anchors.left: parent.left
-        anchors.leftMargin: 25
+        spacing: height * 0.1
+        anchors.horizontalCenter: parent.horizontalCenter
 
         WeatherIcon {
             type: icon

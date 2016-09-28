@@ -10,22 +10,22 @@ CONFIG -= app_bundle
 TEMPLATE = app
 
 SOURCES += main.cpp \
-    sensors/hts221.cpp \
     sensors/i2cdevice.cpp \
-    sensors/lps25h.cpp \
     sensors/spidevice.cpp \
-    wumanager.cpp \
+    sensors/nrf24l.cpp \
+    sensors/lps25h.cpp \
     wsserver.cpp \
-    wsthread.cpp
-
+    wsthread.cpp \
+    wumanager.cpp
 
 DISTFILES +=
 
 HEADERS += \
-    sensors/hts221.h \
     sensors/i2cdevice.h \
-    sensors/lps25h.h \
     sensors/spidevice.h \
-    wumanager.h \
+    sensors/lps25h.h \
+    sensors/hts221.h \
+    sensors/nrf24l.h \
     wsserver.h \
-    wsthread.h
+    wsthread.h \
+    wumanager.h

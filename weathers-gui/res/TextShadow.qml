@@ -1,8 +1,9 @@
 import QtQuick 2.5
+import QtQuick.Window 2.0
 
 Item {
     property alias text: main.text
-    property alias size: main.font.pointSize
+    property real size: 12
     property alias shadowColor: shadow.color
     property alias textColor: main.color
     property bool shadowVisible: true
@@ -15,6 +16,7 @@ Item {
     Text {
         id: main
         anchors.centerIn: parent
+        font.pointSize: size * Screen.pixelDensity / Screen.logicalPixelDensity
         font.family: ubuntuFont.name
         font.bold: false
         color: '#f6f6f6'

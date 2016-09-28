@@ -5,8 +5,6 @@ import QtQml 2.2
 
 Rectangle {
     id: root
-    width: parent.width / 3
-    height: parent.height
     anchors.verticalCenter: parent.verticalCenter
     color: "transparent"
 
@@ -15,63 +13,54 @@ Rectangle {
         height: parent.height * 0.49
         anchors.top: parent.top
         color: "#02443a"
-        border.color: "#00c7b3"
+        border.color: "#037362"
+        border.width: parent.width * 0.02
 
         Item {
             width: parent.width
-            height: parent.height
+            height: parent.height * 0.49
+            anchors.top: parent.top
             anchors.horizontalCenter: parent.horizontalCenter
 
             Item {
-                width: parent.width
-                height: parent.height * 0.1
+                width: parent.width * 0.9
+                height: parent.height * 0.4
                 anchors.top: parent.top
+                anchors.horizontalCenter: parent.horizontalCenter
 
                 TextShadow {
                     text: awesome.icons.fa_clock_o
                     anchors.left: parent.left
-                    anchors.leftMargin: 8
+                    anchors.verticalCenter: parent.verticalCenter
                 }
 
                 TextShadow {
                     text: "UTC+0"+(-(new Date().getTimezoneOffset()/60))+":00"
                     anchors.right: parent.right
-                    anchors.rightMargin: 8
+                    anchors.verticalCenter: parent.verticalCenter
                 }
             }
-
-            TextShadow {
-                id: time_txt
-                anchors.centerIn: parent
-                text: GuiPainter.currentDateTime["time"]
-                anchors.verticalCenter: parent.verticalCenter
-                anchors.verticalCenterOffset: -parent.height * 0.1
-                size: 46
-            }
-
-            Rectangle {
+            Item {
                 width: parent.width
                 height: parent.height * 0.3
                 anchors.bottom: parent.bottom
-                color: "#02443a"
-                border.color: "#00c7b3"
 
                 TextShadow {
-                    id: clock_txt;
+                    id: time_txt
+                    text: GuiPainter.currentDateTime["time"]
                     anchors.horizontalCenter: parent.horizontalCenter
                     anchors.verticalCenter: parent.verticalCenter
+                    anchors.verticalCenterOffset: parent.height * 0.3
+                    size: 52
+                }
+                TextShadow {
+                    id: date_txt;
+                    anchors.horizontalCenter: parent.horizontalCenter
+                    anchors.top: time_txt.bottom
+                    anchors.topMargin: -parent.height * 0.2
                     text: GuiPainter.currentDateTime["date"]
-                    size: 16
+                    size: 14
                 }
-
-                Rectangle {
-                    width: parent.width
-                    height: parent.height * 0.12
-                    color: "#000000"
-                    opacity: 0.2
-                    anchors.bottom: parent.bottom
-                }
-
             }
         }
     }
@@ -83,7 +72,8 @@ Rectangle {
         anchors.bottom: parent.bottom
         color: "#22404a"
         clip: true
-        border.color: "#00c7b3"
+        border.color: "#356373"
+        border.width: parent.width * 0.02
 
         ListView {
             id: room_list
@@ -135,29 +125,31 @@ Rectangle {
                 height: sensorsIn.height
 
                 Item {
-                    width: parent.width
-                    height: parent.height * 0.1
+                    width: parent.width * 0.9
+                    height: parent.height * 0.2
                     anchors.top: parent.top
+                    anchors.horizontalCenter: parent.horizontalCenter
 
                     TextShadow {
                         id: batteryOut_txt
                         text: awesome.icons.fa_battery_full
                         anchors.left: parent.left
-                        anchors.leftMargin: 8
+                        anchors.verticalCenter: parent.verticalCenter
                     }
 
                     TextShadow {
                         id: signalOut_txt
                         text: awesome.icons.fa_signal
                         anchors.right: parent.right
-                        anchors.rightMargin: 8
+                        anchors.verticalCenter: parent.verticalCenter
                     }
                 }
 
-                TextShadow { id: temperature_txt;
+                TextShadow {
+                    id: temperature_txt;
                     anchors.horizontalCenter: parent.horizontalCenter
                     anchors.verticalCenter: parent.verticalCenter
-                    anchors.verticalCenterOffset: -parent.height * 0.22
+                    anchors.verticalCenterOffset: -parent.height * 0.15
                     text: temp + qsTr("\u00B0")
                     size: 38
                 }
@@ -166,6 +158,7 @@ Rectangle {
                     spacing: 5
                     anchors.top: temperature_txt.bottom
                     anchors.horizontalCenter: parent.horizontalCenter
+                    anchors.topMargin: -parent.height * 0.05
 
                     WeatherIcon {
                         id: humidityIn_ico;
@@ -186,13 +179,12 @@ Rectangle {
                     width: parent.width
                     height: parent.height * 0.3
                     anchors.bottom: parent.bottom
-                    color: "#22404a"
-                    border.color: "#00c7b3"
+                    color: "#356373"
 
                     TextShadow {
                         id: room_l_arrow;
                         anchors.left: parent.left
-                        anchors.leftMargin: 10
+                        anchors.leftMargin: parent.width * 0.08
                         anchors.verticalCenter: parent.verticalCenter
                         text: awesome.icons.fa_arrow_circle_left
                         visible: room_list.l_arrow
@@ -209,7 +201,7 @@ Rectangle {
                     TextShadow {
                         id: room_r_arrow;
                         anchors.right: parent.right
-                        anchors.rightMargin: 10
+                        anchors.rightMargin: parent.width * 0.08
                         anchors.verticalCenter: parent.verticalCenter
                         text: awesome.icons.fa_arrow_circle_right
                         visible: room_list.r_arrow
