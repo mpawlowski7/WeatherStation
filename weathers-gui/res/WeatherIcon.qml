@@ -30,6 +30,16 @@ Item {
     property string type: "unknown"
     property real size: 24
     property string color: "white"
+
+    readonly property real refWidth: 800
+    readonly property real refHeight: 480
+    readonly property real refDpi: 162.121
+    readonly property real _width: Screen.width;
+    readonly property real _height: Screen.height;
+    readonly property real _dpi: Screen.logicalPixelDensity * 25.4;
+
+    property real _scale: Math.min(_height*refDpi/(_dpi*refHeight), _width*refDpi/(_dpi*refWidth))
+
     width: main.width
     height: main.height
     clip: false
@@ -38,7 +48,7 @@ Item {
     Text {
         id: main
         font.family: weatherIcons.name
-        font.pointSize: root.size * Screen.pixelDensity / Screen.logicalPixelDensity
+        font.pointSize: root.size * _scale
         color: root.color
         text: root.icons[root.type]
         anchors.centerIn: root

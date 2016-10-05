@@ -36,5 +36,6 @@
         <file>res/controls/Variables.qml</file>
         <file>res/FontAwesome.qml</file>
         <file>res/fonts/fontawesome-webfont.ttf</file>
+        <file>res/DisplayScale.qml</file>
     </qresource>
 </RCC>

@@ -9,12 +9,12 @@ Rectangle {
     property string lowColor: "slategray"
     property string highColor: "gray"
 
-    readonly property string c00_L: ""
-    readonly property string c00_H: ""
+    readonly property string c00_L: "#639eff"
+    readonly property string c00_H: "#639eff"
     readonly property string c00_R: ""
 
-    readonly property string c00_05L: ""
-    readonly property string c00_05H: ""
+    readonly property string c00_05L: "#89dcff"
+    readonly property string c00_05H: "#76c2ff"
     readonly property string c00_05R: ""
 
     readonly property string c05_10L: "#3ab7e4"
@@ -115,7 +115,7 @@ Rectangle {
         spacing: height * 0.05
         anchors.horizontalCenter: parent.horizontalCenter
         anchors.verticalCenter: parent.verticalCenter
-        anchors.verticalCenterOffset: -parent.height * 0.15
+        anchors.verticalCenterOffset: -parent.height * 0.2
 
         WeatherIcon {
             type: GuiPainter.currentWeather["icon"]

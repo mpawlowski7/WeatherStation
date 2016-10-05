@@ -20,20 +20,39 @@ GuiPainter* GuiPainter::instance()
 
 void GuiPainter::init(QGuiApplication& app)
 {
-    screen = app.screens().at(0);
+    screen = app.primaryScreen();
 
-    qDebug() << "Physical dots per inch: " << screen->physicalDotsPerInch() << " Logical dots per inch: " << screen->logicalDotsPerInch();
+    qDebug() << "Physical dots per inch: " << screen->physicalDotsPerInch();
+    qDebug() << "Logical dots per inch: " << screen->logicalDotsPerInch();
+    qDebug() << "Pixel density ratio: " << screen->devicePixelRatio();
 
+    QList<QHostAddress> addresses = QNetworkInterface::allAddresses();
+    foreach (const QHostAddress &address, addresses) {
+        if (address.protocol() == QAbstractSocket::IPv4Protocol && address != QHostAddress(QHostAddress::LocalHost))
+        {
+            m_ipaddr = address;
+            break;
+        }
+    }
     m_in.setDevice(p_tcpSocket);
     m_in.setVersion(QDataStream::Qt_4_0);
     connect(p_tcpSocket, &QIODevice::readyRead, this, &GuiPainter::readDataFromServer);
     connect(this, &GuiPainter::readyToDraw, this, &GuiPainter::drawGui);
-    p_tcpSocket->connectToHost(QHostAddress("192.168.60.210"), 8786);\
-    m_ipaddr = p_tcpSocket->localAddress().toString();
+    QStringList _address = m_ipaddr.toString().split(".");
+    quint32 _addressLastPart = 2;
+    while(_addressLastPart < 254)
+    {
+        QString curr = _address[0] +"."+ _address[1] +"."+ _address[2] +"."+ QString::number(_addressLastPart++);
+        qDebug() << "address" << curr << " state: " << p_tcpSocket->state();
+        p_tcpSocket->connectToHost(QHostAddress(curr), 8786);
+        if(p_tcpSocket->waitForConnected(4))
+        {
+            qDebug() << "Connected to " << curr + ":8786";
+            break;
+        }
+    }
 
-    qDebug() << "ip: " << m_ipaddr;
-
-    screen = app.screens().at(0);
+    qDebug() << "Client ip " << m_ipaddr.toString();
     p_tcpSocket->write("ok");
 }
 

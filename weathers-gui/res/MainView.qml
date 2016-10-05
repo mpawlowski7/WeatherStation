@@ -16,6 +16,16 @@ Window {
         resource: "qrc:///res/fonts/fontawesome-webfont.ttf"
     }
 
+    Component.onCompleted: {
+        console.log("Pixel ratio:" + Screen.devicePixelRatio)
+        console.log("Pixel density:" + Screen.pixelDensity * 25.4)
+        console.log("Pixel logical density:" + Screen.logicalPixelDensity * 25.4)
+        console.log("Width: " + Screen.width)
+        console.log("Height: " + Screen.height)
+    }
+
+
+
     Rectangle {
         id: main_container
         anchors.fill: parent

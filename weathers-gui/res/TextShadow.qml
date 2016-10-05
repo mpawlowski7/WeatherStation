@@ -8,6 +8,15 @@ Item {
     property alias textColor: main.color
     property bool shadowVisible: true
 
+    readonly property real refWidth: 800
+    readonly property real refHeight: 480
+    readonly property real refDpi: 162.121
+    readonly property real _width: Screen.width;
+    readonly property real _height: Screen.height;
+    readonly property real _dpi: Screen.logicalPixelDensity * 25.4;
+
+    property real _scale: Math.min(_height*refDpi/(_dpi*refHeight), _width*refDpi/(_dpi*refWidth))
+
     FontLoader { id: ubuntuFont; source: "fonts/Ubuntu-C.ttf" }
 
     width: main.width
@@ -16,7 +25,8 @@ Item {
     Text {
         id: main
         anchors.centerIn: parent
-        font.pointSize: size * Screen.pixelDensity / Screen.logicalPixelDensity
+        font.pointSize: size * /*Math.min(Screen.height * 162.121 / (Screen.logicalPixelDensity * 25.4 * 480),
+                                        Screen.width * 162.121 / (Screen.logicalPixelDensity * 25.4 * 800))*/ _scale
         font.family: ubuntuFont.name
         font.bold: false
         color: '#f6f6f6'

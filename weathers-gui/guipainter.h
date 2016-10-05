@@ -46,7 +46,7 @@ private:
     QScreen* screen;
     QTcpSocket *p_tcpSocket;    
     QDataStream m_in;
-    QString m_ipaddr;
+    QHostAddress m_ipaddr;
     QVariantMap m_currentWeather;
     QVariantMap m_forecast;
     QVariantMap m_currentDateTime;
