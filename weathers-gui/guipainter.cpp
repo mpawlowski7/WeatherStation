@@ -45,7 +45,7 @@ void GuiPainter::init(QGuiApplication& app)
         QString curr = _address[0] +"."+ _address[1] +"."+ _address[2] +"."+ QString::number(_addressLastPart++);
         qDebug() << "address" << curr << " state: " << p_tcpSocket->state();
         p_tcpSocket->connectToHost(QHostAddress(curr), 8786);
-        if(p_tcpSocket->waitForConnected(4))
+        if(p_tcpSocket->waitForConnected(25))
         {
             qDebug() << "Connected to " << curr + ":8786";
             break;
