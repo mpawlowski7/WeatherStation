@@ -1,0 +1,24 @@
+/media/projekty/WeatherStation/bin/android/Debug/android-build/gen/mp/prv/weatherstation/R.java \
+ : /media/projekty/WeatherStation/bin/android/Debug/android-build/res/values-el/strings.xml \
+/media/projekty/WeatherStation/bin/android/Debug/android-build/res/values-id/strings.xml \
+/media/projekty/WeatherStation/bin/android/Debug/android-build/res/values-es/strings.xml \
+/media/projekty/WeatherStation/bin/android/Debug/android-build/res/values-et/strings.xml \
+/media/projekty/WeatherStation/bin/android/Debug/android-build/res/values-rs/strings.xml \
+/media/projekty/WeatherStation/bin/android/Debug/android-build/res/values-ru/strings.xml \
+/media/projekty/WeatherStation/bin/android/Debug/android-build/res/values-nl/strings.xml \
+/media/projekty/WeatherStation/bin/android/Debug/android-build/res/values-ja/strings.xml \
+/media/projekty/WeatherStation/bin/android/Debug/android-build/res/values-pt-rBR/strings.xml \
+/media/projekty/WeatherStation/bin/android/Debug/android-build/res/values-it/strings.xml \
+/media/projekty/WeatherStation/bin/android/Debug/android-build/res/values-fr/strings.xml \
+/media/projekty/WeatherStation/bin/android/Debug/android-build/res/layout/splash.xml \
+/media/projekty/WeatherStation/bin/android/Debug/android-build/res/values-pl/strings.xml \
+/media/projekty/WeatherStation/bin/android/Debug/android-build/res/values-de/strings.xml \
+/media/projekty/WeatherStation/bin/android/Debug/android-build/res/values-ro/strings.xml \
+/media/projekty/WeatherStation/bin/android/Debug/android-build/res/values-nb/strings.xml \
+/media/projekty/WeatherStation/bin/android/Debug/android-build/res/values-fa/strings.xml \
+/media/projekty/WeatherStation/bin/android/Debug/android-build/res/values-ms/strings.xml \
+/media/projekty/WeatherStation/bin/android/Debug/android-build/res/values-zh-rTW/strings.xml \
+/media/projekty/WeatherStation/bin/android/Debug/android-build/res/values-zh-rCN/strings.xml \
+/media/projekty/WeatherStation/bin/android/Debug/android-build/res/values/libs.xml \
+/media/projekty/WeatherStation/bin/android/Debug/android-build/res/values/strings.xml \
+/media/projekty/WeatherStation/bin/android/Debug/android-build/bin/AndroidManifest.xml \
