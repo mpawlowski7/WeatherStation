@@ -1,0 +1,14 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+{
+  "type": "gdb",
+  "request": "launch",
+  "name": "Launch Program",
+  "target": "${workspaceRoot}/build/ASRManager/tools/SimDialog/SimDialog",
+  "gdbpath": "/media/linux_pro/ihu_sdk/sysroots/i686-pokysdk-linux/usr/bin/x86_64-poky-linux/x86_64-poky-linux-gdb",
+  "arguments": "192.168.60.77",
+  "cwd": "${workspaceRoot}"
+}
+  ]
+}

@@ -1,0 +1,26 @@
+{
+    "configurations": [
+        {
+            "name": "Mac",
+            "includePath": [
+                "/usr/include"
+            ]
+        },
+        {
+            "name": "Linux",
+            "includePath": [
+                "/home/mipw/raspi/sysroot/usr/include",
+                "/home/mipw/raspi/sysroot/usr/include/linux",
+                "/home/mipw/raspi/sysroot/opt/vs/include",
+                "/home/mipw/raspi/qt5pi/include/QtCore",
+                "/home/mipw/raspi/qt5pi/include/QtQuick"
+            ]
+        },
+        {
+            "name": "Win32",
+            "includePath": [
+                "c:/Program Files (x86)/Microsoft Visual Studio 14.0/VC/include"
+            ]
+        }
+    ]
+}

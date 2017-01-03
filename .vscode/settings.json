@@ -1,0 +1,16 @@
+// Place your settings in this file to overwrite default and user settings.
+{
+    "editor.tabSize": 2,
+    "editor.insertSpaces": true,
+    "cmake.generator": "Unix Makefiles",
+    "files.autoSave": "onFocusChange",
+    "files.encoding": "utf8",
+    "files.eol": "\n",
+    "editor.snippetSuggestions": "bottom",
+    "editor.wrappingColumn": 80,
+    "editor.rulers": [
+        80
+    ],
+    "editor.autoClosingBrackets": true
+
+}

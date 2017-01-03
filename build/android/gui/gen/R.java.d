@@ -1,0 +1,24 @@
+/media/dane/Projekty/WeatherStation/build/android/gui/gen/org/qtproject/weatherstationgui/R.java \
+ : /media/dane/Projekty/WeatherStation/build/android/gui/res/layout/splash.xml \
+/media/dane/Projekty/WeatherStation/build/android/gui/res/values-nb/strings.xml \
+/media/dane/Projekty/WeatherStation/build/android/gui/res/values/libs.xml \
+/media/dane/Projekty/WeatherStation/build/android/gui/res/values/strings.xml \
+/media/dane/Projekty/WeatherStation/build/android/gui/res/values-zh-rTW/strings.xml \
+/media/dane/Projekty/WeatherStation/build/android/gui/res/values-pt-rBR/strings.xml \
+/media/dane/Projekty/WeatherStation/build/android/gui/res/values-ms/strings.xml \
+/media/dane/Projekty/WeatherStation/build/android/gui/res/values-rs/strings.xml \
+/media/dane/Projekty/WeatherStation/build/android/gui/res/values-ro/strings.xml \
+/media/dane/Projekty/WeatherStation/build/android/gui/res/values-id/strings.xml \
+/media/dane/Projekty/WeatherStation/build/android/gui/res/values-el/strings.xml \
+/media/dane/Projekty/WeatherStation/build/android/gui/res/values-it/strings.xml \
+/media/dane/Projekty/WeatherStation/build/android/gui/res/values-es/strings.xml \
+/media/dane/Projekty/WeatherStation/build/android/gui/res/values-pl/strings.xml \
+/media/dane/Projekty/WeatherStation/build/android/gui/res/values-fa/strings.xml \
+/media/dane/Projekty/WeatherStation/build/android/gui/res/values-de/strings.xml \
+/media/dane/Projekty/WeatherStation/build/android/gui/res/values-fr/strings.xml \
+/media/dane/Projekty/WeatherStation/build/android/gui/res/values-nl/strings.xml \
+/media/dane/Projekty/WeatherStation/build/android/gui/res/values-ja/strings.xml \
+/media/dane/Projekty/WeatherStation/build/android/gui/res/values-zh-rCN/strings.xml \
+/media/dane/Projekty/WeatherStation/build/android/gui/res/values-et/strings.xml \
+/media/dane/Projekty/WeatherStation/build/android/gui/res/values-ru/strings.xml \
+/media/dane/Projekty/WeatherStation/build/android/gui/bin/AndroidManifest.xml \

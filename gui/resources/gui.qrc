@@ -1,0 +1,42 @@
+<RCC>
+    <qresource prefix="/">
+        <file>fonts/Ubuntu-R.ttf</file>
+        <file>qml/TextShadow.qml</file>
+        <file>fonts/Ubuntu-L.ttf</file>
+        <file>fonts/Ubuntu-C.ttf</file>
+        <file>fonts/WireOne.ttf</file>
+        <file>img/partlycloudy.svg</file>
+        <file>img/nt_cloudy.svg</file>
+        <file>img/nt_partlycloudy.svg</file>
+        <file>img/sunny.svg</file>
+        <file>img/mostlycloudy.svg</file>
+        <file>img/mostlysunny.svg</file>
+        <file>img/partlysunny.svg</file>
+        <file>img/humidity_out.svg</file>
+        <file>img/nt_chancerain.svg</file>
+        <file>img/nt_clear.svg</file>
+        <file>img/nt_rain.svg</file>
+        <file>img/rain.svg</file>
+        <file>img/home.svg</file>
+        <file>img/pressure.svg</file>
+        <file>qml/ForecastView.qml</file>
+        <file>qml/MainView.qml</file>
+        <file>qml/OutsideView.qml</file>
+        <file>qml/InsideView.qml</file>
+        <file>qml/SingleDayView.qml</file>
+        <file>fonts/weathericons-regular-webfont.ttf</file>
+        <file>qml/WeatherIcon.qml</file>
+        <file>fonts/weathericons-regular-webfont.svg</file>
+        <file>fonts/iconvault_forecastfont.ttf</file>
+        <file>fonts/weathericons-regular-webfont.eot</file>
+        <file>fonts/weathericons-regular-webfont.woff</file>
+        <file>controls/Button.qml</file>
+        <file>controls/Loader.qml</file>
+        <file>controls/Text.qml</file>
+        <file>controls/Variables.qml</file>
+        <file>qml/FontAwesome.qml</file>
+        <file>fonts/fontawesome-webfont.ttf</file>
+        <file>qml/DisplayScale.qml</file>
+        <file>qml/Splash.qml</file>
+    </qresource>
+</RCC>
