@@ -2,7 +2,6 @@
 {
     "editor.tabSize": 2,
     "editor.insertSpaces": true,
-    "cmake.generator": "Unix Makefiles",
     "files.autoSave": "onFocusChange",
     "files.encoding": "utf8",
     "files.eol": "\n",
@@ -12,5 +11,4 @@
         80
     ],
     "editor.autoClosingBrackets": true
-
 }

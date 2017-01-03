@@ -1,40 +1,69 @@
 {
-    // See https://go.microsoft.com/fwlink/?LinkId=733558
-    // for the documentation about the tasks.json format
     "version": "0.1.0",
-    "command": "make",
-    "isShellCommand": true,
-    "args": [],
-    "showOutput": "always",
-    "tasks": [
+  
+        "command": "sh",
+        "isShellCommand": true,
+        "suppressTaskName": true,
+        "args": ["-c"],
+        "showOutput": "always",
+        "echoCommand": true,
+        "tasks": [
         {
-            "taskName": "all",
-            "args": ["all"],
-            "isBuildCommand": true,
-            "isWatching": false,
-        "problemMatcher": {
-        "owner": "c",
-        "fileLocation": ["relative", "${workspaceRoot}"],
-        "pattern": {
-            "regexp": "^(.*):(\\d+):(\\d+):\\s+(warning|error):\\s+(.*)$",
-            "file": 1,
-            "line": 2,
-            "column": 3,
-            "severity": 4,
-            "message": 5
-        }
-    }
-        },
-        {
-            "taskName": "clean",
-            "args": ["clean"],
-            "isBuildCommand": true,
-            "isWatching": false
-            // "problemMatcher": [
-            //     "$lessCompile",
-            //     "$tsc",
-            //     "$jshint"
-            // ]
-        }
-    ]
+                "taskName": "rpi-clean",
+                "args" : ["rm -rf ${workspaceRoot}/build/rpi/*"]
+            },
+            {
+                "taskName": "rpi-cmake",
+                "args": ["cd ${workspaceRoot}/build/rpi && cmake -DCMAKE_TOOLCHAIN_FILE=~/raspi/toolchain.cmake ../.."]
+            },
+            {
+                "taskName": "rpi-make",
+                "args" : ["cd ${workspaceRoot}/build/rpi/ && make -j8"],
+                "isBuildCommand": true,
+                "problemMatcher": {
+                    "owner": "cpp",
+                    "fileLocation": "absolute",
+                    "pattern": {
+                        "regexp": "^(.*):(\\d+):(\\d+):\\s+(warning|error):\\s+(.*)$",
+                        "file": 1,
+                        "line": 2,
+                        "column": 3,
+                        "severity": 4,
+                        "message": 5
+                    }
+                }
+            },
+            {
+                "taskName": "android-clean",
+                "args" : ["rm -rf ${workspaceRoot}/build/android/*"]
+            },
+            {
+                "taskName": "android-cmake",
+                "args": ["export ANDROID_SDK=/home/mipw/Android/Sdk &&",
+                "export ANDROID_NDK=/home/mipw/Android/Sdk/ndk-bundle &&",
+                "export ANT=/usr/bin/ant &&", 
+                "cd ${workspaceRoot}/build/android/ &&", 
+                "cmake -DANDROID_ABI=\"armeabi-v7a\"",
+                "-DANDROID_NATIVE_API_LEVEL=android-13", "-DCMAKE_TOOLCHAIN_FILE=../../thirdparty/qt-android-cmake/toolchain/android.toolchain.cmake ../.."],
+                "problemMatcher": {
+                    "owner": "cpp",
+                    "fileLocation": "absolute",
+                    "pattern": {
+                        "regexp": "^(.*):(\\d+):(\\d+):\\s+(warning|error):\\s+(.*)$",
+                        "file": 1,
+                        "line": 2,
+                        "column": 3,
+                        "severity": 4,
+                        "message": 5
+                    }
+                }
+            },
+            {
+                "taskName": "android-make ",
+                "args" : ["cd ${workspaceRoot}/build/android/ &&", 
+                          "make -j8"]
+            }
+        ]
+        
+    
 }

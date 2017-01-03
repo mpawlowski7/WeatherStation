@@ -2,29 +2,20 @@
 
 LPS25H::LPS25H() : temp_data({0}),
                    pressure_data({0}),
-                   temp_calc(0.0),
-                   pressure(0.0)
-{
+                   temp_calc(0),
+                   pressure(0) {
     if (Init())
-    {
         status = ENABLED;
-    }
     else
-    {
         status = DISABLED;
-    }
 }
 
-LPS25H::~LPS25H()
-{
-}
+LPS25H::~LPS25H() {}
 
 LPS25H *LPS25H::p_instance = nullptr;
 
-LPS25H *LPS25H::instance()
-{
-    if (p_instance == nullptr)
-    {
+LPS25H *LPS25H::instance() {
+    if (p_instance == nullptr) {
         p_instance = new LPS25H();
     }
     return p_instance;

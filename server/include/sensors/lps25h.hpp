@@ -15,11 +15,10 @@
 #define TEMP_OUT_L_P        0x2B
 #define TEMP_OUT_H_P        0x2C
 
-class LPS25H : public I2CDevice
-{
+class LPS25H : public I2CDevice {
+    
 private:
-    enum
-    {
+    typdef enum status {
         DISABLED = 0,
         ENABLED
     } status;
