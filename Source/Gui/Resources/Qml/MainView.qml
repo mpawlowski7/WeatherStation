@@ -5,7 +5,7 @@ import QtQuick.Controls 2.0
 import QtQuick.Window 2.0
 import QtQuick.Layouts 1.1
 
-import "controls" as Awesome
+import "Controls" as Awesome
 
 Window {
     id: root
@@ -13,7 +13,7 @@ Window {
 
     FontAwesome {
         id: awesome
-        resource: "qrc:///res/fonts/fontawesome-webfont.ttf"
+        resource: "qrc:///Resources/Fonts/fontawesome-webfont.ttf"
     }
 
     Component.onCompleted: {

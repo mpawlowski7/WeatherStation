@@ -1,7 +1,7 @@
 TEMPLATE = subdirs
 
-SUBDIRS += weathers-gui
+SUBDIRS += Source/Gui
 !android {
-   SUBDIRS += weathers-srv
+   SUBDIRS += Source/Server
 }
 

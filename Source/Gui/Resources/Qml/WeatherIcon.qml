@@ -44,7 +44,7 @@ Item {
     height: main.height
     clip: false
 
-    FontLoader { id: weatherIcons; source: "fonts/weathericons-regular-webfont.ttf" }
+    FontLoader { id: weatherIcons; source: "Fonts/weathericons-regular-webfont.ttf" }
     Text {
         id: main
         font.family: weatherIcons.name

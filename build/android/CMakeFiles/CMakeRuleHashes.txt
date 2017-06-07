@@ -1,4 +1,0 @@
-# Hashes of file build rules.
-ececa726e67ea8610c639a50ee43d3df gui/CMakeFiles/weatherstationgui-android
-5adda0c13904ea48289557b1d56f11d9 gui/CMakeFiles/weatherstationgui_automoc
-cf2a9a78b3c650ec33da0dd5bd0d02c4 gui/run_android_deploy_qt

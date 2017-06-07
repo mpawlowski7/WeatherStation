@@ -1,7 +1,0 @@
-/media/dane/Projekty/WeatherStation/build/android/CMakeFiles/edit_cache.dir
-/media/dane/Projekty/WeatherStation/build/android/CMakeFiles/rebuild_cache.dir
-/media/dane/Projekty/WeatherStation/build/android/gui/CMakeFiles/edit_cache.dir
-/media/dane/Projekty/WeatherStation/build/android/gui/CMakeFiles/rebuild_cache.dir
-/media/dane/Projekty/WeatherStation/build/android/gui/CMakeFiles/weatherstationgui-android.dir
-/media/dane/Projekty/WeatherStation/build/android/gui/CMakeFiles/weatherstationgui.dir
-/media/dane/Projekty/WeatherStation/build/android/gui/CMakeFiles/weatherstationgui_automoc.dir

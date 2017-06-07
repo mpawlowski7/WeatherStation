@@ -2,7 +2,7 @@
 #define HTS221_H
 
 // humidity sensor
-#include "i2cdevice.hpp"
+#include "I2CDevice.h"
 
 #define SLAVE_ADDRESS_H      0x5F
 #define HTS221_STATUS_REG    0x27

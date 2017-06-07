@@ -17,7 +17,7 @@ Item {
 
     property real _scale: Math.min(_height*refDpi/(_dpi*refHeight), _width*refDpi/(_dpi*refWidth))
 
-    FontLoader { id: ubuntuFont; source: "fonts/Ubuntu-C.ttf" }
+    FontLoader { id: ubuntuFont; source: "Fonts/Ubuntu-C.ttf" }
 
     width: main.width
     height: main.height
